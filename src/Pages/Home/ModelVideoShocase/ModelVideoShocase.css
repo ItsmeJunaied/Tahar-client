@@ -1,0 +1,54 @@
+.video-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.video-overlay {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+    width: 95%;
+    max-width: 95%;
+    border-radius: 10px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 34.56%, rgba(0, 0, 0, 0.65) 66.79%, #000000 100%),
+        linear-gradient(0deg, rgba(0, 0, 0, 0.24), rgba(0, 0, 0, 0.24));
+    padding: 0 10px 5px 10px;
+    line-height: 25px;
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: start;
+    text-align: center;
+    color: #fff;
+    transform: translateY(100%);
+}
+
+.video-container:hover .video-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.video-overlay h4 {
+    line-height: 15px;
+    padding: 0;
+    margin: 16px 0;
+    font-size: 25px;
+}
+
+.video-overlay p {
+    font-size: 17px;
+    margin-bottom: 5px;
+}
+
+.video-overlay button {
+    background: #F0CF5C;
+    color: black;
+    padding: 10px 35px;
+    border: none;
+    border-radius: 50px;
+    line-height: 14px;
+    display: inline-block;
+    margin-bottom: 10px;
+}

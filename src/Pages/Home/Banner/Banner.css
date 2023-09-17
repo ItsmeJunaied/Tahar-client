@@ -1,0 +1,27 @@
+.my-slider .awssld__bullets {
+    position: absolute;
+    bottom: 20px; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 2;
+  }
+  
+
+  .my-slider .awssld__bullets button {
+    width: 60px;
+    height: 8px;
+    border-radius: 0%;
+    background-color: #DBC896;
+    margin: 5px;
+  }
+  
+
+  .my-slider .awssld__bullets button.awssld__bullets--active {
+    background-color: white;
+    /* width: 60px; */
+  }
+  
+  /* .my-slider {
+    width: 100%;
+    
+  } */
