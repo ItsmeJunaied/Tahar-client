@@ -13,7 +13,7 @@ const IncreaseButtonCart = ({ item, onQuantityChange }) => {
             onQuantityChange(id, newQuantity);
             console.log(newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://tahar-server.vercel.app/userCartData/${id}`, {
+            fetch(`http://localhost:5000/userCartData/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ const IncreaseButtonCart = ({ item, onQuantityChange }) => {
             onQuantityChange(id, newQuantity);
             console.log(newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://tahar-server.vercel.app/userCartData/${id}`, {
+            fetch(`http://localhost:5000/userCartData/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -52,11 +52,11 @@ const IncreaseButtonCart = ({ item, onQuantityChange }) => {
 
     return (
         <div className="flex flex-row justify-evenly align-middle items-center w-[142px] h-[39px] mt-2 border-[2px] border-[#191E1B2B] text-[17px]">
-            <button onClick={() => handleDecrement(item._id)}>
+            <button onClick={() => handleDecrement(item.ProductId)}>
                 <FontAwesomeIcon icon={faMinus} />
             </button>
             <button>{item.ProductQuantity}</button>
-            <button onClick={() => handleIncrement(item._id)}>
+            <button onClick={() => handleIncrement(item.ProductId)}>
                 <FontAwesomeIcon icon={faPlus} />
             </button>
         </div>

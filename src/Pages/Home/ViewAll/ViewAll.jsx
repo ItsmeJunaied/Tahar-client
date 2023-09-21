@@ -20,7 +20,7 @@ const ViewAll = () => {
                                 <Link to={`/product/${item._id}`}>
                                     <img
                                         className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                        src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
+                                        src={`http://localhost:5000/uploads/${item.images[0]}`}
                                         alt=""
                                     />
                                 </Link>

@@ -12,18 +12,18 @@ const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 const Banner = () => {
     const sliderStyle = {
-        width: 'full', 
+        width: 'full',
         height: '800px',
     };
 
     return (
 
-            <AutoplaySlider
+        <AutoplaySlider
             play={true}
-            cancelOnInteraction={false} 
+            cancelOnInteraction={false}
             interval={6000}
             style={sliderStyle}
-            className="my-slider" 
+            className="my-slider"
         >
             <div data-src={sliderIMG1} />
             <div data-src={sliderIMG2} />

@@ -1,15 +1,15 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './Collections.css';
 import top_bg from '../../../public/photos/topBG2.png'
 import { AuthContext } from '../../Provider/AuthProvider';
 import CategoryShow from '../Home/CategoryShow/CategoryShow';
 import sizeChart from '../../../public/photos/size chart.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes, faX } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faTimes, faX } from '@fortawesome/free-solid-svg-icons';
 import ColourChanges from '../../Shared/ColourChanges/ColourChanges';
 import { Link, useLoaderData, useParams } from 'react-router-dom';
 const Collections = () => {
-    const { AllProducts, categoryName } = useContext(AuthContext);
+    const { AllProducts, categoryName, favouriteData, setFavouriteData } = useContext(AuthContext);
     const { category } = useParams();
 
 
@@ -18,10 +18,32 @@ const Collections = () => {
 
     const categoryWisedata = AllProducts.filter(item => item.category === categoryTitle?.title);
 
-    console.log(categoryWisedata)
+    // console.log(categoryWisedata)
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
 
+    const handlefavourite = (id) => {
+        let favourites = JSON.parse(localStorage.getItem('favourite')) || [];
+
+        const index = favourites.indexOf(id);
+
+        if (index !== -1) {
+            // If already in favourites, remove it
+            favourites.splice(index, 1);
+        } else {
+            // If not in favourites, add it
+            favourites.push(id);
+        }
+
+        localStorage.setItem('favourite', JSON.stringify(favourites));
+
+        setFavouriteData(favourites)
+    }
+
+    useEffect(() => {
+        const retrievedData = JSON.parse(localStorage.getItem('favourite'));
+        setFavouriteData(retrievedData);
+    }, [setFavouriteData])
     // console.log(anotherState);
     return (
         <div className=' mb-20'>
@@ -86,17 +108,34 @@ const Collections = () => {
                         categoryWisedata.map(item =>
                             <div key={item._id} >
                                 <div className=' w-[431px] h-fit[600px] '>
-                                    <Link to={`/product/${item._id}`}>
+                                    {/* <Link to={`/product/${item._id}`}>
                                         <img
                                             className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                            src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
+                                            src={`http://localhost:5000/uploads/${item.images[0]}`}
                                             alt=""
                                         />
-                                    </Link>
+                                    </Link> */}
+                                    <div style={{ position: 'relative', display: 'inline-block' }}>
+                                        <img
+                                            className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
+                                            src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                            alt="" />
+                                        <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
+                                            <div
+                                                id="MdiheartoutlineRoot"
+                                                className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-24 h-8 items-center rounded-[104px]"
+                                            >
+                                                <FontAwesomeIcon className=' text-white ' icon={faHeart} />
+                                                <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                                    {JSON.parse(localStorage.getItem('favourite'))?.includes(item._id) ? 'Liked' : 'Like'}
+                                                </div>
+                                            </div>
+                                        </button>
+
+                                    </div>
 
                                     <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
-                                        <h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center">{item.title} | {item.category}</h1>
-                                        <p className=" text-[#828282]  text-[19px]">${item.price}</p>
+                                        <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>                                        <p className=" text-[#828282]  text-[19px]">${item.price}</p>
 
 
                                         {/* colour */}

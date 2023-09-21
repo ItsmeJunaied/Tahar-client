@@ -51,10 +51,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                         data.Mcolor.split(',').map((color, index) => (
                             <div
                                 key={index}
-                                className={`w-[28px] h-[28px] rounded-[104px] border-[2px] border-black`}
+                                className={`w-[28px] h-[28px] rounded-[104px] border-[2px] border-black `}
                                 style={{ backgroundColor: color }}
                             >
-                                {/* Any content you want to include */}
+                                <div >
+
+                                </div>
                             </div>
                         ))
                     ) : null

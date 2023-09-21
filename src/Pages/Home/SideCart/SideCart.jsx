@@ -7,35 +7,43 @@ import { AuthContext } from '../../../Provider/AuthProvider';
 import CartCalculation from '../CartCalculation/CartCalculation';
 import { Link } from 'react-router-dom';
 
-const SideCart = () => {
+const SideCart = ({ localCartData, setLocalCartData }) => {
+
+    // const {cartData}=useContext(CartDataProvider);
+    // console.log(localCartData);
+    // console.log(localCartData.ProductId);
 
     const { user, AllcartData, setAllCartData } = useContext(AuthContext);
     const [accespted, setAccepted] = useState(false);
 
 
-    const ParticularUserdata = AllcartData.filter(item => item.customerEmail === user?.email);
+
+    // const ParticularUserdata = AllcartData.filter(item => item.customerEmail === user?.email);
     // console.log(ParticularUserdata)
 
     const handleQuantityChange = (itemId, newQuantity) => {
-
-        const updatedData = AllcartData.map(item => {
-            if (item._id === itemId) {
+        // console.log('itemId', itemId)
+        const updatedData = localCartData.map(item => {
+            if (item.ProductId === itemId) {
                 return { ...item, ProductQuantity: newQuantity };
             }
             return item;
         });
 
         // Update the state with the new data
-        setAllCartData(updatedData);
+        setLocalCartData(updatedData);
+        localStorage.setItem('cartData', JSON.stringify(updatedData));
     };
 
 
     let total = 0;
     let shipping = 0;
     let quantity = 0;
-    for (const product of ParticularUserdata) {
-        quantity = quantity + product.ProductQuantity;
-        total = total + product.ProductPrice * product.ProductQuantity;
+    if (localCartData) {
+        for (const product of localCartData) {
+            quantity = quantity + product.ProductQuantity;
+            total = total + product.ProductPrice * product.ProductQuantity;
+        }
     }
 
     const handleTerms = (event) => {
@@ -48,7 +56,7 @@ const SideCart = () => {
                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">
                     {/* Page content here */}
-                    <label htmlFor="my-drawer-4" className="drawer-button btn hover:bg-[#DBC896] border-none bg-[#DBC896]">
+                    <label htmlFor="my-drawer-4" className="drawer-button btn hover:bg-[#DBC896] border-none bg-[#DBC896] outline-none">
                         <div className="flex items-center "> {/* Wrap content in a flex container */}
                             <img className='mr-2' src={bagIMG} alt="" /> {/* Add margin-right to the image */}
                             <div className='hidden lg:flex'>
@@ -64,10 +72,11 @@ const SideCart = () => {
                         <div className="divider"></div>
                         <div className=' flex flex-col gap-10'>
                             {
-                                ParticularUserdata.map(item =>
-                                    <CartCalculation key={item._id} item={item} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation>
+                                localCartData && localCartData.map(item =>
+                                    <CartCalculation key={item.ProductId} item={item} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation>
                                 )
                             }
+                            {/* <CartCalculation item={localCartData} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation> */}
 
                         </div>
                         <h1 className=' text-[20px] font-bold mt-5 mb-2 uppercase'>Promo code</h1>

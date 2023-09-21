@@ -27,6 +27,12 @@ import CategoryUpload from "./Pages/DashBoard/CategoryUpload/CategoryUpload";
 import UploadFabrics from "./Pages/DashBoard/UploadFabrics/UploadFabrics";
 import CategoryShow from "./Pages/Home/CategoryShow/CategoryShow";
 import ViewAll from "./Pages/Home/ViewAll/ViewAll";
+import CheckOut from "./Pages/CheckOut/CheckOut";
+import Shipping from "./Pages/Shipping/Shipping";
+import CheckoutPayment from "./Pages/CheckoutPayment/CheckoutPayment";
+import PaymentSuccess from "./Pages/Payment/PaymentSuccess/PaymentSuccess";
+import PaymentFail from "./Pages/Payment/PaymentFail/PaymentFail";
+import Favourites from "./Pages/Favourites/Favourites";
 
 const router = createBrowserRouter([
   {
@@ -40,7 +46,7 @@ const router = createBrowserRouter([
       {
         path: '/product/category/:category',
         element: <Collections></Collections>,
-        loader: ({ params }) => fetch(`https://tahar-server.vercel.app/product/category/${params.category}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/product/category/${params.category}`)
       },
 
       {
@@ -72,6 +78,18 @@ const router = createBrowserRouter([
         element: <Sale></Sale>
       },
       {
+        path: '/checkout',
+        element: <CheckOut></CheckOut>
+      },
+      {
+        path: '/shipping',
+        element: <Shipping></Shipping>
+      },
+      {
+        path: '/shippingPayment',
+        element: <CheckoutPayment></CheckoutPayment>
+      },
+      {
         path: '/login',
         element: <Login></Login>
       },
@@ -80,13 +98,25 @@ const router = createBrowserRouter([
         element: <Signup></Signup>
       },
       {
+        path: '/favourite',
+        element:  <Favourites></Favourites>
+      },
+      {
         path: '/cart',
         element: <Cart></Cart>
       },
       {
         path: '/product/:id',
         element: <ProductDetails></ProductDetails>,
-        loader: ({ params }) => fetch(`https://tahar-server.vercel.app/product/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/product/${params.id}`)
+      },
+      {
+        path: '/payment/success/:tranId',
+        element: <PaymentSuccess></PaymentSuccess>,
+      },
+      {
+        path: '/payment/fail/:tranId',
+        element: <PaymentFail></PaymentFail>,
       },
 
     ]
@@ -106,7 +136,7 @@ const router = createBrowserRouter([
       {
         path: 'categoryUpload/:id',
         element: <CategoryUpload></CategoryUpload>,
-        loader: ({ params }) => fetch(`https://tahar-server.vercel.app/product/${params.id}`)
+        loader: ({ params }) => fetch(`http://localhost:5000/product/${params.id}`)
       },
       {
         path: 'manageProducts',

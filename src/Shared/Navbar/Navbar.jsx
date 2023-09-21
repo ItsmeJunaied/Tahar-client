@@ -6,12 +6,26 @@ import searchIMG from '../../../public/photos/search_icon.png';
 import usa from '../../../public/photos/usa.png';
 import { Link, NavLink } from 'react-router-dom';
 import SideCart from '../../Pages/Home/SideCart/SideCart';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 
 const Navbar = () => {
-    const { user, logOut, categoryName } = useContext(AuthContext);
+    const { user, logOut, categoryName, localCartData, setLocalCartData,favouriteData } = useContext(AuthContext);
+    // const ParticularUserdata = AllcartData.filter(item => item.customerEmail === user?.email);
+    // const [localCartData, setLocalCartData]= useState([]);
+    // console.log(localCartData)
+
+    useEffect(() => {
+        const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+        setLocalCartData(cartData);
+    }, [setLocalCartData]);
+
+
+    // console.log(localCartData)
+
 
 
     const handleLogOut = () => {
@@ -104,7 +118,10 @@ const Navbar = () => {
                 <div className="navbar-end flex flex-row gap-4">
                     <div className='hidden lg:flex'>
                         <img className='mr-[17px] w-full' src={searchIMG} alt="" />
-                        <img className='mr-[17px]' src={favouriteIMG} alt="" />
+                        {/* <img className='mr-[17px]' src={favouriteIMG} alt="" /> */}
+                        <Link to='/favourite'>
+                            <FontAwesomeIcon className=' text-3xl' icon={faHeart} />
+                        </Link>
                     </div>
                     {
                         user ?
@@ -126,8 +143,10 @@ const Navbar = () => {
                             </Link></>
                     }
 
-
-                    <SideCart></SideCart>
+                    <div className="indicator">
+                        <span className="indicator-item badge badge-secondary right-5">{localCartData.length}</span>
+                        <SideCart localCartData={localCartData} setLocalCartData={setLocalCartData}></SideCart>
+                    </div>
 
 
                 </div>

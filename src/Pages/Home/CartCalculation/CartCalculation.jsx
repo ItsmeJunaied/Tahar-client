@@ -2,8 +2,8 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 
-const CartCalculation = ({ item ,setAllCartData, onQuantityChange }) => {
-    // console.log(item._id)
+const CartCalculation = ({ item ,setAllCartData, onQuantityChange ,localCartData}) => {
+    // console.log(item)
     const [quantity, setQuantity] = useState(parseInt(item.ProductQuantity));
 
     const handleDecrement = (id) => {
@@ -11,21 +11,21 @@ const CartCalculation = ({ item ,setAllCartData, onQuantityChange }) => {
             const newQuantity = quantity - 1;
             setQuantity(newQuantity);
             onQuantityChange( id,newQuantity);
-            console.log(newQuantity)
+            console.log(id,newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://tahar-server.vercel.app/userCartData/${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    ProductQuantity: newQuantity
-                })
-            })
-                .then(res => res.json())
-                .then(responseData => {
-                    console.log(responseData);
-                });
+            // fetch(`http://localhost:5000/userCartData/${id}`, {
+            //     method: 'PATCH',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({
+            //         ProductQuantity: newQuantity
+            //     })
+            // })
+            //     .then(res => res.json())
+            //     .then(responseData => {
+            //         console.log(responseData);
+            //     });
         }
     };
 
@@ -36,17 +36,17 @@ const CartCalculation = ({ item ,setAllCartData, onQuantityChange }) => {
             onQuantityChange( id, newQuantity);
             console.log(newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://tahar-server.vercel.app/userCartData/${id}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ProductQuantity: newQuantity })
-            })
-                .then(res => res.json())
-                .then(responseData => {
-                    console.log(responseData);
-                });
+            // fetch(`http://localhost:5000/userCartData/${id}`, {
+            //     method: 'PATCH',
+            //     headers: {
+            //         'Content-Type': 'application/json'
+            //     },
+            //     body: JSON.stringify({ProductQuantity: newQuantity })
+            // })
+            //     .then(res => res.json())
+            //     .then(responseData => {
+            //         console.log(responseData);
+            //     });
         }
     };
     return (
@@ -54,7 +54,7 @@ const CartCalculation = ({ item ,setAllCartData, onQuantityChange }) => {
             <div className=' flex flex-row gap-5'>
                 <div>
                     <img className=' w-[100px] h-[100px]'
-                        src={`https://tahar-server.vercel.app/uploads/${item.ProductImage}`}
+                        src={`http://localhost:5000/uploads/${item.ProductImage}`}
                         alt="" />
                 </div>
                 <div>
@@ -64,11 +64,11 @@ const CartCalculation = ({ item ,setAllCartData, onQuantityChange }) => {
                         <p className='text-[#828282] text-[13px] mt-2'>Size {item.ProductSize}</p>
                     </div>
                     <div className='flex flex-row justify-evenly align-middle items-center w-[142px] h-[39px] mt-2 border-[2px] border-[#191E1B2B] text-[17px]'>
-                        <button onClick={()=>handleDecrement(item._id)}>
+                        <button onClick={()=>handleDecrement(item.ProductId)}>
                             <FontAwesomeIcon icon={faMinus} />
                         </button>
                         <button>{quantity}</button>
-                        <button onClick={()=>handleIncrement(item._id)}>
+                        <button onClick={()=>handleIncrement(item.ProductId)}>
                             <FontAwesomeIcon icon={faPlus} />
                         </button>
                     </div>

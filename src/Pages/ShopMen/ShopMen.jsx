@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import './ShopMen.css';
 import { AuthContext } from '../../Provider/AuthProvider';
 import CategoryShow from '../Home/CategoryShow/CategoryShow';
@@ -8,19 +8,44 @@ import ColourChanges from '../../Shared/ColourChanges/ColourChanges';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import { faHeart } from '@fortawesome/free-regular-svg-icons';
 
 const ShopMen = () => {
-    const { AllProducts } = useContext(AuthContext);
+    const { AllProducts,favouriteData, setFavouriteData } = useContext(AuthContext);
 
     const ShopMen = AllProducts.filter(item => item.gender === 'men');
-    // console.log(ShopMen)
+    console.log(favouriteData)
 
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
+    // const [favouriteData, setFavouriteData] = useState([])
+    // console.log(favouriteData);
+    const handlefavourite = (id) => {
+        let favourites = JSON.parse(localStorage.getItem('favourite')) || [];
 
-    // console.log(anotherState);
+        const index = favourites.indexOf(id);
+
+        if (index !== -1) {
+            // If already in favourites, remove it
+            favourites.splice(index, 1);
+        } else {
+            // If not in favourites, add it
+            favourites.push(id);
+        }
+
+        localStorage.setItem('favourite', JSON.stringify(favourites));
+
+        setFavouriteData(favourites)
+    }
+
+    useEffect(() => {
+        const retrievedData = JSON.parse(localStorage.getItem('favourite'));
+        setFavouriteData(retrievedData);
+    }, [setFavouriteData])
+    // console.log(localStorage)
+
     return (
-        <div className=' mb-20'>
+        <div className=" mb-20  ">
             <div className="relative overflow-hidden h-96 flex items-center justify-center">
                 <img className="w-full h-[479]" src={top_bg} alt="" />
                 <div className="absolute bottom-0 top-36 p-4 class-header text-center w-full">
@@ -66,7 +91,7 @@ const ShopMen = () => {
                             <option>Planet of the Apes</option>
                             <option>Star Trek</option>
                         </select>
-                        <button className='w-[126px] h-[47px] bg-[#1C2E37] text-white rounded-full'>View All</button>
+                        <button className="w-[126px] h-[47px] bg-[#1C2E37] text-white rounded-full [font-family:'Helvetica_Now_Display-Medium',Helvetica]">View All</button>
                     </div>
                 </div>
                 <div className="divider w-full mb-10"></div>
@@ -74,17 +99,30 @@ const ShopMen = () => {
                     {
                         ShopMen.map(item =>
                             <div key={item._id} className=' w-[431px] h-fit[600px] '>
-                                <Link to={`/product/${item._id}`}>
+                                {/* <Link to={`/product/${item._id}`}> */}
+                                <div style={{ position: 'relative', display: 'inline-block' }}>
                                     <img
                                         className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                        src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
-                                        alt=""
-                                    />
-                                </Link>
+                                        src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                        alt="" />
+                                    <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
+                                        <div
+                                            id="MdiheartoutlineRoot"
+                                            className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-24 h-8 items-center rounded-[104px]"
+                                        >
+                                            <FontAwesomeIcon className=' text-white ' icon={faHeart} />
+                                            <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                                {JSON.parse(localStorage.getItem('favourite'))?.includes(item._id) ? 'Liked' : 'Like'}
+                                            </div>
+                                        </div>
+                                    </button>
+
+                                </div>
+                                {/* </Link> */}
 
                                 <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
-                                    <h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center">{item.title} | {item.category}</h1>
-                                    <p className=" text-[#828282]  text-[19px]">${item.price}</p>
+                                    <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>
+                                    <p className=" text-[#828282]  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">${item.price}</p>
 
 
                                     {/* colour */}
@@ -93,7 +131,7 @@ const ShopMen = () => {
                                     <div className=" flex gap-2">
                                         {
                                             parseInt(item.Squantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black"
+                                                <button className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black"
                                                     onClick={() => {
                                                         setActiveSize('S');
                                                         setActiveID(item._id);
@@ -101,7 +139,7 @@ const ShopMen = () => {
                                                 >S</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     S
@@ -113,13 +151,13 @@ const ShopMen = () => {
                                         }
                                         {
                                             parseInt(item.Mquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
+                                                <button className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
                                                     setActiveSize('M');
                                                     setActiveID(item._id);
                                                 }}>M</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     M
@@ -131,13 +169,13 @@ const ShopMen = () => {
                                         }
                                         {
                                             parseInt(item.Lquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
+                                                <button className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
                                                     setActiveSize('L');
                                                     setActiveID(item._id);
                                                 }}>L</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     L
@@ -149,13 +187,13 @@ const ShopMen = () => {
                                         }
                                         {
                                             parseInt(item.XLquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
+                                                <button className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
                                                     setActiveSize('XL');
                                                     setActiveID(item._id);
                                                 }}>XL</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     XL
@@ -167,13 +205,13 @@ const ShopMen = () => {
                                         }
                                         {
                                             parseInt(item.XXLquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
+                                                <button className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
                                                     setActiveSize('XXL');
                                                     setActiveID(item._id);
                                                 }}>XXL</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     XXL
@@ -185,13 +223,13 @@ const ShopMen = () => {
                                         }
                                         {
                                             parseInt(item.XXXLquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
+                                                <button className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black" onClick={() => {
                                                     setActiveSize('XXXL');
                                                     setActiveID(item._id);
                                                 }}>XXXL</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     XXXL

@@ -14,7 +14,10 @@ const AuthProvider = ({ children }) => {
     const [categoryName, setCategoryName] = useState([]);
     const [fabricsdata, setFabricsData] = useState([]);
     const [AllcartData, setAllCartData] = useState([]);
-
+    const [orderContactInfo, setorderContactInfo] = useState([]);
+    const [localCartData, setLocalCartData]= useState([]);
+    const [favouriteData, setFavouriteData] = useState([])
+    // console.log(localCartData);
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -53,26 +56,26 @@ const AuthProvider = ({ children }) => {
     };
     // users
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/users')
+        fetch('http://localhost:5000/users')
             .then(res => res.json())
             .then(data => setLoggedUser(data))
     }, [])
 
     // product
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/product')
+        fetch('http://localhost:5000/product')
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
     // category Names
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/categoryInfo')
+        fetch('http://localhost:5000/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryName(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/fabrics')
+        fetch('http://localhost:5000/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
@@ -80,12 +83,18 @@ const AuthProvider = ({ children }) => {
     //get cart data
 
 
-    // useEffect(() => {
-    //     fetch('https://tahar-server.vercel.app/userCartData')
-    //         .then(res => res.json())
-    //         .then(data => setAllCartData(data))
-    // }, [])
+    useEffect(() => {
+        fetch('http://localhost:5000/userCartData')
+            .then(res => res.json())
+            .then(data => setAllCartData(data))
+    }, [])
 
+    //cart localhostdata
+    // useEffect(() => {
+    //     const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+    //     setLocalCartData(cartData);
+    // }, []);
+    
     const authInfo = {
         user,
         loading,
@@ -99,7 +108,10 @@ const AuthProvider = ({ children }) => {
         categoryName,
         fabricsdata,
         AllcartData,
-        setAllCartData
+        setAllCartData,
+        orderContactInfo, setorderContactInfo,
+        localCartData, setLocalCartData,
+        favouriteData, setFavouriteData
     }
 
     return (

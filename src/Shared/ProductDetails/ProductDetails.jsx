@@ -6,15 +6,20 @@ import { useLoaderData } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import DetailedColour from '../DetailedColour/DetailedColour';
-
+import FrequentkyBought from '../FrequentkyBought/FrequentkyBought';
+import PremiumServicesDetails from '../../Pages/Home/PremiumServices/PremiumServicesDetails';
 const ProductDetails = () => {
 
 
-    const { user, setAllCartData } = useContext(AuthContext);
+    const { user, setAllCartData, localCartData, setLocalCartData } = useContext(AuthContext);
+
     const data = useLoaderData()
     const [count, setCount] = useState(0);
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
+
+    // console.log(data.category)
+    // console.log(data.gender)
 
     const customerEmail = user?.email;
     const customerName = user?.displayName;
@@ -23,9 +28,14 @@ const ProductDetails = () => {
     const ProductPrice = data.price;
     const ProductSize = activeSize;
     const ProductQuantity = count;
+    const ProductId = activeID;
+    console.log(ProductId)
+    useEffect(() => {
+        const retrievedData = JSON.parse(localStorage.getItem('cartData'));
+        setLocalCartData(retrievedData);
+    }, [setLocalCartData])
 
-
-    // console.log("activeSize:", activeSize);
+    // console.log("activeSize:", localCartData);
 
     let ProductHeightQuantity;
 
@@ -99,42 +109,41 @@ const ProductDetails = () => {
     };
 
 
-    useEffect(() => {
-        fetch('https://tahar-server.vercel.app/userCartData')
-            .then(res => res.json())
-            .then(data => setAllCartData(data))
-    })
-    // send data to backedn
-    const item = { customerEmail, customerName, ProductName, ProductImage, ProductDetails, ProductPrice, ProductSize, ProductQuantity, ProductHeightQuantity }
-    // console.log(item)
+
+
     const handleAddCart = () => {
-        // console.log(item)
-        fetch('https://tahar-server.vercel.app/userCartData', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(item)
-        })
-            .then(res => res.json())
-            .then(responseData => {
-                console.log(responseData);
-                if (responseData.success) {
-                    fetch('https://tahar-server.vercel.app/userCartData')
-                        .then(res => res.json())
-                        .then(updatedData => setAllCartData(updatedData));
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Added to Cart',
-                        showConfirmButton: false,
-                        timer: 1500
-                    })
+        const item = {
+            customerEmail,
+            customerName,
+            ProductName,
+            ProductImage,
+            ProductDetails,
+            ProductPrice,
+            ProductSize,
+            ProductQuantity,
+            ProductHeightQuantity,
+            ProductId
+        };
 
-                }
-            })
+        // Get the current cart data from local storage
+        const currentCartData = JSON.parse(localStorage.getItem('cartData')) || [];
+
+        // Add the new item to the cart data
+        currentCartData.push(item);
+
+        // Save the updated cart data back to local storage
+        localStorage.setItem('cartData', JSON.stringify(currentCartData));
+
+        setLocalCartData(currentCartData);
+        // Trigger a notification
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Added to Cart',
+            showConfirmButton: false,
+            timer: 1500
+        });
     }
-
 
 
 
@@ -150,7 +159,7 @@ const ProductDetails = () => {
                                 <img
                                     key={index}
                                     className={`w-[165px] h-[160px] rounded-[10px] ${index === selectedImageIndex ? 'border-2 border-blue-500' : ''}`}
-                                    src={`https://tahar-server.vercel.app/uploads/${image}`}
+                                    src={`http://localhost:5000/uploads/${image}`}
                                     alt=""
                                     onClick={() => handleImageClick(index)}
                                 />
@@ -162,18 +171,23 @@ const ProductDetails = () => {
                             <img
                                 className='w-[622px] h-[700px] rounded-[10px]'
 
-                                src={`https://tahar-server.vercel.app/uploads/${data.images[selectedImageIndex]}`}
+                                src={`http://localhost:5000/uploads/${data.images[selectedImageIndex]}`}
                                 alt=""
                             />
                         </div>
                     </div>
+
+
                     <div>
-                        <PremiumServices ></PremiumServices>
+                        <PremiumServicesDetails></PremiumServicesDetails>
                     </div>
+
+
+
                 </div>
                 <div className=' w-1/2'>
 
-                    <h1 className=' text-[40px] mb-5'>{data.category} | {data.title}</h1>
+                    <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase text-[40px] mb-5">{data.category} | {data.title}</h1>
                     <p className=' mb-5' >
                         <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
                         <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
@@ -181,13 +195,13 @@ const ProductDetails = () => {
                         <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
                         <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
                     </p>
-                    <div className=' flex flex-row justify-between align-middle items-center gap-2 mt-3'>
-                        <button className=' w-[154px] h-[54px] rounded-[10px] text-[#000000B0] bg-transparent border-[2px] border-[#0000002E] '>
+                    <div className=" flex flex-row justify-between align-middle items-center gap-2 mt-3 ">
+                        <button className=" w-[154px] h-[54px] rounded-[10px] text-[#000000B0] bg-transparent border-[2px] border-[#0000002E] [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase">
                             BDT {data.price}
                         </button>
-                        <p className=' text-[15px] text-[#00000061] font-bold '>Tax included. Shipping calculated at checkout.</p>
-                        <button className=' w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] '><FontAwesomeIcon icon={faHeart} />Add to Wishlist</button>
-                        <button className=' w-[110px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] '><FontAwesomeIcon icon={faShareNodes} />Share</button>
+                        <p className=" text-[15px] text-[#00000061] font-bold [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tax included. Shipping calculated at checkout.</p>
+                        <button className=" w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faHeart} />Add to Wishlist</button>
+                        <button className=" w-[110px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faShareNodes} />Share</button>
                     </div>
                     <div className="divider mt-5 text-[#0000001C]"></div>
                     {/* color */}
@@ -312,8 +326,8 @@ const ProductDetails = () => {
                         }
 
                     </div>
-                    <p className=' text-black text-[19px] font-semibold '>Quantity</p>
-                    <p className=' text-xs mb-3'>Choose upto Highest Stock based on size</p>
+                    <p className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] mt-2 text-black text-[19px] font-semibold ">Quantity</p>
+                    <p className=" text-xs mb-3 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Choose upto Highest Stock based on size</p>
                     {/* quantity */}
                     <div className='mb-3 w-[118px] h-[43px] rounded-[10px] bg-transparent border-[2px] border-[#0000002E] flex justify-evenly items-center align-middle'>
                         <button onClick={handleDecrement}>
@@ -333,26 +347,21 @@ const ProductDetails = () => {
                             Buy Now
                         </button>
                     </div>
-                    <p className=' text-black text-[19px] font-semibold mb-3'>Delivery Options</p>
-                    <div className=' flex flex-row gap-3  items-center'>
-                        <input type="text" placeholder=' Enter Your Zipcode' className=' w-[276px] h-[67px] rounded-[10px] border-[2px] border-[#191E1B4F]' />
-                        <button className=' w-[148px] h-[67px] rounded-[10px] text-white bg-[#1C2E37] border-none  text-[18px] font-semibold '>
-                            Add
-                        </button>
-                    </div>
+
                     <div className=' divider mb-5'></div>
 
                     <div className="collapse collapse-arrow bg-base-200 w-[624px]">
                         <input type="checkbox" />
-                        <div className="collapse-title text-xl font-medium">
+                        <div className="collapse-title text-xl font-medium [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
                             Click me to show/hide content
                         </div>
                         <div className="collapse-content">
-                            <p>hello</p>
+                            <p className="[font-family:'Helvetica_Now_Display-Medium',Helvetica]">hello</p>
                         </div>
                     </div>
                 </div>
             </div>
+            <FrequentkyBought data={data}></FrequentkyBought>
         </div>
     );
 };

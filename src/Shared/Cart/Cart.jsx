@@ -1,26 +1,38 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Cart.css';
 import { AuthContext } from '../../Provider/AuthProvider';
 import IncreaseButtonCart from '../IncreaseButtonCart/IncreaseButtonCart';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 const Cart = () => {
-    const { user, AllcartData, setAllCartData } = useContext(AuthContext);
+    const { user,localCartData, setLocalCartData} = useContext(AuthContext);
 
 
-    const ParticularUserdata = AllcartData.filter(item => item.customerEmail === user?.email);
+    // const [localCartData, setLocalCartData] = useState([]);
+    // console.log(localCartData)
 
-    console.log(AllcartData);
-    console.log(ParticularUserdata);
+    // useEffect(() => {
+    //     const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
+    //     setLocalCartData(cartData);
+    // }, []);
+
+
+    // console.log(AllcartData);
+    // console.log(localCartData);
     const handleQuantityChange = (itemId, newQuantity) => {
 
-        const updatedData = AllcartData.map(item => {
-            if (item._id === itemId) {
+        const updatedData = localCartData.map(item => {
+            if (item.ProductId === itemId) {
                 return { ...item, ProductQuantity: newQuantity };
             }
             return item;
+
         });
 
         // Update the state with the new data
-        setAllCartData(updatedData);
+        setLocalCartData(updatedData);
+        localStorage.setItem('cartData', JSON.stringify(updatedData))
     };
 
     const [selectedOption, setSelectedOption] = useState('Inside Dhaka - Tk. 80');
@@ -33,7 +45,7 @@ const Cart = () => {
     let total = 0;
     let quantity = 0;
 
-    for (const product of ParticularUserdata) {
+    for (const product of localCartData) {
         quantity = quantity + product.ProductQuantity;
         total = total + product.ProductPrice * product.ProductQuantity;
     }
@@ -50,27 +62,27 @@ const Cart = () => {
     let totalWithVat = totalWithShipping * 1.05; // Including 5% VAT
 
     return (
-        <div className="bg-gray-100">
-            <div className="container mx-auto py-20">
-                <div className="flex shadow-md ">
-                    <div className="w-3/4 bg-white px-10 py-10">
+        <div className="bg-gray-100 ">
+            <div className="container mx-auto py-20 ">
+                <div className="flex shadow-md rounded-3xl">
+                    <div className=" w-full bg-white px-10 py-10 rounded-3xl">
                         <div className="flex justify-between border-b pb-8">
                             <h1 className="font-semibold text-2xl">Shopping Cart</h1>
 
-                            <h2 className="font-semibold text-2xl">Total Items-{ParticularUserdata.length}</h2>
+                            <h2 className="font-semibold text-2xl">Total Items-{localCartData.length}</h2>
                         </div>
                         <div className="flex mt-10 mb-5">
                             <h3 className="font-semibold text-gray-600 text-xs uppercase w-2/5">Product Details</h3>
-                            <h3 className="font-semibold  text-gray-600 text-xs uppercase w-1/5 text-center">Quantity</h3>
-                            <h3 className="font-semibold  text-gray-600 text-xs uppercase w-1/5 text-center">Price</h3>
-                            <h3 className="font-semibold  text-gray-600 text-xs uppercase w-1/5 text-center">Total</h3>
+                            <h3 className="font-semibold  text-gray-600 text-xs uppercase w-1/4 pl-16 text-center">Quantity</h3>
+                            <h3 className="font-semibold  text-gray-600 text-xs uppercase w-1/4 text-center">Price</h3>
+                            <h3 className="font-semibold  text-gray-600 text-xs uppercase w-1/4 pl-10 text-center">Total</h3>
                         </div>
                         {
-                            ParticularUserdata.map(item =>
-                                <div key={item._id} className="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+                            localCartData.map(item =>
+                                <div key={item._id} className="flex items-center justify-between hover:bg-gray-100 -mx-8 px-6 py-5">
                                     <div className="flex w-2/5">
                                         <div className="w-20">
-                                            <img className="h-24" src={`https://tahar-server.vercel.app/uploads/${item.ProductImage}`} alt="" />
+                                            <img className="h-24" src={`http://localhost:5000/uploads/${item.ProductImage}`} alt="" />
                                         </div>
                                         <div className="flex flex-col justify-between ml-4 flex-grow">
                                             <span className="font-bold text-sm">{item.ProductName}</span>
@@ -79,7 +91,7 @@ const Cart = () => {
                                         </div>
                                     </div>
 
-                                    <IncreaseButtonCart key={item._id}
+                                    <IncreaseButtonCart key={item.ProductId} className='w-1/5'
                                         item={item}
                                         onQuantityChange={handleQuantityChange}>
 
@@ -94,15 +106,25 @@ const Cart = () => {
                         }
 
 
-                        <a href="#" className="flex font-semibold text-indigo-600 text-sm mt-10">
+                        <div className=' flex flex-row justify-between items-center'>
+                            <button className=' h-[50px] w-[200px] bg-[#1C2E37] border-none rounded-[10px] text-white'>
+                                <FontAwesomeIcon className='' icon={faArrowLeft} /> Continue Shopping
+                            </button>
+
+                            <Link to='/checkout' className='flex justify-center items-center h-[50px] w-[200px] bg-[#1C2E37] border-none rounded-[10px] text-white'>
+                                Check Out <FontAwesomeIcon className='' icon={faArrowRight} />
+                            </Link>
+
+                        </div>
+                        {/* <a href="#" className="flex font-semibold text-indigo-600 text-sm mt-10">
                             <svg className="fill-current mr-2 text-indigo-600 w-4" viewBox="0 0 448 512"><path d="M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z" /></svg>
                             Continue Shopping
-                        </a>
+                        </a> */}
                     </div>
-                    <div id="summary" className="w-1/4 px-8 py-10">
+                    {/* <div id="summary" className="w-1/4 px-8 py-10">
                         <h1 className="font-semibold text-2xl border-b pb-8">Order Summary</h1>
                         <div className="flex justify-between mt-10 mb-5">
-                            <span className="font-semibold text-sm uppercase">Items {ParticularUserdata.length}</span>
+                            <span className="font-semibold text-sm uppercase">Items {localCartData.length}</span>
                             <span className="font-semibold text-sm">Tk. {total}</span>
                         </div>
                         <div>
@@ -133,7 +155,7 @@ const Cart = () => {
                             </div>
                             <button className="bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full">Checkout</button>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

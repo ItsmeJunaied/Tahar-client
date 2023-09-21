@@ -26,19 +26,7 @@ const UploadProducts = () => {
     const [selectedColors3XL, setSelectedColors3XL] = useState([]);
 
 
-    const [images, setImages] = useState([]);
 
-    // console.log(images)
-    const handleImageUpload = (e) => {
-        const newImages = [...images, e.target.files[0]];
-        setImages(newImages);
-    }
-
-    const handleDeleteImage = (index) => {
-        const newImages = [...images];
-        newImages.splice(index, 1);
-        setImages(newImages);
-    }
 
     const onSubmit = async (data) => {
         data.Scolor = selectedColorsS
@@ -47,9 +35,9 @@ const UploadProducts = () => {
         data.XLcolor = selectedColorsXL
         data.XXLcolor = selectedColors2XL
         data.XXXLcolor = selectedColors3XL
+        data.sellpercet =salePercentage
 
-
-        console.log(data);
+            console.log(data);
 
 
         try {
@@ -118,7 +106,7 @@ const UploadProducts = () => {
 
 
 
-            const response = await fetch('https://tahar-server.vercel.app/product', {
+            const response = await fetch('http://localhost:5000/product', {
                 method: 'POST',
                 body: formData,
             });
@@ -139,6 +127,9 @@ const UploadProducts = () => {
                 setSelectedColorsXL(null);
                 setSelectedColors2XL(null);
                 setSelectedColors3XL(null);
+                setUploadedImages(null);
+                setSalePercentage(null)
+
                 reset();
             } else {
                 throw new Error(`HTTP error! status: ${response.status}`);
@@ -212,6 +203,46 @@ const UploadProducts = () => {
         setSelectedColors(selectedColors.filter((c) => c !== color));
     };
 
+    const [clearanceOption, setClearanceOption] = useState('');
+    const [salePercentage, setSalePercentage] = useState('');
+
+    // console.log(salePercentage)
+    const handleClearanceChange = (e) => {
+        const selectedOption = e.target.value;
+        setClearanceOption(selectedOption);
+
+        if (selectedOption === 'Sale') {
+            setSalePercentage(''); // Reset salePercentage when 'Sale' is selected
+        }
+    };
+
+    const handleSalePercentageChange = (e) => {
+        setSalePercentage(e.target.value);
+    };
+
+    // image
+
+    const [uploadedImages, setUploadedImages] = useState([]);
+
+    const handleImageUpload = (e) => {
+        const files = e.target.files;
+        const updatedImages = [...uploadedImages];
+
+        for (let i = 0; i < files.length; i++) {
+            updatedImages.push({
+                id: Math.random(), // Generate a unique id for each image
+                file: files[i]
+            });
+        }
+
+        setUploadedImages(updatedImages);
+    };
+
+    const handleImageDelete = (id) => {
+        const updatedImages = uploadedImages.filter(image => image.id !== id);
+        setUploadedImages(updatedImages);
+    };
+
     return (
         <div>
             <div>
@@ -247,10 +278,28 @@ const UploadProducts = () => {
                                     />
                                 </div>
                             </div>
-                            <input type="file" name='images'
-                                {...register("images", { required: true })} multiple
-                                className="file-input file-input-bordered file-input-primary w-full max-w-xs" />
+                            {/* Photo Upload */}
+                            <div>
+                                <input
+                                    type="file"
+                                    name='images'
+                                    {...register("images", { required: true })}
+                                    multiple
+                                    className="file-input file-input-bordered file-input-primary w-full max-w-xs"
+                                    onChange={handleImageUpload}
+                                />
 
+                                <div className="uploaded-images flex flex-row">
+                                    {uploadedImages.map(image => (
+                                        <div key={image.id} className="uploaded-image ">
+                                            <img className=' w-20 h-20 mt-2' src={URL.createObjectURL(image.file)} alt={`Uploaded ${image.file.name}`} />
+                                            <button onClick={() => handleImageDelete(image.id)} className="delete-button">X</button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* colour, size, quantity */}
                             <div className=''>
                                 <div className=' flex flex-row w-full justify-between gap-3'>
                                     {/* Size S */}
@@ -453,27 +502,38 @@ const UploadProducts = () => {
                                 </label>
                                 <select
                                     id="gender"
+                                    defaultValue="Pick One"
                                     {...register("gender")}
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 >
-                                    <option value=''>Pick One</option>
+                                    <option value="Pick One" disabled>Pick One</option>
                                     <option value="men">Men</option>
                                     <option value="women">Women</option>
                                 </select>
                             </div>
-                            <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="Clearance">
-                                    Clearance
-                                </label>
+                            <div className='mb-4'>
                                 <select
                                     id="C"
-                                    {...register("Clearance")}
+                                    defaultValue="Pick One"
+                                    {...register("Clearance", { required: true })}
+
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    onChange={handleClearanceChange}
                                 >
-                                    <option disabled >Pick One</option>
+                                    <option value="Pick One" disabled>Pick One</option>
                                     <option value="Sale">Sale</option>
                                     <option value="Not Sale">Not Sale</option>
                                 </select>
+
+                                {clearanceOption === 'Sale' && (
+                                    <input
+                                        type="number"
+                                        value={salePercentage}
+                                        onChange={handleSalePercentageChange}
+                                        placeholder="Enter Sale Percentage"
+                                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    />
+                                )}
                             </div>
 
                             <div className="mb-4">

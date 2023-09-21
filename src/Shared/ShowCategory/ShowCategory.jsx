@@ -34,7 +34,7 @@ const ShowCategory = ({ categoryData , handleStatus}) => {
                                             <td className="p-2 whitespace-nowrap">
                                                 <div className="flex items-center">
                                                     <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full"
-                                                        src={`https://tahar-server.vercel.app/uploads/${item.image}`}
+                                                        src={`http://localhost:5000/uploads/${item.image}`}
                                                         width="40" height="40" alt="Alex Shatov" />
                                                     </div>
                                                     <div className="font-medium text-gray-800">

@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom';
 const CollectionCard = () => {
     const [category, setCategory] = useState([]);
 
-    console.log(category)
+    // console.log(category)
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/categoryInfo')
+        fetch('http://localhost:5000/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -18,7 +18,7 @@ const CollectionCard = () => {
                 category.map(item => {
                     if (item && item.status === 'Container1' && item.title) {
                         const backgroundImageStyle = {
-                            backgroundImage: `url(https://tahar-server.vercel.app/uploads/${item.image})`,
+                            backgroundImage: `url(http://localhost:5000/uploads/${item.image})`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center center'
                         };

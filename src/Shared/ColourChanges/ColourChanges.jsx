@@ -3,7 +3,7 @@ import React from 'react';
 const ColourChanges = ({ item, activeSize, activeID }) => {
     let defaultColorArray = null;
 
-    console.log(activeSize, activeID)
+    // console.log(activeSize, activeID)
     if (activeSize === ''  || activeID !== item._id) {
         const allColors = [
             ...new Set([

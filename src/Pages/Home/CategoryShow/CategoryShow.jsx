@@ -12,7 +12,7 @@ const CategoryShow = () => {
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/categoryInfo')
+        fetch('http://localhost:5000/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -47,8 +47,8 @@ const CategoryShow = () => {
                             if (item.status === 'Show') {
                                 return (
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
-                                        <img src={`https://tahar-server.vercel.app/uploads/${item.image}`} alt="" />
-                                        <h1>{item.title}</h1>
+                                        <img src={`http://localhost:5000/uploads/${item.image}`} alt="" />
+                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );
                             } else {
@@ -69,8 +69,8 @@ const CategoryShow = () => {
                             if (item.status === 'Show') {
                                 return (
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
-                                        <img src={`https://tahar-server.vercel.app/uploads/${item.image}`} alt="" />
-                                        <h1>{item.title}</h1>
+                                        <img src={`http://localhost:5000/uploads/${item.image}`} alt="" />
+                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );
                             } else {

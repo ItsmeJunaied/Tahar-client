@@ -1,21 +1,43 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ShopWomen.css';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faTimes } from '@fortawesome/free-solid-svg-icons';
 import ColourChanges from '../../Shared/ColourChanges/ColourChanges';
 import CategoryShow from '../Home/CategoryShow/CategoryShow';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../Provider/AuthProvider';
 import sizeChart from '../../../public/photos/size chart.png';
 import top_bg from '../../../public/photos/topBG2.png'
+import { Link } from 'react-router-dom';
 
 const ShopWomen = () => {
-    const { AllProducts } = useContext(AuthContext);
-
-    const ShopWomen= AllProducts.filter(item=>item.gender === 'women');
-    console.log(ShopWomen)
-
+    const { AllProducts, favouriteData, setFavouriteData } = useContext(AuthContext);
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
+    const ShopWomen = AllProducts.filter(item => item.gender === 'women');
+    const handlefavourite = (id) => {
+        let favourites = JSON.parse(localStorage.getItem('favourite')) || [];
+
+        const index = favourites.indexOf(id);
+
+        if (index !== -1) {
+            // If already in favourites, remove it
+            favourites.splice(index, 1);
+        } else {
+            // If not in favourites, add it
+            favourites.push(id);
+        }
+
+        localStorage.setItem('favourite', JSON.stringify(favourites));
+
+        setFavouriteData(favourites)
+    }
+
+    useEffect(() => {
+        const retrievedData = JSON.parse(localStorage.getItem('favourite'));
+        setFavouriteData(retrievedData);
+    }, [setFavouriteData])
+
+
 
     // console.log(anotherState);
     return (
@@ -73,15 +95,27 @@ const ShopWomen = () => {
                     {
                         ShopWomen?.map(item =>
                             <div key={item._id} className=' w-[431px] h-fit[600px] '>
-                                <img
-                                    className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                    src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
-                                    alt=""
-                                />
+                                <div style={{ position: 'relative', display: 'inline-block' }}>
+                                    <img
+                                        className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
+                                        src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                        alt="" />
+                                    <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
+                                        <div
+                                            id="MdiheartoutlineRoot"
+                                            className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-24 h-8 items-center rounded-[104px]"
+                                        >
+                                            <FontAwesomeIcon className=' text-white ' icon={faHeart} />
+                                            <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                                {JSON.parse(localStorage.getItem('favourite'))?.includes(item._id) ? 'Liked' : 'Like'}
+                                            </div>
+                                        </div>
+                                    </button>
+
+                                </div>
 
                                 <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
-                                    <h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center">{item.title} | {item.category}</h1>
-                                    <p className=" text-[#828282]  text-[19px]">${item.price}</p>
+                                <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>                                    <p className=" text-[#828282]  text-[19px]">${item.price}</p>
 
 
                                     {/* colour */}

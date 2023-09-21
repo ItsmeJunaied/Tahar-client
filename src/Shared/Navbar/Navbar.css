@@ -1,7 +1,9 @@
 .nv-bg{
     background-image: url('../../../public/photos/Navbar_bg.png');
     background-repeat: no-repeat;
+    background-size: cover;
 }
+
 
 .custom-nav {
     height: 100vh;
