@@ -8,6 +8,7 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import sizeChart from '../../../public/photos/size chart.png';
 import top_bg from '../../../public/photos/topBG2.png'
 import { Link } from 'react-router-dom';
+import Filter from '../../Shared/Filter/Filter';
 
 const Sale = () => {
     const { AllProducts } = useContext(AuthContext);
@@ -32,43 +33,9 @@ const Sale = () => {
                 <p className="text-black text-center mb-10 font-bold  font-sans text-5xl">Collections</p>
                 <div className="divider"></div>
                 <CategoryShow></CategoryShow>
-                <div className=' flex flex-row justify-between items-center mt-20'>
-                    <div className='hidden lg:flex gap-3 text-[18px] text-[#7D7D7D]'>
-                        <button>Punjabis</button>
-                        <button>Modal</button>
-                        <button>Muslin</button>
-                        <button>Cotton</button>
-                        <button>Georgette</button>
-                    </div>
-                    <div className=' flex flex-row gap-2'>
-                        <div>
-                            <button
-                                className=' w-[126px] h-[47px] border-[2px] border-[#1C2E37] rounded-full'
-                                onClick={() => document.getElementById('my_modal_6').showModal()}
-                            >Size Chart</button>
 
-                            <dialog id="my_modal_5" className="modal  ">
-                                <div className="modal-box w-11/12 max-w-5xl bg-transparent shadow-none">
-                                    <img className=' w-[900px] h-[800px]' src={sizeChart} alt="" />
-                                    <div className="modal-action">
-                                        <form method="dialog">
-                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 shadow-lg shadow-gray-500">✕</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </dialog>
-                        </div>
-                        <select className="select w-[126px] h-[43px] border-[2px] border-[#1C2E37] rounded-full">
-                            <option disabled selected>Filter</option>
-                            <option>Star Wars</option>
-                            <option>Harry Potter</option>
-                            <option>Lord of the Rings</option>
-                            <option>Planet of the Apes</option>
-                            <option>Star Trek</option>
-                        </select>
-                        <button className='w-[126px] h-[47px] bg-[#1C2E37] text-white rounded-full'>View All</button>
-                    </div>
-                </div>
+                <Filter></Filter>
+
                 <div className="divider w-full mb-10"></div>
                 <div className=" pl-5 grid grid-cols-4 gap-16">
                     {

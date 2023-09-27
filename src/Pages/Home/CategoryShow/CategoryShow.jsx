@@ -47,7 +47,9 @@ const CategoryShow = () => {
                             if (item.status === 'Show') {
                                 return (
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
-                                        <img src={`http://localhost:5000/uploads/${item.image}`} alt="" />
+                                        <img
+                                        className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
+                                        src={`http://localhost:5000/uploads/${item.image}`} alt="" />
                                         <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );
@@ -69,7 +71,9 @@ const CategoryShow = () => {
                             if (item.status === 'Show') {
                                 return (
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
-                                        <img src={`http://localhost:5000/uploads/${item.image}`} alt="" />
+                                        <img 
+                                        className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
+                                        src={`http://localhost:5000/uploads/${item.image}`} alt="" />
                                         <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );

@@ -15,9 +15,15 @@ const AuthProvider = ({ children }) => {
     const [fabricsdata, setFabricsData] = useState([]);
     const [AllcartData, setAllCartData] = useState([]);
     const [orderContactInfo, setorderContactInfo] = useState([]);
-    const [localCartData, setLocalCartData]= useState([]);
+    const [localCartData, setLocalCartData] = useState([]);
     const [favouriteData, setFavouriteData] = useState([])
+    const [totals, setTotals] = useState('');
+    const [totalShipping, settotalShipping] = useState('');
+    const [subtotalTaxandShipping, setsubtotalTaxandShipping] = useState('');
+    
     // console.log(localCartData);
+
+
     const createUser = (email, password) => {
         setLoading(true);
         return createUserWithEmailAndPassword(auth, email, password);
@@ -83,18 +89,18 @@ const AuthProvider = ({ children }) => {
     //get cart data
 
 
-    useEffect(() => {
-        fetch('http://localhost:5000/userCartData')
-            .then(res => res.json())
-            .then(data => setAllCartData(data))
-    }, [])
+    // useEffect(() => {
+    //     fetch('http://localhost:5000/userCartData')
+    //         .then(res => res.json())
+    //         .then(data => setAllCartData(data))
+    // }, [])
 
     //cart localhostdata
     // useEffect(() => {
     //     const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
     //     setLocalCartData(cartData);
     // }, []);
-    
+
     const authInfo = {
         user,
         loading,
@@ -111,7 +117,10 @@ const AuthProvider = ({ children }) => {
         setAllCartData,
         orderContactInfo, setorderContactInfo,
         localCartData, setLocalCartData,
-        favouriteData, setFavouriteData
+        favouriteData, setFavouriteData,
+        totals, setTotals,
+        totalShipping, settotalShipping,
+        subtotalTaxandShipping, setsubtotalTaxandShipping
     }
 
     return (

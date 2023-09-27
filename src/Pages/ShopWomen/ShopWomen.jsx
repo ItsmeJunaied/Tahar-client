@@ -8,9 +8,11 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import sizeChart from '../../../public/photos/size chart.png';
 import top_bg from '../../../public/photos/topBG2.png'
 import { Link } from 'react-router-dom';
+import Filter from '../../Shared/Filter/Filter';
 
 const ShopWomen = () => {
     const { AllProducts, favouriteData, setFavouriteData } = useContext(AuthContext);
+    const [activeFabric, setActiveFabric] = useState('');
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
     const ShopWomen = AllProducts.filter(item => item.gender === 'women');
@@ -53,48 +55,16 @@ const ShopWomen = () => {
                 <p className="text-black text-center mb-10 font-bold  font-sans text-5xl">Collections</p>
                 <div className="divider"></div>
                 <CategoryShow></CategoryShow>
-                <div className=' flex flex-row justify-between items-center mt-20'>
-                    <div className='hidden lg:flex gap-3 text-[18px] text-[#7D7D7D]'>
-                        <button>Punjabis</button>
-                        <button>Modal</button>
-                        <button>Muslin</button>
-                        <button>Cotton</button>
-                        <button>Georgette</button>
-                    </div>
-                    <div className=' flex flex-row gap-2'>
-                        <div>
-                            <button
-                                className=' w-[126px] h-[47px] border-[2px] border-[#1C2E37] rounded-full'
-                                onClick={() => document.getElementById('my_modal_6').showModal()}
-                            >Size Chart</button>
 
-                            <dialog id="my_modal_5" className="modal  ">
-                                <div className="modal-box w-11/12 max-w-5xl bg-transparent shadow-none">
-                                    <img className=' w-[900px] h-[800px]' src={sizeChart} alt="" />
-                                    <div className="modal-action">
-                                        <form method="dialog">
-                                            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 shadow-lg shadow-gray-500">✕</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </dialog>
-                        </div>
-                        <select className="select w-[126px] h-[43px] border-[2px] border-[#1C2E37] rounded-full">
-                            <option disabled selected>Filter</option>
-                            <option>Star Wars</option>
-                            <option>Harry Potter</option>
-                            <option>Lord of the Rings</option>
-                            <option>Planet of the Apes</option>
-                            <option>Star Trek</option>
-                        </select>
-                        <button className='w-[126px] h-[47px] bg-[#1C2E37] text-white rounded-full'>View All</button>
-                    </div>
-                </div>
+                <Filter AllProducts={AllProducts} activeFabric={activeFabric} setActiveFabric={setActiveFabric} ></Filter>
+
                 <div className="divider w-full mb-10"></div>
                 <div className=" pl-5 grid grid-cols-4 gap-16">
                     {
-                        ShopWomen?.map(item =>
-                            <div key={item._id} className=' w-[431px] h-fit[600px] '>
+                        activeFabric === '' ? (
+                            ShopWomen && ShopWomen.map(item =>
+                                <div key={item._id} className=' w-[431px] h-fit '>
+                                {/* <Link to={`/product/${item._id}`}> */}
                                 <div style={{ position: 'relative', display: 'inline-block' }}>
                                     <img
                                         className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
@@ -113,9 +83,11 @@ const ShopWomen = () => {
                                     </button>
 
                                 </div>
+                                {/* </Link> */}
 
                                 <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
-                                <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>                                    <p className=" text-[#828282]  text-[19px]">${item.price}</p>
+                                    <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>
+                                    <p className=" text-[#828282]  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">${item.price}</p>
 
 
                                     {/* colour */}
@@ -124,7 +96,8 @@ const ShopWomen = () => {
                                     <div className=" flex gap-2">
                                         {
                                             parseInt(item.Squantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center"
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'S' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`}
                                                     onClick={() => {
                                                         setActiveSize('S');
                                                         setActiveID(item._id);
@@ -132,7 +105,7 @@ const ShopWomen = () => {
                                                 >S</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     S
@@ -144,13 +117,14 @@ const ShopWomen = () => {
                                         }
                                         {
                                             parseInt(item.Mquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center" onClick={() => {
-                                                    setActiveSize('M');
-                                                    setActiveID(item._id);
-                                                }}>M</button>
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'M' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('M');
+                                                        setActiveID(item._id);
+                                                    }}>M</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     M
@@ -162,13 +136,14 @@ const ShopWomen = () => {
                                         }
                                         {
                                             parseInt(item.Lquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px] bg-transparent rounded-[8px] flex justify-center items-center" onClick={() => {
-                                                    setActiveSize('L');
-                                                    setActiveID(item._id);
-                                                }}>L</button>
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'L' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('L');
+                                                        setActiveID(item._id);
+                                                    }}>L</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     L
@@ -180,13 +155,14 @@ const ShopWomen = () => {
                                         }
                                         {
                                             parseInt(item.XLquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center" onClick={() => {
-                                                    setActiveSize('XL');
-                                                    setActiveID(item._id);
-                                                }}>XL</button>
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('XL');
+                                                        setActiveID(item._id);
+                                                    }}>XL</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     XL
@@ -198,13 +174,14 @@ const ShopWomen = () => {
                                         }
                                         {
                                             parseInt(item.XXLquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center" onClick={() => {
-                                                    setActiveSize('XXL');
-                                                    setActiveID(item._id);
-                                                }}>XXL</button>
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('XXL');
+                                                        setActiveID(item._id);
+                                                    }}>XXL</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     XXL
@@ -216,13 +193,14 @@ const ShopWomen = () => {
                                         }
                                         {
                                             parseInt(item.XXXLquantity) > 0 ? (
-                                                <button className="w-[51px] h-[40px] border-[2px]  bg-transparent rounded-[8px] flex justify-center items-center" onClick={() => {
-                                                    setActiveSize('XXXL');
-                                                    setActiveID(item._id);
-                                                }}>XXXL</button>
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('XXXL');
+                                                        setActiveID(item._id);
+                                                    }}>XXXL</button>
                                             ) : (
                                                 <button
-                                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                                     disabled
                                                 >
                                                     XXXL
@@ -236,6 +214,164 @@ const ShopWomen = () => {
                                     </div>
                                 </div>
                             </div>
+                            )
+                        ) : (
+
+                            ShopWomen &&
+                            ShopWomen.filter((item) => item.fabrics === activeFabric).map((item) => (
+
+                                <div key={item._id} className=' w-[431px] h-fit '>
+                                {/* <Link to={`/product/${item._id}`}> */}
+                                <div style={{ position: 'relative', display: 'inline-block' }}>
+                                    <img
+                                        className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
+                                        src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                        alt="" />
+                                    <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
+                                        <div
+                                            id="MdiheartoutlineRoot"
+                                            className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-24 h-8 items-center rounded-[104px]"
+                                        >
+                                            <FontAwesomeIcon className=' text-white ' icon={faHeart} />
+                                            <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                                {JSON.parse(localStorage.getItem('favourite'))?.includes(item._id) ? 'Liked' : 'Like'}
+                                            </div>
+                                        </div>
+                                    </button>
+
+                                </div>
+                                {/* </Link> */}
+
+                                <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
+                                    <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>
+                                    <p className=" text-[#828282]  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">${item.price}</p>
+
+
+                                    {/* colour */}
+                                    <ColourChanges key={item._id} item={item} activeSize={activeSize} activeID={activeID}></ColourChanges>
+
+                                    <div className=" flex gap-2">
+                                        {
+                                            parseInt(item.Squantity) > 0 ? (
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'S' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`}
+                                                    onClick={() => {
+                                                        setActiveSize('S');
+                                                        setActiveID(item._id);
+                                                    }}
+                                                >S</button>
+                                            ) : (
+                                                <button
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    disabled
+                                                >
+                                                    S
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                    </div>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            parseInt(item.Mquantity) > 0 ? (
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'M' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('M');
+                                                        setActiveID(item._id);
+                                                    }}>M</button>
+                                            ) : (
+                                                <button
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    disabled
+                                                >
+                                                    M
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                    </div>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            parseInt(item.Lquantity) > 0 ? (
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'L' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('L');
+                                                        setActiveID(item._id);
+                                                    }}>L</button>
+                                            ) : (
+                                                <button
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    disabled
+                                                >
+                                                    L
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                    </div>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            parseInt(item.XLquantity) > 0 ? (
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('XL');
+                                                        setActiveID(item._id);
+                                                    }}>XL</button>
+                                            ) : (
+                                                <button
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    disabled
+                                                >
+                                                    XL
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                    </div>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            parseInt(item.XXLquantity) > 0 ? (
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('XXL');
+                                                        setActiveID(item._id);
+                                                    }}>XXL</button>
+                                            ) : (
+                                                <button
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    disabled
+                                                >
+                                                    XXL
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                    </div>
+                                                </button>
+                                            )
+                                        }
+                                        {
+                                            parseInt(item.XXXLquantity) > 0 ? (
+                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    }`} onClick={() => {
+                                                        setActiveSize('XXXL');
+                                                        setActiveID(item._id);
+                                                    }}>XXXL</button>
+                                            ) : (
+                                                <button
+                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                    disabled
+                                                >
+                                                    XXXL
+                                                    <div className="absolute inset-0 flex items-center justify-center">
+                                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                    </div>
+                                                </button>
+                                            )
+                                        }
+
+                                    </div>
+                                </div>
+                            </div>
+                            ))
                         )
                     }
 

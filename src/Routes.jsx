@@ -33,6 +33,10 @@ import CheckoutPayment from "./Pages/CheckoutPayment/CheckoutPayment";
 import PaymentSuccess from "./Pages/Payment/PaymentSuccess/PaymentSuccess";
 import PaymentFail from "./Pages/Payment/PaymentFail/PaymentFail";
 import Favourites from "./Pages/Favourites/Favourites";
+import PromoCode from "./Pages/DashBoard/PromoCode/PromoCode";
+import UserProfile from "./Pages/UserInterface/UserProfile/UserProfile";
+import MyOrder from "./Pages/UserInterface/MyOrder/MyOrder";
+import TrackOrder from "./Pages/UserInterface/TrackOrder/TrackOrder";
 
 const router = createBrowserRouter([
   {
@@ -99,7 +103,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/favourite',
-        element:  <Favourites></Favourites>
+        element: <Favourites></Favourites>
       },
       {
         path: '/cart',
@@ -117,6 +121,18 @@ const router = createBrowserRouter([
       {
         path: '/payment/fail/:tranId',
         element: <PaymentFail></PaymentFail>,
+      },
+      {
+        path: '/userprofile',
+        element: <UserProfile></UserProfile>,
+      },
+      {
+        path: '/myorder',
+        element: <MyOrder></MyOrder>,
+      },
+      {
+        path: '/trackorder',
+        element: <TrackOrder></TrackOrder>,
       },
 
     ]
@@ -161,7 +177,11 @@ const router = createBrowserRouter([
       {
         path: 'paymentHistory',
         element: <PaymentHistory></PaymentHistory>
-      }
+      },
+      {
+        path: 'promocode',
+        element: <PromoCode></PromoCode>
+      },
     ]
   }
 

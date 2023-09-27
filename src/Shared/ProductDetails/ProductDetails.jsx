@@ -169,7 +169,7 @@ const ProductDetails = () => {
                         {/* Container 2 */}
                         <div className='ml-5'>
                             <img
-                                className='w-[622px] h-[700px] rounded-[10px]'
+                                className='w-[622px] h-[700px] rounded-[10px] object-cover'
 
                                 src={`http://localhost:5000/uploads/${data.images[selectedImageIndex]}`}
                                 alt=""

@@ -23,7 +23,7 @@ const Banner = () => {
             cancelOnInteraction={false}
             interval={6000}
             style={sliderStyle}
-            className="my-slider"
+            className="my-slider "
         >
             <div data-src={sliderIMG1} />
             <div data-src={sliderIMG2} />

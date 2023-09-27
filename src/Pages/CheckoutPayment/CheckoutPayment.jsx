@@ -2,28 +2,11 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
 const CheckoutPayment = () => {
-    const { user, orderContactInfo, setorderContactInfo, localCartData } = useContext(AuthContext);
+    const { user, orderContactInfo, localCartData,totals, setTotals,totalShipping, settotalShipping,subtotalTaxandShipping, setsubtotalTaxandShipping } = useContext(AuthContext);
     const [selectedOption, setSelectedOption] = useState('');
     const [showConfirmOrderButton, setShowConfirmOrderButton] = useState(false);
     const [showPayNowButton, setShowPayNowButton] = useState(false);
-    // console.log(orderContactInfo)
-    let total = 0;
-    let quantity = 0;
 
-    for (const product of localCartData) {
-        quantity = quantity + product.ProductQuantity;
-        total = total + product.ProductPrice * product.ProductQuantity;
-    }
-    let subtotalWithTax = total * 1.05;
-
-    let totalWithShipping = 0;
-    if (orderContactInfo.City === 'DHAKA') {
-        totalWithShipping = total + 80
-    } else {
-        totalWithShipping = total + 120
-    }
-
-    let subtotalWithTaxandShipping = totalWithShipping * 1.05;
 
     const handleRadioChange = (event) => {
         setSelectedOption(event.target.value);
@@ -39,21 +22,22 @@ const CheckoutPayment = () => {
 
     const dataToSend = {
         ...orderContactInfo,
-        subtotalWithTaxandShipping,
-        totalWithShipping,
-        total,selectedOption
+        subtotalTaxandShipping,
+        totalShipping,
+        totals, selectedOption
     };
-    const handlePayNowInfo=()=>{
-        fetch('http://localhost:5000/order',{
-            method:'POST',
-            headers:{"content-type":"application/json"},
-            body:JSON.stringify(dataToSend)
+    console.log(dataToSend)
+    const handlePayNowInfo = () => {
+        fetch('http://localhost:5000/order', {
+            method: 'POST',
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(dataToSend)
         })
-        .then(res=>res.json())
-        .then(result=>{
-            window.location.replace(result.GatewayPageURL)
-            console.log(result)
-        })
+            .then(res => res.json())
+            .then(result => {
+                window.location.replace(result.GatewayPageURL)
+                console.log(result)
+            })
     }
 
 
@@ -118,7 +102,7 @@ const CheckoutPayment = () => {
                                             Standard
                                         </div>
                                         <div className="text-right text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#1c2e37]">
-                                            Tk. {subtotalWithTaxandShipping}
+                                            Tk. {subtotalTaxandShipping}
                                         </div>
                                     </div>
                                 </div>
@@ -159,8 +143,8 @@ const CheckoutPayment = () => {
                     {/* container 2 */}
                     <div className=" w-1/2 bg-white rounded-[10px] py-[50px] ">
                         {
-                            localCartData.map(item =>
-                                <div key={item._id} className=" flex flex-row justify-between align-middle items-center px-20 mb-3">
+                            localCartData && localCartData.map((item, index) =>
+                                <div key={index} className=" flex flex-row justify-between align-middle items-center px-20 mb-3">
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] "
@@ -187,12 +171,12 @@ const CheckoutPayment = () => {
                         <div>
                             <div className=" flex flex-row justify-between px-20">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Subtotal</h1>
-                                <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tk. {total}</p>
+                                <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tk. {totals}</p>
                             </div>
                             <div className=" flex flex-row justify-between px-20">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Shipping</h1>
                                 <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    Tk. {totalWithShipping}
+                                    Tk. {totalShipping}
                                 </p>
                             </div>
                         </div>
@@ -204,7 +188,7 @@ const CheckoutPayment = () => {
                             <div className=" flex flex-row justify-between">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Including 5%  in Taxes</h1>
                                 <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    Tk.{subtotalWithTaxandShipping}
+                                    Tk.{subtotalTaxandShipping}
                                 </p>
                             </div>
                         </div>

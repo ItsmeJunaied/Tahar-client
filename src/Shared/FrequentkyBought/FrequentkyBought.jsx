@@ -131,7 +131,7 @@ const FrequentkyBought = ({ data }) => {
                                     {item.images && item.images[0] && (
                                         <img
                                             src={`http://localhost:5000/uploads/${item.images[0]}`}
-                                            className="mr-0 w-[194px] h-[188px]"
+                                            className="mr-0 w-[194px] h-[188px] object-cover"
                                         />
                                     )}
                                     <div className=' '>

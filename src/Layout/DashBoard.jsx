@@ -54,6 +54,7 @@ const DashBoard = () => {
                                 <li><NavLink to='/dashboard/uploadProducts'>Upload Products</NavLink></li>
                                 <li><NavLink to='/dashboard/categoryUpload'>Upload Category</NavLink></li>
                                 <li><NavLink to='/dashboard/uploadCustomerSpot'>Upload Customer Spotlight</NavLink></li>
+                                <li><NavLink to='/dashboard/promocode'>Promo Code</NavLink></li>
                                 <li><NavLink to='/dashboard/manageProducts'>Manage Products</NavLink></li>
                                 <li><NavLink to='/dashboard/manageUsers'>Manage Users</NavLink></li>
                             </>

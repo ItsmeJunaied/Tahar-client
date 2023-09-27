@@ -186,8 +186,8 @@ const CheckOut = () => {
                     {/* container 2 */}
                     <div className=" w-1/2 bg-white rounded-[10px] py-[100px] ">
                         {
-                            localCartData.map(item =>
-                                <div key={item.ProductId} className=" flex flex-row justify-between align-middle items-center px-20 mb-3">
+                            localCartData.map((item, index) =>
+                                <div key={index} className=" flex flex-row justify-between align-middle items-center px-20 mb-3">
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] "

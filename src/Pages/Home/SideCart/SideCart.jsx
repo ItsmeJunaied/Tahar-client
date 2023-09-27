@@ -72,17 +72,17 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
                         <div className="divider"></div>
                         <div className=' flex flex-col gap-10'>
                             {
-                                localCartData && localCartData.map(item =>
-                                    <CartCalculation key={item.ProductId} item={item} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation>
+                                localCartData && localCartData.map((item, index) =>
+                                    <CartCalculation key={index} item={item} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation>
                                 )
                             }
                             {/* <CartCalculation item={localCartData} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation> */}
 
                         </div>
-                        <h1 className=' text-[20px] font-bold mt-5 mb-2 uppercase'>Promo code</h1>
-                        <div className="divider mb-2"></div>
+                        {/* <h1 className=' text-[20px] font-bold mt-5 mb-2 uppercase'>Promo code</h1>
+                        <div className="divider mb-2"></div> */}
                         {/* promo */}
-                        <div className=' flex justify-around items-center w-[415px] border-[#191E1B2B] h-[69px] rounded-[10px] border-[2px] bg-transparent'>
+                        {/* <div className=' flex justify-around items-center w-[415px] border-[#191E1B2B] h-[69px] rounded-[10px] border-[2px] bg-transparent'>
                             <div>
                                 <input
                                     type="text" placeholder='For e.g: TAHAR4EID' name="" id=""
@@ -97,9 +97,9 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
                         </div>
 
                         <h1 className=' text-[20px] font-bold mt-5 mb-2 uppercase'>Coupone</h1>
-                        <div className="divider mb-2"></div>
+                        <div className="divider mb-2"></div> */}
                         {/* Coupors */}
-                        <div className=' flex justify-around items-center w-[415px] border-[#191E1B2B] h-[69px] rounded-[10px] border-[2px] bg-transparent'>
+                        {/* <div className=' flex justify-around items-center w-[415px] border-[#191E1B2B] h-[69px] rounded-[10px] border-[2px] bg-transparent'>
                             <div>
                                 <input
                                     type="text" placeholder='For e.g: TAHAR4EID' name="" id=""
@@ -111,7 +111,7 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
                                     <FontAwesomeIcon icon={faArrowRight} />
                                 </button>
                             </div>
-                        </div>
+                        </div> */}
                         <div className="divider mb-2 mt-2"></div>
 
                         <div className=' w-1/2 flex justify-between align-middle items-center mb-3'>
@@ -132,9 +132,9 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
                         <Link to='/cart' disabled={!accespted} className=' btn w-[415px] h-[54px] rounded-[10px] bg-[#066EA138] border-none  text-[18px] font-semibold mt-2'>
                             View Cart
                         </Link>
-                        <button disabled={!accespted} className='btn w-[415px] h-[54px] text-white rounded-[10px] bg-[#1C2E37] border-none  text-[18px] font-semibold mt-2'>
+                        <Link to='/checkout' disabled={!accespted} className='btn w-[415px] h-[54px] text-white rounded-[10px] bg-[#1C2E37] border-none  text-[18px] font-semibold mt-2'>
                             Check Out
-                        </button>
+                        </Link>
                     </ul>
                 </div>
             </div>

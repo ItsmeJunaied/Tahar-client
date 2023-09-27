@@ -1,0 +1,12 @@
+.activeFilter {
+    display: flex;
+    padding: 12px 29px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 70px;
+    border: 2.5px solid #000;
+
+    color: #000;
+}

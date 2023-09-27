@@ -4,7 +4,7 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
     let defaultColorArray = null;
 
     // console.log(activeSize, activeID)
-    if (activeSize === ''  || activeID !== data._id) {
+    if (activeSize === '' || activeID !== data._id) {
         const allColors = [
             ...new Set([
                 ...(data.Scolor && data.Scolor.split(',')) || [],
@@ -23,25 +23,29 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
     return (
         <div>
             <div className=" flex gap-2">
-            {defaultColorArray && defaultColorArray.map((color, index) => (
-                <div
-                    key={index}
-                    className="w-[28px] h-[28px] rounded-[104px] border-[2px] border-black hover:border-[2px]"
-                    style={{ backgroundColor: color }}
-                >
-                    {/* Any content you want to include */}
-                </div>
-            ))}
+                {defaultColorArray && defaultColorArray.map((color, index) => (
+                    <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                        <div
+
+                            className={`w-[28px] h-[28px] rounded-[104px] `}
+                            style={{ backgroundColor: color }}
+                        >
+                            {/* Any content you want to include */}
+                        </div>
+                    </div>
+                ))}
 
                 {
                     activeSize === 'S' && activeID === data._id && data.Scolor && typeof data.Scolor === 'string' ? (
                         data.Scolor.split(',').map((color, index) => (
-                            <div
-                                key={index}
-                                className={`w-[28px] h-[28px] rounded-[104px]  border-[2px] border-black`}
-                                style={{ backgroundColor: color }}
-                            >
-                                {/* Any content you want to include */}
+                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                                <div
+
+                                    className={`w-[28px] h-[28px] rounded-[104px] `}
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {/* Any content you want to include */}
+                                </div>
                             </div>
                         ))
                     ) : null
@@ -49,13 +53,13 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'M' && activeID === data._id && data.Mcolor && typeof data.Mcolor === 'string' ? (
                         data.Mcolor.split(',').map((color, index) => (
-                            <div
-                                key={index}
-                                className={`w-[28px] h-[28px] rounded-[104px] border-[2px] border-black `}
-                                style={{ backgroundColor: color }}
-                            >
-                                <div >
+                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                                <div
 
+                                    className={`w-[28px] h-[28px] rounded-[104px] `}
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {/* Any content you want to include */}
                                 </div>
                             </div>
                         ))
@@ -64,12 +68,14 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'L' && activeID === data._id && data.Lcolor && typeof data.Lcolor === 'string' ? (
                         data.Lcolor.split(',').map((color, index) => (
-                            <div
-                                key={index}
-                                className={`w-[28px] h-[28px] rounded-[104px] border-[2px] border-black`}
-                                style={{ backgroundColor: color }}
-                            >
-                                {/* Any content you want to include */}
+                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                                <div
+
+                                    className={`w-[28px] h-[28px] rounded-[104px] `}
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {/* Any content you want to include */}
+                                </div>
                             </div>
                         ))
                     ) : null
@@ -77,12 +83,14 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'XL' && activeID === data._id && data.XLcolor && typeof data.XLcolor === 'string' ? (
                         data.XLcolor.split(',').map((color, index) => (
-                            <div
-                                key={index}
-                                className={`w-[28px] h-[28px] rounded-[104px] border-[2px] border-black`}
-                                style={{ backgroundColor: color }}
-                            >
-                                {/* Any content you want to include */}
+                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                                <div
+
+                                    className={`w-[28px] h-[28px] rounded-[104px] `}
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {/* Any content you want to include */}
+                                </div>
                             </div>
                         ))
                     ) : null
@@ -90,12 +98,14 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'XXL' && activeID === data._id && data.XXLcolor && typeof data.XXLcolor === 'string' ? (
                         data.XXLcolor.split(',').map((color, index) => (
-                            <div
-                                key={index}
-                                className={`w-[28px] h-[28px] rounded-[104px] border-[2px] border-black`}
-                                style={{ backgroundColor: color }}
-                            >
-                                {/* Any content you want to include */}
+                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                                <div
+
+                                    className={`w-[28px] h-[28px] rounded-[104px] `}
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {/* Any content you want to include */}
+                                </div>
                             </div>
                         ))
                     ) : null
@@ -103,13 +113,14 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'XXXL' && activeID === data._id && data.XXXLcolor && typeof data.XXXLcolor === 'string' ? (
                         data.XXXLcolor.split(',').map((color, index) => (
-                            <div
-                                key={index}
-                                className={`w-[28px] h-[28px] rounded-[104px] border-[2px] border-black`}
+                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                                <div
 
-                                style={{ backgroundColor: color }}
-                            >
-                                {/* Any content you want to include */}
+                                    className={`w-[28px] h-[28px] rounded-[104px] `}
+                                    style={{ backgroundColor: color }}
+                                >
+                                    {/* Any content you want to include */}
+                                </div>
                             </div>
                         ))
                     ) : null
