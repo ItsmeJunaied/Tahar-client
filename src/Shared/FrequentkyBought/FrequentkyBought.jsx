@@ -4,11 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
 
-const FrequentkyBought = ({ data }) => {
+const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
     const { user, AllProducts, localCartData, setLocalCartData } = useContext(AuthContext);
 
-    
+
     // const matchedData= AllProducts.filter(item=> item.category === data.category && item.gender === data.gender);
 
 
@@ -27,12 +28,23 @@ const FrequentkyBought = ({ data }) => {
     // Shuffle and select first three products
     useEffect(() => {
         const randomdata = shuffleArray([...AllProducts]).slice(0, 3);
-        const randomdataPrice = randomdata.map(item => parseInt(item.price));
-        const totalPrice = randomdataPrice.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+        const totalPrice = randomdata.reduce((accumulator, item) => {
+            const price = selectedCurrencyValue === 'BDT' ?
+                (item.Clearance === 'Sale' ?
+                    (parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100))) :
+                    parseInt(item.price)
+                ) :
+                (item.Clearance === 'Sale' ?
+                    ((parseInt(item.price) * 2.5 * doller) - ((parseInt(item.price) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100)) :
+                    (item.price * 2.5 * doller)
+                );
+
+            return accumulator + price;
+        }, 0);
 
         setData(randomdata)
         SetTotalPrice(totalPrice)
-    }, [AllProducts]);
+    }, [AllProducts, selectedCurrencyValue, doller]);
 
     // console.log(randomdata)
 
@@ -51,6 +63,7 @@ const FrequentkyBought = ({ data }) => {
 
     const [selectedData, setSelectedData] = useState([])
 
+    console.log(selectedData)
     const handleCheckBox = (productId) => {
         const filter = AllProducts.find(item => item._id === productId);
         const ProductHeightQuantity = getProductHeightQuantity(selectedSizes[productId], filter);
@@ -71,12 +84,14 @@ const FrequentkyBought = ({ data }) => {
             };
 
             setSelectedData(prevData => [...prevData, selectedProductInfo]);
+
         } else {
             setSelectedData(prevData => prevData.filter(item => item.ProductId !== productId));
         }
     };
 
     const getProductHeightQuantity = (activeSize, filter) => {
+        console.log(activeSize)
         switch (activeSize) {
             case "S":
                 return filter.Squantity;
@@ -100,13 +115,57 @@ const FrequentkyBought = ({ data }) => {
 
 
     // console.log('selectedData',selectedData)
-    // console.log('localCartData',localCartData);
+    console.log('localCartData',localCartData);
 
 
     const handleAddCart = () => {
+        if (selectedData.length === 0) {
+            toast.error('Please Select Product', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            return;
+        }
 
-        const updatedCartData = [...localCartData, ...selectedData];
+        if (!Object.values(selectedSizes).some(size => size !== '')) {
+            toast.error('Please Select Size', {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+            return;
+        }
+
+        let updatedCartData;
+
+        if (Array.isArray(localCartData) && localCartData.length > 0) {
+          updatedCartData = [...localCartData, ...selectedData];
+        } else {
+          updatedCartData = [...selectedData];
+        }
+        
+        // Now you can use `updatedCartData` here or anywhere else in the current scope.
+        
+
+        // Save updated cartData to local storage
+        localStorage.setItem('cartData', JSON.stringify(updatedCartData));
+
+        // Update localCartData state
         setLocalCartData(updatedCartData);
+
+        // Clear selectedData after adding to cart
+        setSelectedData([]);
 
         Swal.fire({
             position: 'top-end',
@@ -116,6 +175,9 @@ const FrequentkyBought = ({ data }) => {
             timer: 1500
         });
     }
+
+
+
     return (
         <div className="bg-[#f1f0eb] flex flex-col justify-center gap-12 w-full h-[627px] items-center px-16">
             <div className="text-center text-3xl [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-bold text-[#1c1c1c]">
@@ -130,7 +192,7 @@ const FrequentkyBought = ({ data }) => {
                                 <React.Fragment key={item._id}>
                                     {item.images && item.images[0] && (
                                         <img
-                                            src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                            src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
                                             className="mr-0 w-[194px] h-[188px] object-cover"
                                         />
                                     )}
@@ -155,13 +217,14 @@ const FrequentkyBought = ({ data }) => {
                                 id="BDT3"
                                 className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-bold text-[#3d3d3d]"
                             >
-                                BDT {totalPrice}
+                                {parseFloat(totalPrice).toFixed(2)}
                             </div>
                         </div>
                         <div className="bg-[#1c2e37] flex flex-col justify-center w-[435px] h-20 shrink-0 items-center rounded-lg">
                             <button onClick={handleAddCart} className="text-base [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-bold tracking-[0.17] leading-[20.8px] text-white">
                                 Add Selected to Cart
                             </button>
+                            <ToastContainer />
                         </div>
                     </div>
                 </div>
@@ -180,48 +243,40 @@ const FrequentkyBought = ({ data }) => {
                                 </div>
                                 <div className="bg-[#0000000F] flex flex-row justify-center gap-8 h-20 items-center pl-8 pr-6 py-8 rounded-lg">
                                     <select
-                                        // value={selectedOption}  // Set the selected value based on the state
+                                        value={selectedSizes[item._id] || 'Pick One'}
                                         onChange={(event) => handleOptionClick(event, item._id)}
-
-                                        value={selectedSizes[item._id] || ''}
-                                        className="select select-bordered w-full bg-[#E3E2DD] border-none outline-none hover:outline-none hover:border-none focus:outline-none focus:border-none text-lg  [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#3d3d3d]">
-                                        <option disabled selected>Pick ONe</option>
-                                        {
-                                            parseInt(item.Squantity) > 0 ? (
-                                                <option value="S">S</option>
-                                            ) : null
-                                        }
-                                        {
-                                            parseInt(item.Mquantity) > 0 ? (
-                                                <option value="M">M</option>
-                                            ) : null
-                                        }
-                                        {
-                                            parseInt(item.Lquantity) > 0 ? (
-                                                <option value="L">L</option>
-                                            ) : null
-                                        }
-                                        {
-                                            parseInt(item.XLquantity) > 0 ? (
-                                                <option value="XL">XL</option>
-                                            ) : null
-                                        }
-                                        {
-                                            parseInt(item.XXLquantity) > 0 ? (
-                                                <option value="2XL">2XL</option>
-                                            ) : null
-                                        }
-                                        {
-                                            parseInt(item.XXXLquantity) > 0 ? (
-                                                <option value="3XL">3XL</option>
-                                            ) : null
-                                        }
-
+                                        className="select select-bordered w-full bg-[#E3E2DD] border-none outline-none hover:outline-none hover:border-none focus:outline-none focus:border-none text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#3d3d3d]">
+                                        <option disabled>Pick One</option>
+                                        {parseInt(item.Squantity) > 0 && <option value="S">S</option>}
+                                        {parseInt(item.Mquantity) > 0 && <option value="M">M</option>}
+                                        {parseInt(item.Lquantity) > 0 && <option value="L">L</option>}
+                                        {parseInt(item.XLquantity) > 0 && <option value="XL">XL</option>}
+                                        {parseInt(item.XXLquantity) > 0 && <option value="2XL">2XL</option>}
+                                        {parseInt(item.XXXLquantity) > 0 && <option value="3XL">3XL</option>}
                                     </select>
                                 </div>
+
                                 <div className="bg-[#0000000F] flex flex-col justify-center pl-8 h-20 items-start rounded-lg">
                                     <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#3d3d3d] mr-20">
-                                        BDT {item.price}
+                                        <p>
+                                            {selectedCurrencyValue === 'BDT' ? (item.Clearance === 'Sale' ? (
+                                                <>
+                                                    <span className="line-through text-[#828282] font-bold">Tk.{parseInt(item.price).toFixed(2)}</span>
+                                                    <span className=' text-black font-bold'> Tk.{((parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))).toFixed(2)}</span>
+
+                                                </>
+                                            ) : (
+                                                `Tk.${item.price}`
+                                            )) : (item.Clearance === 'Sale' ? (
+                                                <>
+                                                    <span className="line-through text-[#828282] font-bold">${parseFloat(item.price * 2.5 * doller).toFixed(2)}</span>
+                                                    <span className=' text-black font-bold'> $ {(((parseInt(item.price) * 2.5 * doller) - ((parseInt(item.price) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100))).toFixed(2)}</span>
+
+                                                </>
+                                            ) : (
+                                                `$${item.price * 2.5 * doller}`
+                                            ))}
+                                        </p>
                                     </div>
                                 </div>
                                 <input onClick={() => handleCheckBox(item._id)} type="checkbox" className="checkbox checkbox-[#000000] border-[2px] border-[#000000]" />

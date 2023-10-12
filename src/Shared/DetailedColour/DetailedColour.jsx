@@ -1,8 +1,9 @@
 import React from 'react';
 
-const DetailedColour = ({ data, activeSize, activeID }) => {
+const DetailedColour = ({ data, activeSize, activeID, selectedColor, setSelectedColor }) => {
     let defaultColorArray = null;
 
+    // console.log(selectedColor)
     // console.log(activeSize, activeID)
     if (activeSize === '' || activeID !== data._id) {
         const allColors = [
@@ -24,11 +25,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
         <div>
             <div className=" flex gap-2">
                 {defaultColorArray && defaultColorArray.map((color, index) => (
-                    <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                    <div key={index} className={`border-[2px] rounded-full p-[2px] ${selectedColor === color ? 'border-red-500' : 'border-black'
+                        }`}>
                         <div
 
                             className={`w-[28px] h-[28px] rounded-[104px] `}
-                            style={{ backgroundColor: color }}
+                            onClick={() => setSelectedColor(color)} style={{ backgroundColor: color }}
                         >
                             {/* Any content you want to include */}
                         </div>
@@ -38,11 +40,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'S' && activeID === data._id && data.Scolor && typeof data.Scolor === 'string' ? (
                         data.Scolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className={`border-[2px] rounded-full p-[2px] ${selectedColor === color ? 'border-red-500' : 'border-black'
+                                }`}>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
-                                    style={{ backgroundColor: color }}
+                                    onClick={() => setSelectedColor(color)} style={{ backgroundColor: color }}
                                 >
                                     {/* Any content you want to include */}
                                 </div>
@@ -53,11 +56,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'M' && activeID === data._id && data.Mcolor && typeof data.Mcolor === 'string' ? (
                         data.Mcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className={`border-[2px] rounded-full p-[2px] ${selectedColor === color ? 'border-red-500' : 'border-black'
+                                }`}>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
-                                    style={{ backgroundColor: color }}
+                                    onClick={() => setSelectedColor(color)} style={{ backgroundColor: color }}
                                 >
                                     {/* Any content you want to include */}
                                 </div>
@@ -68,11 +72,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'L' && activeID === data._id && data.Lcolor && typeof data.Lcolor === 'string' ? (
                         data.Lcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className={`border-[2px] rounded-full p-[2px] ${selectedColor === color ? 'border-red-500' : 'border-black'
+                                }`}>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
-                                    style={{ backgroundColor: color }}
+                                    onClick={() => setSelectedColor(color)} style={{ backgroundColor: color }}
                                 >
                                     {/* Any content you want to include */}
                                 </div>
@@ -83,11 +88,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'XL' && activeID === data._id && data.XLcolor && typeof data.XLcolor === 'string' ? (
                         data.XLcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className={`border-[2px] rounded-full p-[2px] ${selectedColor === color ? 'border-red-500' : 'border-black'
+                                }`}>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
-                                    style={{ backgroundColor: color }}
+                                    onClick={() => setSelectedColor(color)} style={{ backgroundColor: color }}
                                 >
                                     {/* Any content you want to include */}
                                 </div>
@@ -98,11 +104,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'XXL' && activeID === data._id && data.XXLcolor && typeof data.XXLcolor === 'string' ? (
                         data.XXLcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className={`border-[2px] rounded-full p-[2px] ${selectedColor === color ? 'border-red-500' : 'border-black'
+                                }`}>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
-                                    style={{ backgroundColor: color }}
+                                    onClick={() => setSelectedColor(color)} style={{ backgroundColor: color }}
                                 >
                                     {/* Any content you want to include */}
                                 </div>
@@ -113,11 +120,12 @@ const DetailedColour = ({ data, activeSize, activeID }) => {
                 {
                     activeSize === 'XXXL' && activeID === data._id && data.XXXLcolor && typeof data.XXXLcolor === 'string' ? (
                         data.XXXLcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className={`border-[2px] rounded-full p-[2px] ${selectedColor === color ? 'border-red-500' : 'border-black'
+                                }`}>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
-                                    style={{ backgroundColor: color }}
+                                    onClick={() => setSelectedColor(color)} style={{ backgroundColor: color }}
                                 >
                                     {/* Any content you want to include */}
                                 </div>

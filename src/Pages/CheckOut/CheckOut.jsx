@@ -1,73 +1,81 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { useForm } from "react-hook-form";
 
 const CheckOut = () => {
-    const { user, orderContactInfo, setorderContactInfo, localCartData } = useContext(AuthContext);
+    const { user, orderContactInfo, setorderContactInfo, localCartData, doller, selectedCurrencyValue, contactInfo, setContactInfo, setTotals } = useContext(AuthContext);
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
+    console.log(contactInfo)
 
+    // console.log(localCartData)
+    const [countries, setCountries] = useState([]);
+
+    useEffect(() => {
+        // Fetch the list of countries from an API
+        fetch('https://restcountries.com/v3.1/all')
+            .then(response => response.json())
+            .then(data => {
+                const countryNames = data.map(country => country.name.common);
+                setCountries(countryNames.sort());
+
+            })
+            .catch(error => console.error('Error fetching countries:', error));
+    }, []);
 
     const navigate = useNavigate();
 
+
+
+    useEffect(() => {
+        // Get the current cart data from local storage
+        const savedContactInfo = JSON.parse(localStorage.getItem('contactInfo'));
+
+        // Update the state with the saved data, if available
+        if (savedContactInfo) {
+            setContactInfo(savedContactInfo);
+        }
+    }, [setContactInfo]); // Empty dependency array means this effect runs once when the component mounts
+
     const onSubmit = (data) => {
-        data.OrderDetails = localCartData;
         console.log('contact', data);
 
         setorderContactInfo(data);
+
+        // Save data to local storage
+        localStorage.setItem('contactInfo', JSON.stringify(data));
+
+        // Update the state with the new data
+        setContactInfo(data);
+
         navigate('/shipping');
     }
 
 
+
+
+
     let total = 0;
     let quantity = 0;
+    console.log(localCartData)
+    if (localCartData) {
+        for (const product of localCartData) {
+            const productPrice = selectedCurrencyValue === 'BDT' ?
+                (product.ProductSale === 'Sale' ? product.salePriceInBDT : product.priceInBDT) :
+                (product.ProductSale === 'Sale' ? product.salePriceInUSD : product.priceInUSD);
 
-    for (const product of localCartData) {
-        quantity = quantity + product.ProductQuantity;
-        total = total + product.ProductPrice * product.ProductQuantity;
+            quantity = quantity + product.ProductQuantity;
+            total = (total + productPrice * product.ProductQuantity);
+        }
     }
+    setTotals(total)
+    localStorage.setItem('subtotal', total);
     let subtotalWithTax = total * 1.05;
 
-    
-    // console.log(localCartData.length);
-
-    // const localCartData = AllcartData.filter(item => item.customerEmail === user?.email);
-
-    // console.log(user);
-    // console.log(localCartData);
-    // const handleQuantityChange = (itemId, newQuantity) => {
-
-    //     const updatedData = AllcartData.map(item => {
-    //         if (item._id === itemId) {
-    //             return { ...item, ProductQuantity: newQuantity };
-    //         }
-    //         return item;
-    //     });
-
-    //     // Update the state with the new data
-    //     setAllCartData(updatedData);
-    // };
-
-    // const [selectedOption, setSelectedOption] = useState('Inside Dhaka - Tk. 80');
-
-    // const handleChange = (e) => {
-    //     setSelectedOption(e.target.value);
-    //     console.log(e.target.value);
-    // }
-
-    // let shippingCost = 0;
-
-    // if (selectedOption === 'Inside Dhaka - Tk. 80') {
-    //     shippingCost = 80;
-    // } else {
-    //     shippingCost = 120;
-    // }
 
 
-    // let totalWithShipping = total + shippingCost;
-    // let totalWithVat = totalWithShipping * 1.05; // Including 5% VAT
     return (
         <div className="bg-[#D8D8D8] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
             <div className=" px-[100px] py-[100px] ">
@@ -81,7 +89,7 @@ const CheckOut = () => {
                             <p className=" text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" >Email</p>
                             <input
                                 // defaultValue={orderContactInfo?.email}
-                                {...register("email", { required: true })} defaultValue={user?.email || orderContactInfo?.email} required
+                                {...register("email", { required: true })} defaultValue={user?.email || contactInfo?.email} 
                                 className=" border-[2px] border-[#DCDCDC] w-[695px] h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]"
                                 type="email" name="email" />
 
@@ -89,12 +97,23 @@ const CheckOut = () => {
 
                             <p className=" text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" >Country/Region</p>
                             <select
-                                {...register("Country", { required: true })} required
-                                defaultValue={orderContactInfo?.Country}
-                                className="select border-[2px] border-[#DCDCDC] w-[695px] h-[72px]  focus:outline-none text-[#191E1BDB] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                <option disabled selected>Pick Up Country</option>
-                                <option>Bangladesh</option>
+                                {...register("Country", { required: true })}
+                                required
+                                defaultValue={contactInfo?.Country}
+                                className="select border-[2px] border-[#DCDCDC] w-[695px] h-[72px]  focus:outline-none text-[#191E1BDB] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]"
+                            >
+                                {countries.map((country, index) => (
+                                    <option
+                                        key={index}
+                                        value={country}
+                                        selected={country === "Bangladesh"}
+                                    >
+                                        {country}
+                                    </option>
+                                ))}
                             </select>
+
+
 
                             <div className=" flex flex-col lg:flex-row justify-between items-center">
                                 <div className="form-control w-full max-w-xs">
@@ -102,7 +121,7 @@ const CheckOut = () => {
                                         <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">First Name</span>
                                     </label>
                                     <input
-                                        {...register("FirstName", { required: true })} defaultValue={user?.displayName && user.displayName.split(' ').slice(0, -1).join(' ') || orderContactInfo?.FirstName} required
+                                        {...register("FirstName", { required: true })} defaultValue={user?.displayName && user.displayName.split(' ').slice(0, -1).join(' ') || contactInfo?.FirstName} 
 
                                         className=" border-[2px] border-[#DCDCDC]  h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase" type="text" name="FirstName" />
                                 </div>
@@ -112,7 +131,7 @@ const CheckOut = () => {
                                     </label>
                                     <input
                                         {...register("LastName")}
-                                        defaultValue={user?.displayName && user.displayName.split(' ').slice(-1).join(' ') || orderContactInfo?.LastName} required
+                                        defaultValue={user?.displayName && user.displayName.split(' ').slice(-1).join(' ') || contactInfo?.LastName} required
 
                                         className=" border-[2px] border-[#DCDCDC]  h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase" type="text" name="LastName" />
                                 </div>
@@ -123,8 +142,8 @@ const CheckOut = () => {
                                     <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Full Address</span>
                                 </label>
                                 <input
-                                    {...register("Address", { required: true })} required
-                                    defaultValue={orderContactInfo?.Address}
+                                    {...register("Address", { required: true })}
+                                    defaultValue={contactInfo?.Address}
                                     className=" border-[2px] border-[#DCDCDC] w-[695px] h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" type="text" name="Address" />
                             </div>
 
@@ -134,8 +153,8 @@ const CheckOut = () => {
                                         <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">City</span>
                                     </label>
                                     <input
-                                        {...register("City", { required: true })} required
-                                        defaultValue={orderContactInfo?.City}
+                                        {...register("City", { required: true })} 
+                                        defaultValue={contactInfo?.City}
                                         className=" border-[2px] border-[#DCDCDC]  h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase" type="text" name="City" />
 
                                 </div>
@@ -144,8 +163,8 @@ const CheckOut = () => {
                                         <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Postal Code</span>
                                     </label>
                                     <input
-                                        {...register("PostalCode")}
-                                        defaultValue={orderContactInfo?.PostalCode}
+                                        {...register("PostalCode" , { required: true })}
+                                        defaultValue={contactInfo?.PostalCode}
                                         className=" border-[2px] border-[#DCDCDC]  h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" type="number" name="PostalCode" />
                                 </div>
                             </div>
@@ -156,20 +175,9 @@ const CheckOut = () => {
                                 </label>
                                 <input
                                     {...register("number", { required: true })}
-                                    defaultValue={orderContactInfo?.number} required
+                                    defaultValue={contactInfo?.number} 
                                     className=" border-[2px] border-[#DCDCDC] w-[695px] h-[72px] mb-5 rounded-[10px] ps-5 pr-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" type="number" name="number" />
                             </div>
-
-                            {errors.email && <p className="text-red-500">Email is required</p>}
-                            {errors.Country && <p className="text-red-500">Country is required</p>}
-                            {errors.FirstName && <p className="text-red-500">First Name is required</p>}
-                            {errors.LastName && <p className="text-red-500">Last Name is required</p>}
-                            {errors.Address && <p className="text-red-500">Address is required</p>}
-                            {errors.City && <p className="text-red-500">City is required</p>}
-                            {errors.PostalCode && <p className="text-red-500">Postal Code is required</p>}
-                            {errors.number && <p className="text-red-500">Phone number is required</p>}
-
-
 
                             {/* <Link to="/shipping" disabled> */}
                             <input type="submit"
@@ -191,20 +199,62 @@ const CheckOut = () => {
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] "
-                                            src={`http://localhost:5000/uploads/${item.ProductImage}`}
+                                            src={`https://tahar-server.vercel.app/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>
                                         <p className="text-[19px] text-[#474747] mb-[16px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
                                             {item.ProductName}
                                         </p>
-                                        <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Dark Green / {item.ProductSize}</p>
+                                        <div className="flex flex-row justify-evenly items-center">
+                                            <div className="w-5 h-5 rounded-full" style={{ backgroundColor: item?.selectedColor }}></div>
+                                            <div> |</div>
+                                            <p className="text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica] ml-2">
+                                                {item.ProductSize}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="  border-[2px] border-[#0000002E] rounded-[10px]">
-                                        <p className="px-[28px] py-[20px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                            Tk. {item.ProductPrice}</p>
 
+                                    <div>
+                                        <p className="text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Quantity - {item.ProductQuantity}</p>
                                     </div>
+
+                                    <div className="w-20 h-16 text-center border-[2px] border-[#0000002E] rounded-[10px] flex flex-col justify-center">
+                                        <span className="font-semibold text-lg">
+                                            <p className=" text-[#828282] text-[13px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                                <p className='text-lg font-bold'>
+                                                    {selectedCurrencyValue === 'BDT' ? (
+                                                        item.ProductSale === 'Sale' ?
+                                                            (item.salePriceInBDT && `Tk.${item.salePriceInBDT}`) :
+                                                            (item.priceInBDT && `Tk.${item.priceInBDT}`)
+                                                    ) : (
+                                                        item.ProductSale === 'Sale' ?
+                                                            (item.salePriceInUSD && `$${item.salePriceInUSD}`) :
+                                                            (item.priceInUSD && `$${item.priceInUSD}`)
+                                                    )}
+                                                </p>
+
+                                            </p>
+                                            {/* {selectedCurrencyValue === 'BDT' ? (
+                                                item?.ProductSale === 'Sale' ? (
+                                                    <p className="text-center">
+                                                        Tk.{((parseInt(item.ProductPrice) - (parseInt(item?.sellpercet) / 100)) * parseInt(item.ProductQuantity)).toFixed(2)}
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-center">Tk.{(item.ProductPrice * parseInt(item.ProductQuantity)).toFixed(2)}</p>
+                                                )
+                                            ) : (
+                                                item?.ProductSale === 'Sale' ? (
+                                                    <p className="text-center">
+                                                        $ {(((parseInt(item.ProductPrice) * 2.5 * doller) - ((parseInt(item.ProductPrice) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100)) * parseInt(item.ProductQuantity)).toFixed(2)}
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-center">${((item.ProductPrice * 2.5 * doller) * parseInt(item.ProductQuantity)).toFixed(3)}</p>
+                                                )
+                                            )} */}
+                                        </span>
+                                    </div>
+
                                 </div>
                             )
                         }
@@ -213,7 +263,10 @@ const CheckOut = () => {
                         <div>
                             <div className=" flex flex-row justify-between px-20">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Subtotal</h1>
-                                <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tk. {total}</p>
+                                <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                    {total}
+
+                                </p>
                             </div>
                             <div className=" flex flex-row justify-between px-20">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Shipping</h1>
@@ -228,7 +281,8 @@ const CheckOut = () => {
                             <div className=" flex flex-row justify-between">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Including 5%  in Taxes</h1>
                                 <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    Tk.{subtotalWithTax}
+                                    {subtotalWithTax}
+                                    {/* Tk.{subtotalWithTax * doller * 2.5} */}
                                 </p>
                             </div>
                         </div>

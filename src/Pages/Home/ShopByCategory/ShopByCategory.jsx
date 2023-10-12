@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { useContext } from 'react';
 import { AuthContext } from '../../../Provider/AuthProvider';
 const ShopByCategory = () => {
-    const { AllProducts } = useContext(AuthContext);
+    const { AllProducts, selectedCurrencyValue ,doller } = useContext(AuthContext);
     const [activeFabric, setActiveFabric] = useState('');
     const [filteredFroduct,setFilteredProfuct] = useState([]);
     return (
@@ -21,7 +21,7 @@ const ShopByCategory = () => {
 
 
             {/* another section */}
-            <CatShowSliders activeFabric={activeFabric} filteredFroduct={filteredFroduct}></CatShowSliders>
+            <CatShowSliders doller={doller} selectedCurrencyValue={selectedCurrencyValue} activeFabric={activeFabric} filteredFroduct={filteredFroduct}></CatShowSliders>
         </div>
     );
 };

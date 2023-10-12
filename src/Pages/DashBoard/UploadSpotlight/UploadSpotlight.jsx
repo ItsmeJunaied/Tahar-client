@@ -25,7 +25,7 @@ const UploadSpotlight = () => {
                     const item = { username ,image: imgURL };
 
                     console.log(item);
-                    fetch('http://localhost:5000/customarSpotlight', {
+                    fetch('https://tahar-server.vercel.app/customarSpotlight', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'

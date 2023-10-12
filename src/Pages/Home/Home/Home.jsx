@@ -11,15 +11,20 @@ import './Home.css';
 const Home = () => {
     return (
         <div>
-            <Banner></Banner>
-            <div className=' lg:mx-[100px]'>
-                <CategoryShow></CategoryShow>
-                <ShopByCategory></ShopByCategory>
-                <CollectionCard></CollectionCard>
-                <PremiumServices></PremiumServices>
-                <ModelVideoShocase></ModelVideoShocase>
-                <FromalCategory></FromalCategory>
-                <FindUsInsta></FindUsInsta>
+            <div>
+                <Banner></Banner>
+            </div>
+            <div>
+
+                <div className=' lg:mx-[100px]'>
+                    <CategoryShow></CategoryShow>
+                    <ShopByCategory></ShopByCategory>
+                    <CollectionCard></CollectionCard>
+                    <PremiumServices></PremiumServices>
+                    <ModelVideoShocase></ModelVideoShocase>
+                    <FromalCategory></FromalCategory>
+                    <FindUsInsta></FindUsInsta>
+                </div>
             </div>
         </div>
     );

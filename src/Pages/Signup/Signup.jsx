@@ -29,8 +29,8 @@ const Signup = () => {
 
                 updateUser(data.firstName, data.lastName)
                     .then(() => {
-                        const saveUser = { firstName: data.firstName, lastName: data.lastName, email: data.email ,role: 'User'}
-                        fetch('http://localhost:5000/users', {
+                        const saveUser = { firstName: data.firstName, lastName: data.lastName, photoURL:data.photoURL, email: data.email ,role: 'User'}
+                        fetch('https://tahar-server.vercel.app/users', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/json'

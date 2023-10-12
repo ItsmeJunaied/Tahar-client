@@ -9,7 +9,7 @@ const UploadFabrics = () => {
     const [fabricsdata, setFabricsData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/fabrics')
+        fetch('https://tahar-server.vercel.app/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
@@ -18,7 +18,7 @@ const UploadFabrics = () => {
         console.log(data);
         const { fabrics } = data;
         const item = { fabrics };
-        fetch('http://localhost:5000/fabrics', {
+        fetch('https://tahar-server.vercel.app/fabrics', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ const UploadFabrics = () => {
                 console.log(responseData);
 
                 if (responseData.success) {
-                    fetch('http://localhost:5000/fabrics')
+                    fetch('https://tahar-server.vercel.app/fabrics')
                         .then(res => res.json())
                         .then(updatedData => setFabricsData(updatedData));
                     reset();

@@ -14,15 +14,22 @@ const AuthProvider = ({ children }) => {
     const [categoryName, setCategoryName] = useState([]);
     const [fabricsdata, setFabricsData] = useState([]);
     const [AllcartData, setAllCartData] = useState([]);
+    const [order, setOrder] = useState([]);
+    const [CODorder, setCODorder] = useState([]);
     const [orderContactInfo, setorderContactInfo] = useState([]);
     const [localCartData, setLocalCartData] = useState([]);
+    const [contactInfo, setContactInfo] = useState(null);
     const [favouriteData, setFavouriteData] = useState([])
-    const [totals, setTotals] = useState('');
+    const [totals, setTotals] = useState(0);
+    const [discount, setdiscount] = useState(0);
     const [totalShipping, settotalShipping] = useState('');
     const [subtotalTaxandShipping, setsubtotalTaxandShipping] = useState('');
-    
+    const [selectedCurrencyValue, setSelectedCurrencyValue] = useState('BDT');
+    const [selectedColor, setSelectedColor] = useState('');
+    const [shippingData, setshippingData] = useState([]);
     // console.log(localCartData);
 
+    const doller= 0.0091;
 
     const createUser = (email, password) => {
         setLoading(true);
@@ -62,44 +69,43 @@ const AuthProvider = ({ children }) => {
     };
     // users
     useEffect(() => {
-        fetch('http://localhost:5000/users')
+        fetch('https://tahar-server.vercel.app/users')
             .then(res => res.json())
             .then(data => setLoggedUser(data))
     }, [])
 
     // product
     useEffect(() => {
-        fetch('http://localhost:5000/product')
+        fetch('https://tahar-server.vercel.app/product')
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
     // category Names
     useEffect(() => {
-        fetch('http://localhost:5000/categoryInfo')
+        fetch('https://tahar-server.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryName(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('http://localhost:5000/fabrics')
+        fetch('https://tahar-server.vercel.app/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
+    // orders Names
+    useEffect(() => {
+        fetch('https://tahar-server.vercel.app/orders')
+            .then(res => res.json())
+            .then(data => setOrder(data))
+    }, [])
+    // fabrics Names
+    useEffect(() => {
+        fetch('https://tahar-server.vercel.app/CODorder')
+            .then(res => res.json())
+            .then(data => setCODorder(data))
+    }, [])
 
-    //get cart data
 
-
-    // useEffect(() => {
-    //     fetch('http://localhost:5000/userCartData')
-    //         .then(res => res.json())
-    //         .then(data => setAllCartData(data))
-    // }, [])
-
-    //cart localhostdata
-    // useEffect(() => {
-    //     const cartData = JSON.parse(localStorage.getItem('cartData')) || [];
-    //     setLocalCartData(cartData);
-    // }, []);
 
     const authInfo = {
         user,
@@ -110,6 +116,7 @@ const AuthProvider = ({ children }) => {
         updateUser,
         googleSignIN,
         loggedUser,
+        setLoggedUser,
         AllProducts,
         categoryName,
         fabricsdata,
@@ -120,7 +127,13 @@ const AuthProvider = ({ children }) => {
         favouriteData, setFavouriteData,
         totals, setTotals,
         totalShipping, settotalShipping,
-        subtotalTaxandShipping, setsubtotalTaxandShipping
+        subtotalTaxandShipping, setsubtotalTaxandShipping,
+        selectedCurrencyValue, setSelectedCurrencyValue,
+        doller,discount, setdiscount,
+        order, setOrder,CODorder, setCODorder,
+        selectedColor, setSelectedColor,
+        contactInfo, setContactInfo,
+        shippingData, setshippingData
     }
 
     return (

@@ -24,7 +24,7 @@ const ColourChanges = ({ item, activeSize, activeID }) => {
         <div>
             <div className=" flex gap-2">
                 {defaultColorArray && defaultColorArray.map((color, index) => (
-                    <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                    <div key={index} className='border-[2px] border-black dark:border-white rounded-full p-[2px]'>
                         <div
 
                             className={`w-[28px] h-[28px] rounded-[104px] `}
@@ -38,7 +38,7 @@ const ColourChanges = ({ item, activeSize, activeID }) => {
                 {
                     activeSize === 'S' && activeID === item._id && item.Scolor && typeof item.Scolor === 'string' ? (
                         item.Scolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className='border-[2px] border-black dark:border-white rounded-full p-[2px]'>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
@@ -53,7 +53,7 @@ const ColourChanges = ({ item, activeSize, activeID }) => {
                 {
                     activeSize === 'M' && activeID === item._id && item.Mcolor && typeof item.Mcolor === 'string' ? (
                         item.Mcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className='border-[2px] border-black dark:border-white rounded-full p-[2px]'>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
@@ -68,7 +68,7 @@ const ColourChanges = ({ item, activeSize, activeID }) => {
                 {
                     activeSize === 'L' && activeID === item._id && item.Lcolor && typeof item.Lcolor === 'string' ? (
                         item.Lcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className='border-[2px] border-black dark:border-white rounded-full p-[2px]'>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
@@ -84,7 +84,7 @@ const ColourChanges = ({ item, activeSize, activeID }) => {
                 {
                     activeSize === 'XL' && activeID === item._id && item.XLcolor && typeof item.XLcolor === 'string' ? (
                         item.XLcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className='border-[2px] border-black dark:border-white rounded-full p-[2px]'>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
@@ -99,7 +99,7 @@ const ColourChanges = ({ item, activeSize, activeID }) => {
                 {
                     activeSize === 'XXL' && activeID === item._id && item.XXLcolor && typeof item.XXLcolor === 'string' ? (
                         item.XXLcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className='border-[2px] border-black dark:border-white rounded-full p-[2px]'>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}
@@ -114,7 +114,7 @@ const ColourChanges = ({ item, activeSize, activeID }) => {
                 {
                     activeSize === 'XXXL' && activeID === item._id && item.XXXLcolor && typeof item.XXXLcolor === 'string' ? (
                         item.XXXLcolor.split(',').map((color, index) => (
-                            <div key={index} className='border-[2px] border-black rounded-full p-[2px]'>
+                            <div key={index} className='border-[2px] border-black dark:border-white rounded-full p-[2px]'>
                                 <div
 
                                     className={`w-[28px] h-[28px] rounded-[104px] `}

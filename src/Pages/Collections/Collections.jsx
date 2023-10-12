@@ -1,23 +1,26 @@
 import { useContext, useEffect, useState } from 'react';
-import './Collections.css';
+
 import top_bg from '../../../public/photos/topBG2.png'
 import { AuthContext } from '../../Provider/AuthProvider';
 import CategoryShow from '../Home/CategoryShow/CategoryShow';
 import sizeChart from '../../../public/photos/size chart.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faTimes, faX } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faSlash, faTimes, faX } from '@fortawesome/free-solid-svg-icons';
 import ColourChanges from '../../Shared/ColourChanges/ColourChanges';
 import { Link, useLoaderData, useParams } from 'react-router-dom';
 import Filter from '../../Shared/Filter/Filter';
+import CollectionFilter from './CollectionFilter';
 const Collections = () => {
     const { AllProducts, categoryName, favouriteData, setFavouriteData } = useContext(AuthContext);
     const { category } = useParams();
     const [activeFabric, setActiveFabric] = useState('');
 
+    console.log(categoryName)
+    console.log(AllProducts)
     const categoryTitle = categoryName.find(item => item._id === category);
     const categoryWisedata = AllProducts.filter(item => item.category === categoryTitle?.title);
 
-    // console.log(categoryWisedata)
+    console.log(categoryWisedata)
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
 
@@ -65,24 +68,31 @@ const Collections = () => {
                 <div className="divider"></div>
                 <CategoryShow></CategoryShow>
 
-                <Filter AllProducts={AllProducts} activeFabric={activeFabric} setActiveFabric={setActiveFabric} ></Filter>
+                {/* <Filter  ></Filter> */}
+                <CollectionFilter categoryWisedata={categoryWisedata} activeFabric={activeFabric} setActiveFabric={setActiveFabric}></CollectionFilter>
 
                 <div className="divider w-full mb-10"></div>
                 <div className=" pl-5 grid grid-cols-4 gap-16">
-                    {
+
+                    {categoryWisedata.length === 0 ? (
+                        <div className="w-full h-fit text-center">
+                            <p className="text-black text-center font-bold [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-2xl ">Products Coming Soon</p>
+                        </div>
+                    ) : (
+
                         activeFabric === '' ? (
                             categoryWisedata && categoryWisedata.map(item =>
                                 <div key={item._id} className=' w-[431px] h-fit '>
                                     {/* <Link to={`/product/${item._id}`}> */}
-                                    <div style={{ position: 'relative', display: 'inline-block' }}>
+                                    <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                         <img
                                             className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                            src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                            src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
                                             alt="" />
                                         <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                             <div
                                                 id="MdiheartoutlineRoot"
-                                                className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-24 h-8 items-center rounded-[104px]"
+                                                className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-20 h-8 items-center rounded-[104px]"
                                             >
                                                 <FontAwesomeIcon className=' text-white ' icon={faHeart} />
                                                 <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
@@ -90,7 +100,19 @@ const Collections = () => {
                                                 </div>
                                             </div>
                                         </button>
-
+                                        <button>
+                                            {
+                                                item.Clearance === 'Sale' && (
+                                                    <div
+                                                        className="absolute top-3 left-3 bg-[rgba(255,_75,_64,_0.71)] flex flex-col justify-center w-20 h-8 items-center rounded-[63.22041702270508px]"
+                                                    >
+                                                        <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                                            {`${item?.sellpercet}% Off`}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                        </button>
                                     </div>
                                     {/* </Link> */}
 
@@ -119,7 +141,7 @@ const Collections = () => {
                                                     >
                                                         S
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -138,7 +160,7 @@ const Collections = () => {
                                                     >
                                                         M
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -157,7 +179,7 @@ const Collections = () => {
                                                     >
                                                         L
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -176,7 +198,7 @@ const Collections = () => {
                                                     >
                                                         XL
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -195,7 +217,7 @@ const Collections = () => {
                                                     >
                                                         XXL
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -214,7 +236,7 @@ const Collections = () => {
                                                     >
                                                         XXXL
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -231,15 +253,15 @@ const Collections = () => {
 
                                 <div key={item._id} className=' w-[431px] h-fit '>
                                     {/* <Link to={`/product/${item._id}`}> */}
-                                    <div style={{ position: 'relative', display: 'inline-block' }}>
+                                    <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                         <img
                                             className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                            src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                            src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
                                             alt="" />
                                         <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                             <div
                                                 id="MdiheartoutlineRoot"
-                                                className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-24 h-8 items-center rounded-[104px]"
+                                                className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-20 h-8 items-center rounded-[104px]"
                                             >
                                                 <FontAwesomeIcon className=' text-white ' icon={faHeart} />
                                                 <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
@@ -247,7 +269,19 @@ const Collections = () => {
                                                 </div>
                                             </div>
                                         </button>
-
+                                        <button>
+                                            {
+                                                item.Clearance === 'Sale' && (
+                                                    <div
+                                                        className="absolute top-3 left-3 bg-[rgba(255,_75,_64,_0.71)] flex flex-col justify-center w-20 h-8 items-center rounded-[63.22041702270508px]"
+                                                    >
+                                                        <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                                            {`${item?.sellpercet}% Off`}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                        </button>
                                     </div>
                                     {/* </Link> */}
 
@@ -276,7 +310,7 @@ const Collections = () => {
                                                     >
                                                         S
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -295,7 +329,7 @@ const Collections = () => {
                                                     >
                                                         M
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -314,7 +348,7 @@ const Collections = () => {
                                                     >
                                                         L
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -333,7 +367,7 @@ const Collections = () => {
                                                     >
                                                         XL
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -352,7 +386,7 @@ const Collections = () => {
                                                     >
                                                         XXL
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -371,7 +405,7 @@ const Collections = () => {
                                                     >
                                                         XXXL
                                                         <div className="absolute inset-0 flex items-center justify-center">
-                                                            <FontAwesomeIcon icon={faTimes} size="2x" />
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
                                                         </div>
                                                     </button>
                                                 )
@@ -382,7 +416,9 @@ const Collections = () => {
                                 </div>
                             ))
                         )
-                    }
+                    )}
+
+
 
                 </div>
             </div>

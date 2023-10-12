@@ -1,25 +1,20 @@
 import './SideCart.css';
 import bagIMG from '../../../../public/photos/Shopping_bag.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowRight, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import CartCalculation from '../CartCalculation/CartCalculation';
 import { Link } from 'react-router-dom';
 
-const SideCart = ({ localCartData, setLocalCartData }) => {
+const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doller  }) => {
 
-    // const {cartData}=useContext(CartDataProvider);
-    // console.log(localCartData);
-    // console.log(localCartData.ProductId);
+// console.log(localCartData)
 
     const { user, AllcartData, setAllCartData } = useContext(AuthContext);
     const [accespted, setAccepted] = useState(false);
 
 
 
-    // const ParticularUserdata = AllcartData.filter(item => item.customerEmail === user?.email);
-    // console.log(ParticularUserdata)
+
 
     const handleQuantityChange = (itemId, newQuantity) => {
         // console.log('itemId', itemId)
@@ -41,10 +36,15 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
     let quantity = 0;
     if (localCartData) {
         for (const product of localCartData) {
+            const productPrice = selectedCurrencyValue === 'BDT' ? 
+                                (product.ProductSale === 'Sale' ? product.salePriceInBDT : product.priceInBDT) : 
+                                (product.ProductSale === 'Sale' ? product.salePriceInUSD : product.priceInUSD);
+    
             quantity = quantity + product.ProductQuantity;
-            total = total + product.ProductPrice * product.ProductQuantity;
+            total = (total + productPrice * product.ProductQuantity);
         }
     }
+    
 
     const handleTerms = (event) => {
         setAccepted(event.target.checked)
@@ -60,7 +60,7 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
                         <div className="flex items-center "> {/* Wrap content in a flex container */}
                             <img className='mr-2' src={bagIMG} alt="" /> {/* Add margin-right to the image */}
                             <div className='hidden lg:flex'>
-                                <h1 className='#1C2E37'>My Cart</h1>
+                                <h1 className='#1C2E37 text-white dark:text-black'>My Cart</h1>
                             </div>
                         </div>
                     </label>
@@ -73,7 +73,7 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
                         <div className=' flex flex-col gap-10'>
                             {
                                 localCartData && localCartData.map((item, index) =>
-                                    <CartCalculation key={index} item={item} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation>
+                                    <CartCalculation selectedCurrencyValue={selectedCurrencyValue} doller={doller} key={index} item={item} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation>
                                 )
                             }
                             {/* <CartCalculation item={localCartData} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation> */}
@@ -117,7 +117,9 @@ const SideCart = ({ localCartData, setLocalCartData }) => {
                         <div className=' w-1/2 flex justify-between align-middle items-center mb-3'>
                             <h1 className=' text-[20px] font-bold  uppercase'>Sub total</h1>
                             <p className='   text-[#828282] text-[20px] font-bold '>
-                                BDT {total}
+                                {
+                                    selectedCurrencyValue === 'BDT'? `Tk.${(total).toFixed(2)}`  : `$${(total).toFixed(2)}`
+                                }
                             </p>
                         </div>
                         <div className="divider mb-2 mt-2"></div>

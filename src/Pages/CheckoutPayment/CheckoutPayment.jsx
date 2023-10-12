@@ -1,13 +1,27 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
+import Swal from 'sweetalert2';
+import { updateCurrentUser } from 'firebase/auth';
 const CheckoutPayment = () => {
-    const { user, orderContactInfo, localCartData,totals, setTotals,totalShipping, settotalShipping,subtotalTaxandShipping, setsubtotalTaxandShipping } = useContext(AuthContext);
+    const { user, localCartData, setLocalCartData, doller, selectedCurrencyValue, contactInfo, setContactInfo, totals } = useContext(AuthContext);
     const [selectedOption, setSelectedOption] = useState('');
     const [showConfirmOrderButton, setShowConfirmOrderButton] = useState(false);
     const [showPayNowButton, setShowPayNowButton] = useState(false);
 
 
+
+    useEffect(() => {
+        // Get the current cart data from local storage
+        const savedContactInfo = JSON.parse(localStorage.getItem('contactInfo'));
+
+        // Update the state with the saved data, if available
+        if (savedContactInfo) {
+            setContactInfo(savedContactInfo);
+        }
+    }, [setContactInfo]);
+
+    console.log(selectedCurrencyValue)
     const handleRadioChange = (event) => {
         setSelectedOption(event.target.value);
 
@@ -20,18 +34,37 @@ const CheckoutPayment = () => {
         }
     };
 
-    const dataToSend = {
-        ...orderContactInfo,
-        subtotalTaxandShipping,
-        totalShipping,
-        totals, selectedOption
-    };
-    console.log(dataToSend)
+
+
+    const [dataToSend, setDatatoSend] = useState([]);
+    const [updatedDataToSend, setUpdatedDataToSend] = useState({});
+    console.log(selectedOption)
+    useEffect(() => {
+        const retrievedData = localStorage.getItem('dataToSend');
+        if (retrievedData) {
+            const data = JSON.parse(retrievedData);
+            setDatatoSend(data);
+
+            // Update dataToSend with selectedOption
+            const updatedData = { ...data, selectedOption };
+
+            // Save updatedDataToSend back to localStorage
+            localStorage.setItem('dataToSend', JSON.stringify(updatedData));
+
+            // Update updatedDataToSend state
+            setUpdatedDataToSend(updatedData);
+        }
+    }, [selectedOption]);
+
+    console.log(updatedDataToSend)
+
+
     const handlePayNowInfo = () => {
-        fetch('http://localhost:5000/order', {
+        console.log(dataToSend)
+        fetch('https://tahar-server.vercel.app/orders', {
             method: 'POST',
             headers: { "content-type": "application/json" },
-            body: JSON.stringify(dataToSend)
+            body: JSON.stringify(updatedDataToSend)
         })
             .then(res => res.json())
             .then(result => {
@@ -40,7 +73,32 @@ const CheckoutPayment = () => {
             })
     }
 
+    const handleCODInfo = () => {
+        const updatedDataToSend = { ...updatedDataToSend, payment: "not paid" };
+        fetch('https://tahar-server.vercel.app/CODorder', {
+            method: 'POST',
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify(updatedDataToSend)
+        })
+            .then(res => res.json())
+            .then(result => {
+                console.log(result)
+                if (result.success) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Order Placed",
+                        timer: 1500,
+                    });
+                }
 
+                localStorage.removeItem('cartData');
+                setLocalCartData([]);
+
+                window.location.href = '/';
+
+            })
+    }
 
     return (
         <div className="bg-[#D8D8D8] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
@@ -55,7 +113,7 @@ const CheckoutPayment = () => {
                                         Contact
                                     </div>
                                     <div className="text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#1c2e37]">
-                                        {orderContactInfo.email}
+                                        {contactInfo?.email}
                                     </div>
                                 </div>
                                 <div className="bg-[#1c2e37] self-start flex flex-col justify-center h-12 items-center rounded-lg">
@@ -75,7 +133,7 @@ const CheckoutPayment = () => {
                                         Ship to
                                     </div>
                                     <div className="text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#828282] self-start w-3/4">
-                                        {orderContactInfo.Address}
+                                        {contactInfo?.Address}
                                     </div>
                                 </div>
                                 <div className="bg-[#1c2e37] flex flex-col justify-center h-12 items-center rounded-lg">
@@ -102,7 +160,20 @@ const CheckoutPayment = () => {
                                             Standard
                                         </div>
                                         <div className="text-right text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#1c2e37]">
-                                            Tk. {subtotalTaxandShipping}
+                                            <p className="text-[19px] text-[#828282] font-family:'Helvetica_Now_Display-Medium',Helvetica">
+                                                <div className="px-[28px] py-[20px] text-end font-bold">
+                                                    {contactInfo && contactInfo.Country && contactInfo.City && (
+                                                        (contactInfo.Country.toUpperCase()) === 'BANGLADESH' && (contactInfo.City.toUpperCase()) === 'DHAKA' ? (
+                                                            <p>Tk. 80</p>
+                                                        ) : (contactInfo.Country.toUpperCase()) === 'BANGLADESH' && (contactInfo.City.toUpperCase()) !== 'DHAKA' ? (
+                                                            <p>Tk. 120</p>
+                                                        ) : (contactInfo.Country.toUpperCase()) !== 'BANGLADESH' ? (
+                                                            <p>$5.00</p>
+                                                        ) : null
+                                                    )}
+                                                </div>
+                                            </p>
+
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +202,7 @@ const CheckoutPayment = () => {
                         </div>
                         <div className='flex w-full justify-end'>
                             {showConfirmOrderButton && (
-                                <button className='text-[19px] text-white px-[25px] py-[20px] bg-[#1C2E37] rounded-[10px]'> Confirm Order </button>
+                                <button onClick={handleCODInfo} className='text-[19px] text-white px-[25px] py-[20px] bg-[#1C2E37] rounded-[10px]'> Confirm Order </button>
                             )}
                             {showPayNowButton && (
                                 <button onClick={handlePayNowInfo} className='text-[19px] text-white px-[25px] py-[20px] bg-[#1C2E37] rounded-[10px]'> Pay Now </button>
@@ -143,24 +214,41 @@ const CheckoutPayment = () => {
                     {/* container 2 */}
                     <div className=" w-1/2 bg-white rounded-[10px] py-[50px] ">
                         {
-                            localCartData && localCartData.map((item, index) =>
+                            localCartData.map((item, index) =>
                                 <div key={index} className=" flex flex-row justify-between align-middle items-center px-20 mb-3">
                                     <div>
 
-                                        <img className="w-[135px] h-[135px] rounded-[10px] "
-                                            src={`http://localhost:5000/uploads/${item.ProductImage}`}
+                                        <img className="w-[135px] h-[135px] rounded-[10px] object-cover "
+                                            src={`https://tahar-server.vercel.app/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>
                                         <p className="text-[19px] text-[#474747] mb-[16px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
                                             {item.ProductName}
                                         </p>
-                                        <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Dark Green / {item.ProductSize}</p>
+                                        <div className=" flex flex-row justify-between items-center align-middle ">
+                                            <div className="w-5 h-5 mt-2 rounded-full" style={{ backgroundColor: item?.selectedColor }}></div>
+                                            <p>/</p>
+                                            <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                                {item.ProductSize}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="  border-[2px] border-[#0000002E] rounded-[10px]">
-                                        <p className="px-[28px] py-[20px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                            Tk. {item.ProductPrice}</p>
-
+                                    <div>
+                                        <p className="text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Quantity - {item.ProductQuantity}</p>
+                                    </div>
+                                    <div className="w-20 h-16 text-center border-[2px] border-[#0000002E] rounded-[10px] flex flex-col justify-center">
+                                        <span className="font-semibold text-sm">
+                                            {selectedCurrencyValue === 'BDT' ? (
+                                                item.ProductSale === 'Sale' ?
+                                                    (item.salePriceInBDT && `Tk.${item.salePriceInBDT}`) :
+                                                    (item.priceInBDT && `Tk.${item.priceInBDT}`)
+                                            ) : (
+                                                item.ProductSale === 'Sale' ?
+                                                    (item.salePriceInUSD && `$${item.salePriceInUSD}`) :
+                                                    (item.priceInUSD && `$${item.priceInUSD}`)
+                                            )}
+                                        </span>
                                     </div>
                                 </div>
                             )
@@ -169,14 +257,29 @@ const CheckoutPayment = () => {
                         <div className="divider text-[#0000003D]"></div>
 
                         <div>
-                            <div className=" flex flex-row justify-between px-20">
-                                <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Subtotal</h1>
-                                <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tk. {totals}</p>
+                            <div className="flex flex-row justify-between px-20  items-center">
+                                <h1 className="text-[19px] text-[#828282] font-[Helvetica_Now_Display-Medium]">Subtotal</h1>
+                                <p className="text-[19px] px-[28px] py-[20px] text-[#1C2E37] font-[Helvetica_Now_Display-Medium]">
+                                    {dataToSend?.totals}
+                                </p>
                             </div>
-                            <div className=" flex flex-row justify-between px-20">
-                                <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Shipping</h1>
-                                <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    Tk. {totalShipping}
+                            <div className="flex flex-row justify-between px-20 items-center">
+                                <h1 className="text-[19px] text-[#828282] font-[Helvetica_Now_Display-Medium]">Shipping</h1>
+                                <p className="text-[19px] text-[#1C2E37] font-[Helvetica_Now_Display-Medium]">
+                                    <div className="px-[28px] py-[20px] font-[Helvetica_Now_Display-Medium] ">
+                                        {contactInfo && contactInfo?.Country && contactInfo?.City && (
+                                            contactInfo?.Country.toUpperCase() != 'BANGLADESH' && selectedCurrencyValue === 'USD' ? (
+                                                <p>$5.00</p>
+                                            ) : (
+                                                contactInfo?.Country.toUpperCase() === 'BANGLADESH' && contactInfo?.City.toUpperCase() === 'DHAKA' ? (
+                                                    <p>Tk. 80</p>
+                                                ) : (
+                                                    <p>Tk. 120</p>
+                                                )
+                                            )
+                                        )}
+
+                                    </div>
                                 </p>
                             </div>
                         </div>
@@ -187,8 +290,8 @@ const CheckoutPayment = () => {
                             <h1 className=" text-[27px] font-bold uppercase mb-[25px]  [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Total</h1>
                             <div className=" flex flex-row justify-between">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Including 5%  in Taxes</h1>
-                                <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    Tk.{subtotalTaxandShipping}
+                                <p className=" text-[19px] px-[28px] py-[20px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                    {dataToSend?.subtotalTaxandShipping}
                                 </p>
                             </div>
                         </div>

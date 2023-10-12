@@ -6,7 +6,7 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import { useState } from 'react';
 import './Filter.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faX } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faRuler, faX } from '@fortawesome/free-solid-svg-icons';
 import MultiRangeSlider from '../MultiRangeSlider/MultiRangeSlider';
 
 
@@ -15,6 +15,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
 
+    // console.log(AllProducts)
 
     const handleButtonClick = (fabricsType) => {
         setActiveFabric(fabricsType);
@@ -41,17 +42,17 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
 
     // color
 
-    const SColor = AllProducts.map(item => item.Scolor);
-    const MColor = AllProducts.map(item => item.Mcolor);
-    const LColor = AllProducts.map(item => item.Lcolor);
-    const XLColor = AllProducts.map(item => item.XLcolor);
-    const XXLColor = AllProducts.map(item => item.XXLcolor);
-    const XXXLColor = AllProducts.map(item => item.XXXLcolor);
+    const SColor = AllProducts?.map(item => item?.Scolor);
+    const MColor = AllProducts?.map(item => item?.Mcolor);
+    const LColor = AllProducts?.map(item => item?.Lcolor);
+    const XLColor = AllProducts?.map(item => item?.XLcolor);
+    const XXLColor = AllProducts?.map(item => item?.XXLcolor);
+    const XXXLColor = AllProducts?.map(item => item?.XXXLcolor);
 
     const combinedColors = [...SColor, ...MColor, ...LColor, ...XLColor, ...XXLColor, ...XXXLColor]
-        .flatMap(colors => colors.split(',')) // Split into individual color codes
-        .filter(color => color !== '') // Remove empty strings
-        .filter((color, index, self) => self.indexOf(color) === index); // Remove duplicates
+        .flatMap(colors => colors.split(','))
+        .filter(color => color !== '')
+        .filter((color, index, self) => self.indexOf(color) === index);
 
     // console.log(combinedColors);
 
@@ -69,11 +70,6 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
     useEffect(() => {
         setMaxVal(max)
     }, [max, setMaxVal])
-
-
-    // console.log(minVal); // Should output 10
-    // console.log(min);    // Should also output 10
-
 
 
     const [ChooseColor, SelectedChooseColor] = useState([]);
@@ -104,6 +100,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
         );
     }
 
+    // console.log(ChooseSize)
 
     //show selected fabricsData
     const FindFabricsData = AllProducts.filter(item =>
@@ -195,6 +192,10 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
         SelectedChooseColor([]);
         SelectedChooseFabrics([]);
         SelectedChooseSize([]);
+        setMinVal(min);
+        setMaxVal(max);
+        setActiveFabric('');
+        setFilteredProfuct([])
     }
 
 
@@ -202,7 +203,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
         <div>
             <div className=' flex flex-row justify-between items-center mt-[48px]'>
 
-                <div className=" [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase hidden lg:flex gap-3 text-[18px] text-[#7D7D7D]">
+                <div className=" [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase hidden lg:flex gap-3 text-[18px] text-[#7D7D7D]">
                     {fabricsdata &&
                         fabricsdata.map((item) => (
                             <button
@@ -221,9 +222,9 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                 <div className=' flex flex-row gap-2 justify-center items-center align-middle'>
                     <div>
                         <button
-                            className=" w-[155px] h-[43px] p-[10px] border-[2px] border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase  flex justify-center items-center"
+                            className=" w-[155px] h-[43px] p-[10px] border-[2px] border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase  flex justify-center items-center"
                             onClick={() => document.getElementById('my_modal_5').showModal()}
-                        >Size Chart</button>
+                        >Size Chart <FontAwesomeIcon icon={faRuler} /></button>
 
                         <dialog id="my_modal_5" className="modal  ">
                             <div className="modal-box w-11/12 max-w-5xl bg-transparent shadow-none">
@@ -242,7 +243,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                         <div className="drawer-content">
                             {/* Page content here */}
                             <label htmlFor="my-drawer-6"
-                                className="w-[155px] h-[43px]  flex justify-center items-center gap-10 border-2 border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase"
+                                className="w-[155px] h-[43px]  flex justify-center items-center gap-10 border-2 border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase"
                             >
                                 Filter
                             </label>
@@ -252,16 +253,18 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                             <ul className="  w-[482px] min-h-screen  text-base-content bg-[#ececec]">
 
                                 <div className="shadow-[0px_18px_70px_0px_rgba(0,_0,_0,_0.13)] bg-white relative flex flex-row justify-between w-full items-start pt-16 pb-8 px-8">
-                                    <div className="text-xl font-['Helvetica_Now_Display'] font-bold text-[#1c1c1c] relative">
+                                    <div className="text-xl font-['Helvetica_Now_Display-Medium',Helvetica'] font-bold text-[#1c1c1c] relative">
                                         Filter
                                     </div>
-                                    <FontAwesomeIcon icon={faX} />
+                                    <button onClick={() => document.getElementById('my-drawer-6').checked = false}>
+                                        <FontAwesomeIcon icon={faX} />
+                                    </button>
                                 </div>
 
                                 {/* fabrics filter */}
-                                <div className="flex flex-col justify-end pt-4 gap-2 w-full items-start">
+                                <div className="flex flex-col justify-end pt-4 gap-2 w-full items-start mt-5">
                                     <div className="self-stretch flex flex-row justify-between items-center align-middle ml-8 mr-10" onClick={toggleDropdown}>
-                                        <div className="text-center text-lg font-['Helvetica_Now_Display'] font-medium">Fabrics</div>
+                                        <div className="text-center text-lg font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium">Fabrics</div>
                                         <FontAwesomeIcon icon={faAngleDown} />
                                     </div>
                                     <div className=' divider '></div>
@@ -272,8 +275,8 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                                                     fabricsdata && fabricsdata.map(item =>
                                                         <button key={item._id}
                                                             onClick={() => handleChoosedFabrics(item.fabricsType)}
-                                                            className="border-solid flex flex-col justify-center ml-8 h-12 shrink-0 items-center border-[#0000001F] border-2 rounded-[70px]">
-                                                            <div className="text-center text-sm font-['Helvetica_Now_Display'] font-medium text-[#7d7d7d] mx-8">
+                                                            className={`border-solid flex flex-col justify-center ml-8 h-12 shrink-0 items-center  border-2 rounded-[70px] ${ChooseFabrics.includes(item.fabricsType) ? 'border-black text-black' : 'border-[#0000001F]'}`}>
+                                                            <div className="text-center text-sm font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium  mx-8">
                                                                 {item.fabricsType}
                                                             </div>
                                                         </button>
@@ -285,9 +288,9 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                                 </div>
 
                                 {/* size filter */}
-                                <div className="flex flex-col justify-end  gap-2 w-full items-start">
+                                <div className="flex flex-col justify-end  gap-2 w-full items-start mt-5">
                                     <div className="self-stretch flex flex-row justify-between items-center align-middle ml-8 mr-10" onClick={toggleDropdownSize}>
-                                        <div className="text-center text-lg font-['Helvetica_Now_Display'] font-medium">Size</div>
+                                        <div className="text-center text-lg font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium">Size</div>
                                         <FontAwesomeIcon icon={faAngleDown} />
                                     </div>
                                     <div className=' divider '></div>
@@ -296,84 +299,95 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
 
                                             <div className='grid grid-cols-5 gap-3'>
                                                 {AllProducts.some(item => parseInt(item.Squantity) > 0) && (
-                                                    <button className="border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px]">
+                                                    <button
+                                                        onClick={() => {
+                                                            setActiveSize('S');
+                                                            handleSize('S');
+                                                        }}
+                                                        className={`border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px] ${ChooseSize.includes('S') ? 'border-black text-black ' : ''}`}>
                                                         <div
-                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica  flex justify-center items-center text-[#5A5A5A] `}
-                                                            onClick={() => {
-                                                                setActiveSize('S');
-                                                                handleSize('S');
-                                                            }}
+                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica  flex justify-center items-center `}
+
                                                         >
-                                                            S
+                                                            <p>S</p>
                                                         </div>
                                                     </button>
                                                 )}
 
                                                 {AllProducts.some(item => parseInt(item.Mquantity) > 0) && (
-                                                    <button className="border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px]">
+                                                    <button
+                                                        onClick={() => {
+                                                            setActiveSize('M');
+                                                            handleSize('M');
+                                                        }}
+                                                        className={`border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px] ${ChooseSize.includes('M') ? 'border-black text-black ' : ''}`}>
                                                         <div
-                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica  flex justify-center items-center text-[#5A5A5A] `}
-                                                            onClick={() => {
-                                                                setActiveSize('M');
-                                                                handleSize('M');
-                                                            }}
+                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica  flex justify-center items-center  `}
+
                                                         >
-                                                            M
+                                                            <p>M</p>
                                                         </div>
                                                     </button>
                                                 )}
 
                                                 {AllProducts.some(item => parseInt(item.Lquantity) > 0) && (
-                                                    <button className="border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px]">
+                                                    <button
+                                                        onClick={() => {
+                                                            setActiveSize('L');
+                                                            handleSize('L');
+                                                        }}
+                                                        className={`border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px] ${ChooseSize.includes('L') ? 'border-black text-black ' : ''}`}>
                                                         <div
-                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica  flex justify-center items-center text-[#5A5A5A] `}
-                                                            onClick={() => {
-                                                                setActiveSize('L');
-                                                                handleSize('L');
-                                                            }}
+                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica  flex justify-center items-center `}
+
                                                         >
-                                                            L
+                                                            <p>L</p>
                                                         </div>
                                                     </button>
                                                 )}
 
                                                 {AllProducts.some(item => parseInt(item.XLquantity) > 0) && (
-                                                    <button className="border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px]">
+                                                    <button
+                                                        onClick={() => {
+                                                            setActiveSize('XL');
+                                                            handleSize('XL');
+                                                        }}
+                                                        className={`border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px] ${ChooseSize.includes('XL') ? 'border-black text-black ' : ''}`}>
                                                         <div
-                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica  flex justify-center items-center text-[#5A5A5A] `}
-                                                            onClick={() => {
-                                                                setActiveSize('XL');
-                                                                handleSize('XL');
-                                                            }}
+                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica  flex justify-center items-center `}
+
                                                         >
-                                                            XL
+                                                            <p>XL</p>
                                                         </div>
                                                     </button>
                                                 )}
 
                                                 {AllProducts.some(item => parseInt(item.XXLquantity) > 0) && (
-                                                    <button className="border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px]">
+                                                    <button
+                                                        onClick={() => {
+                                                            setActiveSize('XXL');
+                                                            handleSize('XXL');
+                                                        }}
+                                                        className={`border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px] ${ChooseSize.includes('XXL') ? 'border-black text-black ' : ''}`}>
                                                         <div
-                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica  flex justify-center items-center text-[#5A5A5A] `}
-                                                            onClick={() => {
-                                                                setActiveSize('XXL');
-                                                                handleSize('XXL');
-                                                            }}
+                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica  flex justify-center items-center  `}
+
                                                         >
-                                                            XXL
+                                                            <p>XXL</p>
                                                         </div>
                                                     </button>
                                                 )}
                                                 {AllProducts.some(item => parseInt(item.XXXLquantity) > 0) && (
-                                                    <button className="border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px]">
-                                                        <div
-                                                            className={`font-family:'Helvetica_Now_Display-Medium',Helvetica  flex justify-center items-center text-[#5A5A5A] `}
-                                                            onClick={() => {
-                                                                setActiveSize('XXXL');
-                                                                handleSize('XXXL');
-                                                            }}
+                                                    <button
+                                                        onClick={() => {
+                                                            setActiveSize('XXXL');
+                                                            handleSize('XXXL');
+                                                        }}
+                                                        className={`border-solid flex flex-col justify-center ml-8 h-12 w-full shrink-0 items-center border-[#0000001F] border-2 rounded-[70px] ${ChooseSize.includes('XXXL') ? 'border-black text-black ' : ''}`}>
+                                                        <div className={`font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica  flex justify-center items-center  `}
+
                                                         >
-                                                            XXXL
+                                                            <p>XXXL</p>
                                                         </div>
                                                     </button>
                                                 )}
@@ -384,9 +398,9 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                                 </div>
 
                                 {/* color filter */}
-                                <div className="flex flex-col justify-end  gap-2 w-full items-start">
+                                <div className="flex flex-col justify-end  gap-2 w-full items-start mt-5">
                                     <div className="self-stretch flex flex-row justify-between items-center align-middle ml-8 mr-10" onClick={toggleDropdownColor}>
-                                        <div className="text-center text-lg font-['Helvetica_Now_Display'] font-medium">Color</div>
+                                        <div className="text-center text-lg font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium ">Color</div>
                                         <FontAwesomeIcon icon={faAngleDown} />
                                     </div>
                                     <div className=' divider '></div>
@@ -395,17 +409,19 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                                             <div className=' grid grid-cols-4 gap-3'>
                                                 {
                                                     combinedColors && combinedColors.map((color, index) => (
-                                                        <button
-                                                            key={index}
-                                                            onClick={() => handleColour(color)}
-                                                            className="flex flex-col justify-center w-20 h-10 items-center rounded-[70px] ml-8 mr-10"
-                                                            style={{ backgroundColor: color }}
-                                                        >
-                                                            <div className="text-center text-sm font-['Helvetica_Now_Display'] font-medium 
+                                                        <div key={index} className={`${ChooseColor.includes(color) ? 'border-[2px] border-black p-2 rounded-full' : ''}`}>
+                                                            <button
+
+                                                                onClick={() => handleColour(color)}
+                                                                className={`flex flex-col justify-center w-20 h-10 items-center rounded-[70px]  mx-auto `}
+                                                                style={{ backgroundColor: color }}
+                                                            >
+                                                                <div className="text-center text-sm font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium
                                                             " style={{ color: color }}>
-                                                                {color}
-                                                            </div>
-                                                        </button>
+                                                                    {color}
+                                                                </div>
+                                                            </button>
+                                                        </div>
                                                     ))
                                                 }
                                             </div>
@@ -413,9 +429,9 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                                     )}
                                 </div>
                                 {/* Price filter */}
-                                <div className="flex flex-col justify-end  gap-2 w-full items-center ">
+                                <div className="flex flex-col justify-end  gap-2 w-full items-center mt-5 ">
                                     <div className="self-stretch flex flex-row justify-between items-center align-middle ml-8 mr-10" onClick={toggleDropdownPrice}>
-                                        <div className="text-center text-lg font-['Helvetica_Now_Display'] font-medium">Price</div>
+                                        <div className="text-center text-lg font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium">Price</div>
                                         <FontAwesomeIcon icon={faAngleDown} />
                                     </div>
                                     <div className=' divider '></div>
@@ -434,20 +450,22 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                                 </div>
 
                                 <div className="mt-20 shadow-[0px_-18px_70px_0px_rgba(0,_0,_0,_0.13)] bg-white flex flex-col justify-center gap-1 w-full px-8 py-5">
-                                    <div className="border-solid border-[#1c2e37] flex flex-col justify-center h-16 shrink-0 items-center border-2 rounded-[120px]">
-                                        <button
-                                            onClick={handleClear}
-                                            className="text-center text-sm font-['Helvetica_Now_Display'] font-medium text-[#1c2e37]">
+                                    <button
+                                        onClick={handleClear}
+                                        className="border-solid border-[#1c2e37] flex flex-col justify-center h-16 shrink-0 items-center border-2 rounded-[120px]">
+                                        <div
+
+                                            className="text-center text-[19px] font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium text-[#1c2e37]">
                                             Clear All
-                                        </button>
-                                    </div>
-                                    <div
+                                        </div>
+                                    </button>
+                                    <button
                                         onClick={handleApply}
                                         className="bg-[#1c2e37] flex flex-col justify-center h-16 shrink-0 items-center rounded-[120px]">
-                                        <button className="text-center text-sm font-['Helvetica_Now_Display'] font-medium text-white">
+                                        <div className="text-center text-[19px] font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium text-white">
                                             Apply
-                                        </button>
-                                    </div>
+                                        </div>
+                                    </button>
                                 </div>
 
 
@@ -457,7 +475,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                     </div>
 
 
-                    <Link to='/viewAll' className=" hidden md:flex justify-center items-center w-[138px] h-[43px] bg-[#1C2E37] p-3 text-white rounded-full text-center text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase ">View All</Link>
+                    <Link to='/viewAll' className=" hidden md:flex justify-center items-center w-[138px] h-[43px] bg-[#1C2E37] p-3 text-white rounded-full text-center text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase ">View All</Link>
                 </div>
             </div>
         </div>

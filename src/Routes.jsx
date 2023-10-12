@@ -22,10 +22,7 @@ import CustomerSpotlight from "./Pages/CustomerSpotlight/CustomerSpotlight";
 import UploadSpotlight from "./Pages/DashBoard/UploadSpotlight/UploadSpotlight";
 import Cart from "./Shared/Cart/Cart";
 import ProductDetails from "./Shared/ProductDetails/ProductDetails";
-import UploadProductsPro from "./Pages/DashBoard/UploadProductsPro/UploadProductsPro";
 import CategoryUpload from "./Pages/DashBoard/CategoryUpload/CategoryUpload";
-import UploadFabrics from "./Pages/DashBoard/UploadFabrics/UploadFabrics";
-import CategoryShow from "./Pages/Home/CategoryShow/CategoryShow";
 import ViewAll from "./Pages/Home/ViewAll/ViewAll";
 import CheckOut from "./Pages/CheckOut/CheckOut";
 import Shipping from "./Pages/Shipping/Shipping";
@@ -37,6 +34,11 @@ import PromoCode from "./Pages/DashBoard/PromoCode/PromoCode";
 import UserProfile from "./Pages/UserInterface/UserProfile/UserProfile";
 import MyOrder from "./Pages/UserInterface/MyOrder/MyOrder";
 import TrackOrder from "./Pages/UserInterface/TrackOrder/TrackOrder";
+import UploadVideo from "./Pages/DashBoard/UploadVideo/UploadVideo";
+import Invoice from "./Shared/Invoice/Invoice";
+import ManageOrders from "./Pages/DashBoard/ManageOrders/ManageOrders";
+import UploadProductsPro from "./Pages/DashBoard/UploadProductsPro/UploadProductsPro";
+import UploadBanner from "./Pages/DashBoard/UploadBanner/UploadBanner";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +52,7 @@ const router = createBrowserRouter([
       {
         path: '/product/category/:category',
         element: <Collections></Collections>,
-        loader: ({ params }) => fetch(`http://localhost:5000/product/category/${params.category}`)
+        loader: ({ params }) => fetch(`https://tahar-server.vercel.app/product/category/${params.category}`)
       },
 
       {
@@ -112,7 +114,7 @@ const router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <ProductDetails></ProductDetails>,
-        loader: ({ params }) => fetch(`http://localhost:5000/product/${params.id}`)
+        loader: ({ params }) => fetch(`https://tahar-server.vercel.app/product/${params.id}`)
       },
       {
         path: '/payment/success/:tranId',
@@ -131,6 +133,10 @@ const router = createBrowserRouter([
         element: <MyOrder></MyOrder>,
       },
       {
+        path: '/invoice',
+        element: <Invoice></Invoice>,
+      },
+      {
         path: '/trackorder',
         element: <TrackOrder></TrackOrder>,
       },
@@ -146,13 +152,17 @@ const router = createBrowserRouter([
         element: <UploadProducts></UploadProducts>
       },
       {
+        path: 'uploadProductspro',
+        element: <UploadProductsPro></UploadProductsPro>
+      },
+      {
         path: 'categoryUpload',
         element: <CategoryUpload></CategoryUpload>,
       },
       {
         path: 'categoryUpload/:id',
         element: <CategoryUpload></CategoryUpload>,
-        loader: ({ params }) => fetch(`http://localhost:5000/product/${params.id}`)
+        loader: ({ params }) => fetch(`https://tahar-server.vercel.app/product/${params.id}`)
       },
       {
         path: 'manageProducts',
@@ -162,6 +172,11 @@ const router = createBrowserRouter([
         path: 'manageUsers',
         element: <ManageUsers></ManageUsers>
       },
+      {
+        path: 'manageOrders',
+        element: <ManageOrders></ManageOrders>
+      },
+      
       {
         path: 'uploadCustomerSpot',
         element: <UploadSpotlight></UploadSpotlight>
@@ -182,6 +197,15 @@ const router = createBrowserRouter([
         path: 'promocode',
         element: <PromoCode></PromoCode>
       },
+      {
+        path: 'uploadVideo',
+        element: <UploadVideo></UploadVideo>
+      },
+      {
+        path: 'uploadBanner',
+        element: <UploadBanner></UploadBanner>
+      },
+
     ]
   }
 

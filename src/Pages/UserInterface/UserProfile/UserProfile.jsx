@@ -7,7 +7,7 @@ const UserProfile = () => {
     const [orderData, setOrderData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/orders')
+        fetch('https://tahar-server.vercel.app/orders')
             .then(res => res.json())
             .then(data => setOrderData(data))
     }, [])

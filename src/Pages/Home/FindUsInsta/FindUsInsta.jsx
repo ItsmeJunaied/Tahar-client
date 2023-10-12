@@ -63,7 +63,14 @@ const FindUsInsta = () => {
             <div className='flex justify-between mt-20 mb-20 align-middle items-center '>
                 <p> </p>
                 <h1 className=' text-center text-[28px] font-semibold '>Find us on Instagram</h1>
-                <button className=' text-white w-[193px] h-[43px] bg-[#1C2E37] rounded-[120px]'>Open Instagram</button>
+                <a
+                    href='https://www.instagram.com/tahar__official/'
+                    className='text-white text-center flex justify-center items-center align-middle w-[193px] h-[43px] bg-[#1C2E37] rounded-[120px]'
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Open Instagram
+                </a>
             </div>
             <Slider {...settings} >
                 <div className=' div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5'>

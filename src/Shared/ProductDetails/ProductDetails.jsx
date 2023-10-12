@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PremiumServices from '../../Pages/Home/PremiumServices/PremiumServices';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faMinus, faPlus, faShareNodes, faStar, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useLoaderData } from 'react-router-dom';
+import { faHeart, faMinus, faPlus, faShareNodes, faSlash, faStar, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Swal from 'sweetalert2';
 import DetailedColour from '../DetailedColour/DetailedColour';
@@ -11,24 +11,33 @@ import PremiumServicesDetails from '../../Pages/Home/PremiumServices/PremiumServ
 const ProductDetails = () => {
 
 
-    const { user, setAllCartData, localCartData, setLocalCartData } = useContext(AuthContext);
+    const { user, doller, setLocalCartData, selectedCurrencyValue, selectedColor, setSelectedColor } = useContext(AuthContext);
 
-    const data = useLoaderData()
+    const data = useLoaderData();
     const [count, setCount] = useState(0);
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
 
-    // console.log(data.category)
-    // console.log(data.gender)
+    const navigate = useNavigate();
 
     const customerEmail = user?.email;
     const customerName = user?.displayName;
     const ProductName = data.title;
     const ProductImage = data.images[0];
-    const ProductPrice = data.price;
+    const sellpercet = data.sellpercet;
+
+    const priceInBDT = data.price; // Regular price in BDT
+    const salePriceInBDT = data.Clearance === 'Sale' ? (parseInt(priceInBDT) - (parseInt(priceInBDT) * (parseInt(sellpercet) / 100))).toFixed(2) : priceInBDT; // Sale price in BDT
+
+    const priceInUSD = (priceInBDT * 2.5 * doller).toFixed(2); // Regular price in USD
+    const salePriceInUSD = (salePriceInBDT * 2.5 * doller).toFixed(2);
+
+
+
     const ProductSize = activeSize;
     const ProductQuantity = count;
     const ProductId = activeID;
+    const ProductSale = data.Clearance;
     console.log(ProductId)
     useEffect(() => {
         const retrievedData = JSON.parse(localStorage.getItem('cartData'));
@@ -112,18 +121,30 @@ const ProductDetails = () => {
 
 
     const handleAddCart = () => {
+        if (selectedColor === '' && activeSize === '') {
+            alert('Please select Color or size');
+            return
+        }
         const item = {
             customerEmail,
             customerName,
             ProductName,
             ProductImage,
             ProductDetails,
-            ProductPrice,
+            priceInBDT,
             ProductSize,
+            salePriceInBDT,
+            selectedColor,
+            priceInUSD,
+            salePriceInUSD,
+            sellpercet,
             ProductQuantity,
             ProductHeightQuantity,
-            ProductId
+            ProductId,
+            ProductSale
+
         };
+        console.log(item)
 
         // Get the current cart data from local storage
         const currentCartData = JSON.parse(localStorage.getItem('cartData')) || [];
@@ -146,6 +167,55 @@ const ProductDetails = () => {
     }
 
 
+    const handleBuyNow = () => {
+        if (selectedColor === '' && activeSize === '') {
+            alert('Please select Color or size');
+            return;
+        }
+
+        const item = {
+            customerEmail,
+            customerName,
+            ProductName,
+            ProductImage,
+            ProductDetails,
+            priceInUSD,
+            salePriceInUSD,
+            priceInBDT,
+            ProductSize,
+            salePriceInBDT,
+            sellpercet,
+            selectedColor,
+            ProductQuantity,
+            ProductHeightQuantity,
+            ProductId,
+            ProductSale
+        };
+
+        // Clear existing cart data
+        localStorage.removeItem('cartData');
+
+        // Add the new item to the cart data
+        const currentCartData = [item];
+
+        // Save the updated cart data back to local storage
+        localStorage.setItem('cartData', JSON.stringify(currentCartData));
+
+        // Trigger a notification
+        setLocalCartData(currentCartData);
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Added to Cart',
+            showConfirmButton: false,
+            timer: 1500
+        });
+
+        // Redirect to '/checkout'
+        // history.push('/checkout');
+        navigate('/checkout')
+    }
+
 
     return (
         <div>
@@ -158,8 +228,8 @@ const ProductDetails = () => {
                             {data?.images?.map((image, index) => (
                                 <img
                                     key={index}
-                                    className={`w-[165px] h-[160px] rounded-[10px] ${index === selectedImageIndex ? 'border-2 border-blue-500' : ''}`}
-                                    src={`http://localhost:5000/uploads/${image}`}
+                                    className={`w-[165px] h-[160px] rounded-[10px] ${index === selectedImageIndex ? 'border-2 border-[#DBC896]' : ''}`}
+                                    src={`https://tahar-server.vercel.app/uploads/${image}`}
                                     alt=""
                                     onClick={() => handleImageClick(index)}
                                 />
@@ -167,14 +237,16 @@ const ProductDetails = () => {
                         </div>
 
                         {/* Container 2 */}
-                        <div className='ml-5'>
+                        <div className='ml-5 '>
                             <img
-                                className='w-[622px] h-[700px] rounded-[10px] object-cover'
+                                className='w-[622px] h-[700px] rounded-[10px] object-cover image-box'
 
-                                src={`http://localhost:5000/uploads/${data.images[selectedImageIndex]}`}
+                                src={`https://tahar-server.vercel.app/uploads/${data.images[selectedImageIndex]}`}
                                 alt=""
                             />
                         </div>
+
+
                     </div>
 
 
@@ -196,9 +268,22 @@ const ProductDetails = () => {
                         <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
                     </p>
                     <div className=" flex flex-row justify-between align-middle items-center gap-2 mt-3 ">
-                        <button className=" w-[154px] h-[54px] rounded-[10px] text-[#000000B0] bg-transparent border-[2px] border-[#0000002E] [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase">
-                            BDT {data.price}
+                        <button className="w-[154px] h-[54px] rounded-[10px] text-[#000000B0] bg-transparent border-[2px] border-[#0000002E] [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase">
+                            <p className='text-lg font-bold'>
+                                {selectedCurrencyValue === 'BDT' ? (
+                                    data.Clearance === 'Sale' ?
+                                        (salePriceInBDT && `Tk.${salePriceInBDT}`) :
+                                        (priceInBDT && `Tk.${priceInBDT}`)
+                                ) : (
+                                    data.Clearance === 'Sale' ?
+                                        (salePriceInUSD && `$${salePriceInUSD}`) :
+                                        (priceInUSD && `$${priceInUSD}`)
+                                )}
+                            </p>
+
+
                         </button>
+
                         <p className=" text-[15px] text-[#00000061] font-bold [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tax included. Shipping calculated at checkout.</p>
                         <button className=" w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faHeart} />Add to Wishlist</button>
                         <button className=" w-[110px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faShareNodes} />Share</button>
@@ -209,14 +294,21 @@ const ProductDetails = () => {
 
 
                     {/* <ColourChanges data={data} activeSize={activeSize} activeID={activeID}></ColourChanges> */}
-                    <DetailedColour data={data} activeSize={activeSize} activeID={activeID}></DetailedColour>
+                    <DetailedColour
+                        data={data}
+                        activeSize={activeSize}
+                        activeID={activeID}
+                        selectedColor={selectedColor}
+                        setSelectedColor={setSelectedColor}
+                    ></DetailedColour>
 
 
                     <p className=' text-black text-[19px] font-semibold mb-3'>Size</p>
                     <div className=" flex gap-2">
                         {
                             parseInt(data.Squantity) > 0 ? (
-                                <button className={`w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black ${activeSize === 'S' ? 'border-black' : 'bg-transparent'}`}
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'S' && activeID === data._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                    }`}
                                     onClick={() => {
                                         setActiveSize('S');
                                         setActiveID(data._id);
@@ -224,102 +316,108 @@ const ProductDetails = () => {
                                 >S</button>
                             ) : (
                                 <button
-                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                     disabled
                                 >
                                     S
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                        <FontAwesomeIcon icon={faSlash} size="x" />
+
                                     </div>
                                 </button>
                             )
                         }
                         {
                             parseInt(data.Mquantity) > 0 ? (
-                                <button className={`w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black ${activeSize === 'M' ? 'border-black' : 'bg-transparent'}`} onClick={() => {
-                                    setActiveSize('M');
-                                    setActiveID(data._id);
-                                }}>M</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'M' && activeID === data._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                    }`} onClick={() => {
+                                        setActiveSize('M');
+                                        setActiveID(data._id);
+                                    }}>M</button>
                             ) : (
                                 <button
-                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                     disabled
                                 >
                                     M
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                        <FontAwesomeIcon icon={faSlash} size="x" />
                                     </div>
                                 </button>
                             )
                         }
                         {
                             parseInt(data.Lquantity) > 0 ? (
-                                <button className={`w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black ${activeSize === 'L' ? 'border-black' : 'bg-transparent'}`} onClick={() => {
-                                    setActiveSize('L');
-                                    setActiveID(data._id);
-                                }}>L</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'L' && activeID === data._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                    }`} onClick={() => {
+                                        setActiveSize('L');
+                                        setActiveID(data._id);
+                                    }}>L</button>
                             ) : (
                                 <button
-                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                     disabled
                                 >
                                     L
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                        <FontAwesomeIcon icon={faSlash} size="x" />
                                     </div>
                                 </button>
                             )
                         }
                         {
                             parseInt(data.XLquantity) > 0 ? (
-                                <button className={`w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black ${activeSize === 'XL' ? 'border-black' : 'bg-transparent'}`} onClick={() => {
-                                    setActiveSize('XL');
-                                    setActiveID(data._id);
-                                }}>XL</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XL' && activeID === data._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                    }`} onClick={() => {
+                                        setActiveSize('XL');
+                                        setActiveID(data._id);
+                                    }}>XL</button>
                             ) : (
                                 <button
-                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                     disabled
                                 >
                                     XL
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                        <FontAwesomeIcon icon={faSlash} size="x" />
                                     </div>
                                 </button>
                             )
                         }
                         {
                             parseInt(data.XXLquantity) > 0 ? (
-                                <button className={`w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black ${activeSize === 'XXL' ? 'border-black' : 'bg-transparent'}`} onClick={() => {
-                                    setActiveSize('XXL');
-                                    setActiveID(data._id);
-                                }}>XXL</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXL' && activeID === data._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                    }`} onClick={() => {
+                                        setActiveSize('XXL');
+                                        setActiveID(data._id);
+                                    }}>XXL</button>
                             ) : (
                                 <button
-                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                     disabled
                                 >
                                     XXL
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                        <FontAwesomeIcon icon={faSlash} size="x" />
                                     </div>
                                 </button>
                             )
                         }
                         {
                             parseInt(data.XXXLquantity) > 0 ? (
-                                <button className={`w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center hover:border-[2px] hover:border-black ${activeSize === 'XXXL' ? 'border-black' : 'bg-transparent'}`} onClick={() => {
-                                    setActiveSize('XXXL');
-                                    setActiveID(data._id);
-                                }}>XXXL</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXXL' && activeID === data._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                    }`} onClick={() => {
+                                        setActiveSize('XXXL');
+                                        setActiveID(data._id);
+                                    }}>XXXL</button>
                             ) : (
                                 <button
-                                    className="w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
                                     disabled
                                 >
                                     XXXL
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <FontAwesomeIcon icon={faTimes} size="2x" />
+                                        <FontAwesomeIcon icon={faSlash} size="x" />
                                     </div>
                                 </button>
                             )
@@ -343,7 +441,7 @@ const ProductDetails = () => {
                         <button onClick={handleAddCart} className=' w-[415px] h-[54px] rounded-[10px] text-white bg-[#1C2E37] border-none  text-[18px] font-semibold mt-2'>
                             Add to card
                         </button>
-                        <button className=' w-[415px] h-[54px] text-black border-[2px] border-[#191E1B4F] rounded-[10px] bg-transparent text-[18px] font-semibold mt-2'>
+                        <button onClick={handleBuyNow} className=' w-[415px] h-[54px] text-black border-[2px] border-[#191E1B4F] rounded-[10px] bg-transparent text-[18px] font-semibold mt-2'>
                             Buy Now
                         </button>
                     </div>
@@ -361,7 +459,7 @@ const ProductDetails = () => {
                     </div>
                 </div>
             </div>
-            <FrequentkyBought data={data}></FrequentkyBought>
+            <FrequentkyBought data={data} selectedCurrencyValue={selectedCurrencyValue} doller={doller}></FrequentkyBought>
         </div>
     );
 };

@@ -4,11 +4,13 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import { useForm } from 'react-hook-form';
 
 const Shipping = () => {
-    const { orderContactInfo, localCartData, setTotals, settotalShipping, setsubtotalTaxandShipping } = useContext(AuthContext);
+    const { totals, localCartData, setTotals, settotalShipping, setsubtotalTaxandShipping, doller, selectedCurrencyValue, contactInfo, setContactInfo, discount, setdiscount } = useContext(AuthContext);
 
+    console.log(localCartData)
     const [code, setCode] = useState([]);
     const [customerCode, setCustomerCode] = useState('');
-
+    const storedTotal = localStorage.getItem('subtotal');
+    // console.log(storedTotal)
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm()
 
     const onSubmit = (data) => {
@@ -17,7 +19,17 @@ const Shipping = () => {
     }
 
     useEffect(() => {
-        fetch('http://localhost:5000/promocode')
+        // Get the current cart data from local storage
+        const savedContactInfo = JSON.parse(localStorage.getItem('contactInfo'));
+
+        // Update the state with the saved data, if available
+        if (savedContactInfo) {
+            setContactInfo(savedContactInfo);
+        }
+    }, [setContactInfo]);
+
+    useEffect(() => {
+        fetch('https://tahar-server.vercel.app/promocode')
             .then(res => res.json())
             .then(data => setCode(data))
     }, [])
@@ -27,38 +39,54 @@ const Shipping = () => {
 
 
 
-
-
-    let total = 0;
-    let quantity = 0;
-
-    for (const product of localCartData) {
-        quantity = quantity + product.ProductQuantity;
-        total = total + product.ProductPrice * product.ProductQuantity;
-    }
-    if (matchedCode) {
-        total -= total * (parseInt(matchedCode.percentage) / 100);
-    }
-
-    setTotals(total)
-
     let totalWithShipping = 0;
-    if (orderContactInfo && orderContactInfo.City) {
-        if (orderContactInfo.City.toUpperCase() === 'DHAKA') {
-            totalWithShipping = total + 80;
-        } else {
-            totalWithShipping = total + 120;
+    if (contactInfo && contactInfo.City && contactInfo.Country) {
+        if (contactInfo.Country.toUpperCase() === 'BANGLADESH' && contactInfo.City.toUpperCase() === 'DHAKA') {
+            totalWithShipping = parseFloat(totals) + 80;
+        } else if (contactInfo.Country.toUpperCase() === 'BANGLADESH' && contactInfo.City.toUpperCase() != 'DHAKA') {
+            totalWithShipping = parseFloat(totals) + 120;
+        } else if (contactInfo.Country.toUpperCase() != 'BANGLADESH') {
+            totalWithShipping = parseFloat(totals) + 5;
         }
     }
 
-    settotalShipping(totalWithShipping)
-    // console.log(orderContactInfo.City.toUpperCase())
-    // console.log(localCartData)
-    let subtotalWithTaxandShipping = totalWithShipping * 1.05;
 
-    subtotalWithTaxandShipping = subtotalWithTaxandShipping.toFixed(2);
+    settotalShipping(totalWithShipping)
+    setTotals(storedTotal);
+    if (matchedCode) {
+
+        const discount = parseFloat(storedTotal) * (parseInt(matchedCode.percentage) / 100);
+        const discountedTotal = parseFloat(storedTotal) - discount;
+        console.log('discount', discount)
+        setdiscount(discount);
+        setTotals(discountedTotal);
+    }
+
+
+    let subtotalWithTaxandShipping = (totalWithShipping * 1.05).toFixed(2);
+
+
+    // console.log('storedTotal', storedTotal)
+    // console.log('discount', discount)
+    // console.log('totals', totals)
+
 
     setsubtotalTaxandShipping(subtotalWithTaxandShipping)
+
+
+    const dataToSend = {
+        ...contactInfo,
+        localCartData,
+        subtotalTaxandShipping: subtotalWithTaxandShipping,
+        totalShipping: totalWithShipping,
+        discount,
+        selectedCurrencyValue,
+        totals: totals,
+    };
+
+    
+    localStorage.setItem('dataToSend', JSON.stringify(dataToSend));
+    console.log(dataToSend)
     return (
         <div className="bg-[#D8D8D8] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
             <div className=' px-[100px] py-[100px]'>
@@ -69,7 +97,7 @@ const Shipping = () => {
                             <div className=' flex flex-row justify-between '>
                                 <div className=' flex gap-[64px] '>
                                     <h1 className=' text-[19px] text-[#1C2E37]'>Contact</h1>
-                                    <h1 className=' max-w-[354px] text-[19px] text-[#828282]'>{orderContactInfo.email}</h1>
+                                    <h1 className=' max-w-[354px] text-[19px] text-[#828282]'>{contactInfo?.email}</h1>
                                 </div>
                                 <Link to="/checkout" className=' text-[19px] text-white px-[25px] py-[20px] bg-[#1C2E37] rounded-[10px]'>
                                     Change
@@ -82,7 +110,7 @@ const Shipping = () => {
                                 <div className=' flex gap-[64px]'>
                                     <h1 className=' text-[19px] text-[#828282]'>Ship To</h1>
                                     <h1 className=' max-w-[354px] text-[19px] text-[#828282]'>
-                                        {orderContactInfo.Address}
+                                        {contactInfo?.Address}
                                     </h1>
                                 </div>
 
@@ -102,12 +130,17 @@ const Shipping = () => {
                                     <div>
                                         <div className="flex justify-center items-center w-[109px] h-[57px] border-[2px] border-[#0000002E] rounded-[10px]">
                                             <div className="px-[28px] py-[20px] font-family:'Helvetica_Now_Display-Medium',Helvetica font-bold">
-                                                {orderContactInfo && orderContactInfo.City.toUpperCase() === 'DHAKA' ? (
-                                                    <p>Tk. 80</p>
-                                                ) : (
-                                                    <p>Tk. 120</p>
+                                                {contactInfo && contactInfo.Country && contactInfo.City && (
+                                                    contactInfo.Country.toUpperCase() === 'BANGLADESH' && contactInfo.City.toUpperCase() === 'DHAKA' ? (
+                                                        <p>Tk. 80</p>
+                                                    ) : contactInfo.Country.toUpperCase() === 'BANGLADESH' && contactInfo.City.toUpperCase() !== 'DHAKA' ? (
+                                                        <p>Tk. 120</p>
+                                                    ) : contactInfo.Country.toUpperCase() !== 'BANGLADESH' ? (
+                                                        <p>$5.00</p>
+                                                    ) : null
                                                 )}
                                             </div>
+
                                         </div>
 
                                     </div>
@@ -133,19 +166,41 @@ const Shipping = () => {
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] object-cover "
-                                            src={`http://localhost:5000/uploads/${item.ProductImage}`}
+                                            src={`https://tahar-server.vercel.app/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>
                                         <p className="text-[19px] text-[#474747] mb-[16px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
                                             {item.ProductName}
                                         </p>
-                                        <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Dark Green / {item.ProductSize}</p>
+                                        <div className=" flex flex-row justify-between items-center align-middle ">
+                                            <div className="w-5 h-5 mt-2 rounded-full" style={{ backgroundColor: item?.selectedColor }}></div>
+                                            <p>/</p>
+                                            <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                                {item.ProductSize}
+                                            </p>
+                                        </div>
                                     </div>
-                                    <div className="  border-[2px] border-[#0000002E] rounded-[10px]">
-                                        <p className="px-[28px] py-[20px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                            Tk. {item.ProductPrice}</p>
+                                    <div>
+                                        <p className="text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Quantity - {item.ProductQuantity}</p>
+                                    </div>
+                                    <div className="w-20 h-16 text-center border-[2px] border-[#0000002E] rounded-[10px] flex flex-col justify-center">
+                                        <span className="font-semibold text-sm">
+                                            <p className=" text-[#828282] text-[13px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                                <p className='text-lg font-bold'>
+                                                    {selectedCurrencyValue === 'BDT' ? (
+                                                        item.ProductSale === 'Sale' ?
+                                                            (item.salePriceInBDT && `Tk.${item.salePriceInBDT}`) :
+                                                            (item.priceInBDT && `Tk.${item.priceInBDT}`)
+                                                    ) : (
+                                                        item.ProductSale === 'Sale' ?
+                                                            (item.salePriceInUSD && `$${item.salePriceInUSD}`) :
+                                                            (item.priceInUSD && `$${item.priceInUSD}`)
+                                                    )}
+                                                </p>
 
+                                            </p>
+                                        </span>
                                     </div>
                                 </div>
                             )
@@ -174,17 +229,33 @@ const Shipping = () => {
                         <div className="divider text-[#0000003D]"></div>
 
                         <div>
-                            <div className=" flex flex-row justify-between px-20">
-                                <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Subtotal</h1>
-                                <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tk. {total}</p>
+                            <div className="flex flex-row justify-between px-20 items-center">
+                                <h1 className="text-[19px] text-[#828282] font-[Helvetica_Now_Display-Medium]">Subtotal</h1>
+                                <p className="text-[19px] text-[#1C2E37] font-[Helvetica_Now_Display-Medium]">
+                                    {totals}
+                                </p>
                             </div>
-                            <div className=" flex flex-row justify-between px-20">
-                                <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Shipping</h1>
-                                <p className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    Tk. {totalWithShipping}
+                            <div className="flex flex-row justify-between px-20 items-center">
+                                <h1 className="text-[19px] text-[#828282] font-[Helvetica_Now_Display-Medium]">Shipping</h1>
+                                <p className="text-[19px] text-[#1C2E37] font-[Helvetica_Now_Display-Medium]">
+                                    <div className="px-[28px] py-[20px] font-[Helvetica_Now_Display-Medium] ">
+                                        {contactInfo && contactInfo?.Country && contactInfo?.City && (
+                                            contactInfo?.Country.toUpperCase() != 'BANGLADESH' && selectedCurrencyValue === 'USD' ? (
+                                                <p>$5.00</p>
+                                            ) : (
+                                                contactInfo?.Country.toUpperCase() === 'BANGLADESH' && contactInfo?.City.toUpperCase() === 'DHAKA' ? (
+                                                    <p>Tk. 80</p>
+                                                ) : (
+                                                    <p>Tk. 120</p>
+                                                )
+                                            )
+                                        )}
+
+                                    </div>
                                 </p>
                             </div>
                         </div>
+
 
                         <div className="divider text-[#0000003D]"></div>
 
@@ -193,7 +264,10 @@ const Shipping = () => {
                             <div className=" flex flex-row justify-between">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Including 5%  in Taxes</h1>
                                 <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    Tk.{subtotalWithTaxandShipping}
+                                    {/* Tk.{subtotalWithTaxandShipping}
+                                     */}
+                                    {subtotalWithTaxandShipping}
+
                                 </p>
                             </div>
                         </div>

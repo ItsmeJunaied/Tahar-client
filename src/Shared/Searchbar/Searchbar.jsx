@@ -62,7 +62,7 @@ const Searchbar = () => {
                                         <div className=' flex flex-row '>
                                             <img
                                                 className=' w-[200px] h-[250px] object-cover rounded-lg '
-                                                src={`http://localhost:5000/uploads/${item.images[0]}`} alt="" />
+                                                src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`} alt="" />
                                         </div>
                                         <h1 className=" mt-3 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-center">{item.title}</h1>
                                         <h1 className=" mt-3 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-center">Tk. {item.price}</h1>
@@ -85,7 +85,7 @@ const Searchbar = () => {
                                                 <div className=' flex flex-row '>
                                                     <img
                                                         className=' w-[200px] h-[250px] object-cover rounded-lg '
-                                                        src={`http://localhost:5000/uploads/${item.images[0]}`} alt="" />
+                                                        src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`} alt="" />
                                                 </div>
                                                 <h1 className=" mt-3 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-center">{item.title}</h1>
                                                 <h1 className=" mt-3 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-center">Tk. {item.price}</h1>

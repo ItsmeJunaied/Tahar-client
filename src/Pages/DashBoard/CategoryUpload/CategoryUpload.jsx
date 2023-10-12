@@ -19,7 +19,7 @@ const CategoryUpload = () => {
     const [categoryData, setCategoryData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/categoryInfo')
+        fetch('https://tahar-server.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryData(data))
     }, [])
@@ -32,7 +32,7 @@ const CategoryUpload = () => {
         formData.append('categoryImage', data.categoryImage);
         formData.append('status', 'Not Show');
 
-        fetch('http://localhost:5000/categoryInfo', {
+        fetch('https://tahar-server.vercel.app/categoryInfo', {
             method: "POST",
             body: formData
         })
@@ -55,7 +55,7 @@ const CategoryUpload = () => {
             })
     }
     const handleStatus = (id, currentStatus) => {
-        fetch(`http://localhost:5000/categoryInfo/${id}`, {
+        fetch(`https://tahar-server.vercel.app/categoryInfo/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -92,6 +92,9 @@ const CategoryUpload = () => {
                             return category;
                         });
                     });
+                    fetch('https://tahar-server.vercel.app/categoryInfo')
+                        .then(res => res.json())
+                        .then(data => setCategoryData(data))
                 }
             })
             .catch(error => {
@@ -118,74 +121,76 @@ const CategoryUpload = () => {
 
 
     return (
-        <div className="col-span-6 ml-2 sm:col-span-4 md:mr-3 flex flex-col lg:flex-row justify-around h-full my-[100px] mx-[100px]">
-            <div className=' flex flex-col lg:flex-row gap-5 w-1/2'>
-                <div>
-                    <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data"
-                        className="flex flex-col items-center bg-white shadow-lg rounded-sm border border-gray-200 p-10">
-                        <label className="block text-gray-700 text-sm font-bold mb-2 text-center " htmlFor="photo">
-                            Profile Photo
-                        </label>
+        <div className=' container mx-auto'>
+            <div className="col-span-6 ml-2 sm:col-span-4 md:mr-3 flex flex-col lg:flex-row justify-around h-full my-[100px] mx-[100px]">
+                <div className=' flex flex-col lg:flex-row gap-5 w-1/2'>
+                    <div>
+                        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data"
+                            className="flex flex-col items-center bg-white shadow-lg rounded-sm border border-gray-200 p-10">
+                            <label className="block text-gray-700 text-sm font-bold mb-2 text-center " htmlFor="photo">
+                                Profile Photo
+                            </label>
 
-                        <div className="text-center">
-                            <div className="mt-2" style={{ display: photoPreview ? 'block' : 'none' }}>
-                                <div
-                                    className="w-40 h-40 m-auto rounded-full shadow"
-                                    style={{
-                                        backgroundSize: 'cover',
-                                        backgroundRepeat: 'no-repeat',
-                                        backgroundPosition: 'center center',
-                                        backgroundImage: `url('${photoPreview}')`,
+                            <div className="text-center">
+                                <div className="mt-2" style={{ display: photoPreview ? 'block' : 'none' }}>
+                                    <div
+                                        className="w-40 h-40 m-auto rounded-full shadow"
+                                        style={{
+                                            backgroundSize: 'cover',
+                                            backgroundRepeat: 'no-repeat',
+                                            backgroundPosition: 'center center',
+                                            backgroundImage: `url('${photoPreview}')`,
+                                        }}
+                                    />
+                                </div>
+                                <input
+                                    type="file"
+                                    id="photo"
+                                    name='categoryImage'
+                                    className="hidden"
+                                    onChange={(e) => {
+                                        handleFileChange(e);
+                                        setValue("categoryImage", e.target.files[0]);
                                     }}
+                                />
+
+                                <label
+                                    htmlFor="photo"
+                                    className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2"
+                                >
+                                    Select Photo
+                                </label>
+                            </div>
+
+                            <div className="mt-4">
+                                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="text-input">
+                                    Category Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="text-input"
+                                    className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
+                                    {...register("CategoryTitle", { required: true })}
+                                    onChange={(e) => setTextInput(e.target.value)}
                                 />
                             </div>
                             <input
-                                type="file"
-                                id="photo"
-                                name='categoryImage'
-                                className="hidden"
-                                onChange={(e) => {
-                                    handleFileChange(e);
-                                    setValue("categoryImage", e.target.files[0]);
-                                }}
+                                type="submit"
+                                value="Add"
+                                className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-full"
                             />
-
-                            <label
-                                htmlFor="photo"
-                                className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2"
-                            >
-                                Select Photo
-                            </label>
-                        </div>
-
-                        <div className="mt-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="text-input">
-                                Category Name
-                            </label>
-                            <input
-                                type="text"
-                                id="text-input"
-                                className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
-                                {...register("CategoryTitle", { required: true })}
-                                onChange={(e) => setTextInput(e.target.value)}
-                            />
-                        </div>
-                        <input
-                            type="submit"
-                            value="Add"
-                            className="mt-4 bg-blue-500 text-white font-bold py-2 px-4 rounded-full"
-                        />
-                    </form>
+                        </form>
+                    </div>
+                    <div>
+                        <ShowCategory categoryData={categoryData} handleStatus={handleStatus}></ShowCategory>
+                    </div>
                 </div>
-                <div>
-                    <ShowCategory categoryData={categoryData} handleStatus={handleStatus}></ShowCategory>
-                </div>
-            </div>
-            <div className="divider lg:divider-horizontal"></div>
+                <div className="divider lg:divider-horizontal"></div>
 
-            {/* fabrics upload */}
-            <div className=' w-1/2'>
-                <UploadFabrics></UploadFabrics>
+                {/* fabrics upload */}
+                <div className=' w-1/2'>
+                    <UploadFabrics></UploadFabrics>
+                </div>
             </div>
         </div>
     );

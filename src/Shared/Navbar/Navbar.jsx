@@ -1,8 +1,6 @@
 import './Navbar.css';
 import taharLogo from '../../../public/photos/tahar-logo.png';
 import userIMG from '../../../public/photos/Create_Account.png';
-import favouriteIMG from '../../../public/photos/fav_icon.png';
-import searchIMG from '../../../public/photos/search_icon.png';
 import usa from '../../../public/photos/usa.png';
 import { Link, NavLink } from 'react-router-dom';
 import SideCart from '../../Pages/Home/SideCart/SideCart';
@@ -11,16 +9,17 @@ import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faArrowRightFromBracket, faBagShopping, faChartLine, faMagnifyingGlass, faTruck } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faBagShopping, faChartLine } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Searchbar from '../Searchbar/Searchbar';
 
 
 const Navbar = () => {
-    const { user, logOut, categoryName, localCartData, setLocalCartData, loggedUser } = useContext(AuthContext);
+    const { user, logOut, categoryName, localCartData, setLocalCartData, loggedUser, selectedCurrencyValue, setSelectedCurrencyValue, doller } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
-    // const ParticularUserdata = AllcartData.filter(item => item.customerEmail === user?.email);
-    // const [localCartData, setLocalCartData]= useState([]);
+
+    // console.log(user)
+
     const matchedUser = loggedUser.find(logeduser => logeduser?.email === user?.email);
 
     useEffect(() => {
@@ -29,7 +28,9 @@ const Navbar = () => {
     }, [setLocalCartData]);
 
 
-    // console.log(localCartData)
+
+
+
 
 
 
@@ -39,17 +40,32 @@ const Navbar = () => {
             .catch(error => console.log(error));
     }
 
+    const selectedCurrency = JSON.parse(localStorage.getItem('selectedCurrency'));
+
+    const handleSelectCurrencyChange = (event) => {
+        const selectedCurrency = event.target.value;
+        setSelectedCurrencyValue(selectedCurrency);
+        localStorage.setItem('selectedCurrency', JSON.stringify(selectedCurrency));
+    };
+
+
+    console.log(selectedCurrencyValue);
+
+
     const dropdownLink = <>
         <div >
             <button className=' mr-2  btn-md rounded-md bg-[#2c2a2a] w-[160px] h-[42px]'>Track Order</button>
-            <select className=" mr-2 select  bg-[#2c2a2a] w-[138px] h-[42px] ">
-                <option disabled selected>
-                    <img src={usa} alt="" />
-                    USD
-                </option>
-                <option>BDT</option>
 
+            {/* Select Currency */}
+            <select value={selectedCurrencyValue}
+                onChange={handleSelectCurrencyChange} className=" mr-2 select  bg-[#2c2a2a] w-[138px] h-[42px] ">
+                <option value="BDT" selected>
+                    BDT
+                </option>
+                <option value="USD" >USD</option>
             </select>
+
+            {/* Select Language */}
             <select className=" mr-2 select  bg-[#2c2a2a] w-[138px] h-[42px] ">
                 <option disabled selected>Eng</option>
                 <option>Ban</option>
@@ -67,7 +83,7 @@ const Navbar = () => {
             htmlElement.setAttribute('data-theme', 'forest');
         }
     }
-    
+
     const navLink = <>
         {/* <NavLink to='/collections' >Collections</NavLink> */}
         <ul className="relative group px-3 py-2">
@@ -78,7 +94,7 @@ const Navbar = () => {
                     <div
                         className="w-10 h-10 bg-white transform rotate-45 absolute top-0 z-0 -translate-x-4 transition-transform group-hover:translate-x-3 duration-500 ease-in-out rounded-sm">
                     </div>
-                    <div className="relative z-10">
+                    <div className="relative z-10 ">
                         <p className="uppercase tracking-wider text-gray-500 font-medium text-[13px]">Select</p>
                         <ul className="mt-3 text-[15px]">
                             <li>
@@ -102,12 +118,12 @@ const Navbar = () => {
         <NavLink to='/return' className="custom-link [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Return/Exchange</NavLink>
         <NavLink to='/contact' className="custom-link [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Contact</NavLink>
         <NavLink to='/customer-spotlight' className="custom-link [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Customer Spotlight</NavLink>
-        <NavLink to='/sale' className="custom-link [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[#FF7575]">SALE</NavLink>
+        <NavLink to='/sale' style={{ color: '#FF7575' }} className="custom-link [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">SALE</NavLink>
     </>
 
 
     return (
-        <div>
+        <div className=''>
             <div className="navbar nv-bg text-white  md:w-full md:h-[127px] md:px-[68px]">
                 <div className="navbar-start">
                     <div className="dropdown">
@@ -243,7 +259,7 @@ const Navbar = () => {
                         ) : (
                             <span className="indicator-item badge badge-secondary right-5">0</span>
                         )}
-                        <SideCart localCartData={localCartData} setLocalCartData={setLocalCartData}></SideCart>
+                        <SideCart selectedCurrencyValue={selectedCurrencyValue} doller={doller} localCartData={localCartData} setLocalCartData={setLocalCartData}></SideCart>
                     </div>
 
 

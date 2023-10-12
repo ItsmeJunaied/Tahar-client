@@ -11,7 +11,7 @@ const PromoCode = () => {
     
     const [code, setCode] = useState([]);
     useEffect(() => {
-        fetch('http://localhost:5000/promocode')
+        fetch('https://tahar-server.vercel.app/promocode')
             .then(res => res.json())
             .then(data => setCode(data))
     }, [])
@@ -22,7 +22,7 @@ const PromoCode = () => {
         const { percentage, type, name } = data;
         const item = { percentage, type, name };
 
-        fetch('http://localhost:5000/promocode', {
+        fetch('https://tahar-server.vercel.app/promocode', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -39,7 +39,7 @@ const PromoCode = () => {
                         title: "Customer Sopt Light added successfully",
                         timer: 1500,
                     });
-                    fetch('http://localhost:5000/promocode')
+                    fetch('https://tahar-server.vercel.app/promocode')
                         .then(res => res.json())
                         .then(data => setCode(data));
                     reset();

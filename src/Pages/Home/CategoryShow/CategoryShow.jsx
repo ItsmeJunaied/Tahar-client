@@ -12,7 +12,7 @@ const CategoryShow = () => {
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/categoryInfo')
+        fetch('https://tahar-server.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -49,7 +49,7 @@ const CategoryShow = () => {
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
                                         <img
                                         className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
-                                        src={`http://localhost:5000/uploads/${item.image}`} alt="" />
+                                        src={`https://tahar-server.vercel.app/uploads/${item.image}`} alt="" />
                                         <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );
@@ -73,7 +73,7 @@ const CategoryShow = () => {
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
                                         <img 
                                         className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
-                                        src={`http://localhost:5000/uploads/${item.image}`} alt="" />
+                                        src={`https://tahar-server.vercel.app/uploads/${item.image}`} alt="" />
                                         <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );

@@ -3,7 +3,7 @@ import React from 'react';
 const ShowCategory = ({ categoryData , handleStatus}) => {
     
     return (
-        <div className="flex flex-col justify-center h-full">
+        <div className="flex flex-col ">
             <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
                 <header className="px-5 py-4 border-b border-gray-100">
                     <h2 className="font-semibold text-gray-800">Category</h2>
@@ -34,7 +34,7 @@ const ShowCategory = ({ categoryData , handleStatus}) => {
                                             <td className="p-2 whitespace-nowrap">
                                                 <div className="flex items-center">
                                                     <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full"
-                                                        src={`http://localhost:5000/uploads/${item.image}`}
+                                                        src={`https://tahar-server.vercel.app/uploads/${item.image}`}
                                                         width="40" height="40" alt="Alex Shatov" />
                                                     </div>
                                                     <div className="font-medium text-gray-800">
