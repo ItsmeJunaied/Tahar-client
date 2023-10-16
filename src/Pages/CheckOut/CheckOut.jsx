@@ -4,11 +4,11 @@ import { AuthContext } from "../../Provider/AuthProvider";
 import { useForm } from "react-hook-form";
 
 const CheckOut = () => {
-    const { user, orderContactInfo, setorderContactInfo, localCartData, doller, selectedCurrencyValue, contactInfo, setContactInfo, setTotals } = useContext(AuthContext);
+    const { user, orderContactInfo, loading, setorderContactInfo, localCartData, doller, selectedCurrencyValue, contactInfo, setContactInfo, setTotals } = useContext(AuthContext);
 
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
 
-    console.log(contactInfo)
+    // console.log(localCartData)
 
     // console.log(localCartData)
     const [countries, setCountries] = useState([]);
@@ -39,6 +39,7 @@ const CheckOut = () => {
         }
     }, [setContactInfo]); // Empty dependency array means this effect runs once when the component mounts
 
+    // console.log(localCartData)
     const onSubmit = (data) => {
         console.log('contact', data);
 
@@ -59,7 +60,7 @@ const CheckOut = () => {
 
     let total = 0;
     let quantity = 0;
-    console.log(localCartData)
+    // console.log(localCartData)
     if (localCartData) {
         for (const product of localCartData) {
             const productPrice = selectedCurrencyValue === 'BDT' ?
@@ -72,14 +73,19 @@ const CheckOut = () => {
     }
     setTotals(total)
     localStorage.setItem('subtotal', total);
-    let subtotalWithTax = total * 1.05;
-
+    let subtotalWithTax = (total * 1.05).toFixed(3);
 
 
     return (
         <div className="bg-[#D8D8D8] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
             <div className=" px-[100px] py-[100px] ">
-                <div className=" flex flex-col lg:flex-row justify-between items-stretch gap-[20px]">
+                {loading ? (
+                    <div className="flex justify-center items-center h-screen">
+                        <div className="relative w-24 h-24 animate-spin rounded-full bg-gradient-to-r from-purple-400 via-blue-500 to-red-400 ">
+                            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-white rounded-full border-2 border-white"></div>
+                        </div>
+                    </div>
+                ) : (<div className=" flex flex-col lg:flex-row justify-between items-stretch gap-[20px]">
                     {/* contact 1*/}
                     <div className=" w-1/2 bg-white rounded-[10px] p-20">
                         <form onSubmit={handleSubmit(onSubmit)}>
@@ -89,7 +95,7 @@ const CheckOut = () => {
                             <p className=" text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" >Email</p>
                             <input
                                 // defaultValue={orderContactInfo?.email}
-                                {...register("email", { required: true })} defaultValue={user?.email || contactInfo?.email} 
+                                {...register("email")} defaultValue={user?.email || contactInfo?.email}
                                 className=" border-[2px] border-[#DCDCDC] w-[695px] h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]"
                                 type="email" name="email" />
 
@@ -98,20 +104,22 @@ const CheckOut = () => {
                             <p className=" text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" >Country/Region</p>
                             <select
                                 {...register("Country", { required: true })}
+                                defaultValue={contactInfo?.Country }
                                 required
-                                defaultValue={contactInfo?.Country}
+                                onChange={(e) => {
+                                    // Handle onChange if needed
+                                }}
                                 className="select border-[2px] border-[#DCDCDC] w-[695px] h-[72px]  focus:outline-none text-[#191E1BDB] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]"
                             >
+                                <option value="Pick One" disabled>Pick One Category</option>
                                 {countries.map((country, index) => (
-                                    <option
-                                        key={index}
-                                        value={country}
-                                        selected={country === "Bangladesh"}
-                                    >
+                                    <option key={index} value={country}>
                                         {country}
                                     </option>
                                 ))}
                             </select>
+
+
 
 
 
@@ -121,7 +129,7 @@ const CheckOut = () => {
                                         <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">First Name</span>
                                     </label>
                                     <input
-                                        {...register("FirstName", { required: true })} defaultValue={user?.displayName && user.displayName.split(' ').slice(0, -1).join(' ') || contactInfo?.FirstName} 
+                                        {...register("FirstName")} defaultValue={user?.displayName && user.displayName.split(' ').slice(0, -1).join(' ') || contactInfo?.FirstName} required
 
                                         className=" border-[2px] border-[#DCDCDC]  h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase" type="text" name="FirstName" />
                                 </div>
@@ -142,8 +150,8 @@ const CheckOut = () => {
                                     <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Full Address</span>
                                 </label>
                                 <input
-                                    {...register("Address", { required: true })}
-                                    defaultValue={contactInfo?.Address}
+                                    {...register("Address")}
+                                    defaultValue={contactInfo?.Address} required
                                     className=" border-[2px] border-[#DCDCDC] w-[695px] h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" type="text" name="Address" />
                             </div>
 
@@ -153,8 +161,8 @@ const CheckOut = () => {
                                         <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">City</span>
                                     </label>
                                     <input
-                                        {...register("City", { required: true })} 
-                                        defaultValue={contactInfo?.City}
+                                        {...register("City")}
+                                        defaultValue={contactInfo?.City} required
                                         className=" border-[2px] border-[#DCDCDC]  h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase" type="text" name="City" />
 
                                 </div>
@@ -163,7 +171,7 @@ const CheckOut = () => {
                                         <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Postal Code</span>
                                     </label>
                                     <input
-                                        {...register("PostalCode" , { required: true })}
+                                        {...register("PostalCode")}
                                         defaultValue={contactInfo?.PostalCode}
                                         className=" border-[2px] border-[#DCDCDC]  h-[72px] mb-5 rounded-[10px] ps-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" type="number" name="PostalCode" />
                                 </div>
@@ -174,8 +182,8 @@ const CheckOut = () => {
                                     <span className="label-text text-[#828282] text-[19px] mb-2 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Phone</span>
                                 </label>
                                 <input
-                                    {...register("number", { required: true })}
-                                    defaultValue={contactInfo?.number} 
+                                    {...register("number")}
+                                    defaultValue={contactInfo?.number} required
                                     className=" border-[2px] border-[#DCDCDC] w-[695px] h-[72px] mb-5 rounded-[10px] ps-5 pr-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]" type="number" name="number" />
                             </div>
 
@@ -235,23 +243,7 @@ const CheckOut = () => {
                                                 </p>
 
                                             </p>
-                                            {/* {selectedCurrencyValue === 'BDT' ? (
-                                                item?.ProductSale === 'Sale' ? (
-                                                    <p className="text-center">
-                                                        Tk.{((parseInt(item.ProductPrice) - (parseInt(item?.sellpercet) / 100)) * parseInt(item.ProductQuantity)).toFixed(2)}
-                                                    </p>
-                                                ) : (
-                                                    <p className="text-center">Tk.{(item.ProductPrice * parseInt(item.ProductQuantity)).toFixed(2)}</p>
-                                                )
-                                            ) : (
-                                                item?.ProductSale === 'Sale' ? (
-                                                    <p className="text-center">
-                                                        $ {(((parseInt(item.ProductPrice) * 2.5 * doller) - ((parseInt(item.ProductPrice) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100)) * parseInt(item.ProductQuantity)).toFixed(2)}
-                                                    </p>
-                                                ) : (
-                                                    <p className="text-center">${((item.ProductPrice * 2.5 * doller) * parseInt(item.ProductQuantity)).toFixed(3)}</p>
-                                                )
-                                            )} */}
+
                                         </span>
                                     </div>
 
@@ -264,8 +256,9 @@ const CheckOut = () => {
                             <div className=" flex flex-row justify-between px-20">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Subtotal</h1>
                                 <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    {total}
-
+                                    {
+                                        selectedCurrencyValue === "BDT" ? `Tk. ${total}` : `$ ${total}`
+                                    }
                                 </p>
                             </div>
                             <div className=" flex flex-row justify-between px-20">
@@ -281,8 +274,10 @@ const CheckOut = () => {
                             <div className=" flex flex-row justify-between">
                                 <h1 className=" text-[19px] text-[#828282] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Including 5%  in Taxes</h1>
                                 <p className=" text-[19px] text-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-                                    {subtotalWithTax}
-                                    {/* Tk.{subtotalWithTax * doller * 2.5} */}
+
+                                    {
+                                        selectedCurrencyValue === "BDT" ? `Tk. ${subtotalWithTax}` : `$ ${subtotalWithTax}`
+                                    }
                                 </p>
                             </div>
                         </div>
@@ -292,11 +287,12 @@ const CheckOut = () => {
                             <h1 className=" text-[27px] font-bold uppercase mb-[28px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Coupon:</h1>
                             <p className=" text-[19px] text-[#828282] mb-[14px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Ordering for the First time?</p>
                             <p className=" text-[19px] text-[#828282] mb-[28px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Heres a special discount!</p>
-                            <p className=" text-[19px] text-[#828282] mb-[28px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Use Code: <span className=" text-[#202020] font-bold ">FIRSTORDER</span></p>
+                            <p className=" text-[19px] text-[#828282] mb-[28px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Use Code: <span className=" text-[#202020] font-bold ">Tahar20</span></p>
                         </div>
                     </div>
 
-                </div>
+                </div>)}
+
             </div>
         </div>
 

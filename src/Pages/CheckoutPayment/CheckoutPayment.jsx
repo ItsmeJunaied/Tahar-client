@@ -21,7 +21,7 @@ const CheckoutPayment = () => {
         }
     }, [setContactInfo]);
 
-    console.log(selectedCurrencyValue)
+    console.log('selectedOption', selectedOption)
     const handleRadioChange = (event) => {
         setSelectedOption(event.target.value);
 
@@ -38,7 +38,7 @@ const CheckoutPayment = () => {
 
     const [dataToSend, setDatatoSend] = useState([]);
     const [updatedDataToSend, setUpdatedDataToSend] = useState({});
-    console.log(selectedOption)
+    // console.log(selectedOption)
     useEffect(() => {
         const retrievedData = localStorage.getItem('dataToSend');
         if (retrievedData) {
@@ -56,7 +56,7 @@ const CheckoutPayment = () => {
         }
     }, [selectedOption]);
 
-    console.log(updatedDataToSend)
+    console.log('updated data', updatedDataToSend)
 
 
     const handlePayNowInfo = () => {
@@ -190,16 +190,32 @@ const CheckoutPayment = () => {
                         <div className="text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#828282] mb-2">
                             All transactions are secure and encrypted.
                             <p className=' flex mb-2 gap-3'>
-                                <input type="radio" name="radio-1" className="radio radio-[#828282]" value="Cash On Delivery"
-                                    onChange={handleRadioChange} />
-                                <p>Cash On Delivery</p>
-                            </p>
-                            <p className=' flex mb-2 gap-3'>
-                                <input type="radio" name="radio-1" className="radio radio-[#828282]" value="Online Method"
-                                    onChange={handleRadioChange} />
-                                <p>Online Method</p>
+                                {selectedCurrencyValue === "USD" ? (
+                                    <>
+                                        <input type="radio" name="radio-1" className="radio radio-[#828282]" value="Online Method"
+                                            onChange={handleRadioChange} />
+                                        <p>Online Method</p>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className=' flex flex-col'>
+                                            <div className=' flex flex-row gap-2'>
+                                                <input type="radio" name="radio-1" className="radio radio-[#828282]" value="Cash On Delivery"
+                                                    onChange={handleRadioChange} />
+                                                <p>Cash On Delivery</p>
+                                            </div>
+                                            <div className=' flex flex-row gap-2'>
+                                                <input type="radio" name="radio-1" className="radio radio-[#828282]" value="Online Method"
+                                                    onChange={handleRadioChange} />
+                                                <p>Online Method</p>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </p>
                         </div>
+
+
                         <div className='flex w-full justify-end'>
                             {showConfirmOrderButton && (
                                 <button onClick={handleCODInfo} className='text-[19px] text-white px-[25px] py-[20px] bg-[#1C2E37] rounded-[10px]'> Confirm Order </button>
@@ -295,14 +311,14 @@ const CheckoutPayment = () => {
                                 </p>
                             </div>
                         </div>
-                        <div className="divider mb-[53px] text-[#0000003D]"></div>
+                        {/* <div className="divider mb-[53px] text-[#0000003D]"></div>
 
                         <div className="px-20">
                             <h1 className=" text-[27px] font-bold uppercase mb-[28px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Coupon:</h1>
                             <p className=" text-[19px] text-[#828282] mb-[14px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Ordering for the First time?</p>
                             <p className=" text-[19px] text-[#828282] mb-[28px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Heres a special discount!</p>
                             <p className=" text-[19px] text-[#828282] mb-[28px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Use Code: <span className=" text-[#202020] font-bold ">FIRSTORDER</span></p>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

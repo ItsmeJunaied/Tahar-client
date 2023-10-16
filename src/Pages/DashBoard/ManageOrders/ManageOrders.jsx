@@ -8,10 +8,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDropletSlash, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ManageOrders = () => {
-    const { AllProducts, order, setOrder, CODorder, setCODorder } = useContext(AuthContext);
+    const { AllProducts, order, setLoggedUser, setOrder, CODorder, setCODorder } = useContext(AuthContext);
 
-    console.log(order)
-    // const itemname = order.OrderDetails?.map(item => item.ProductName);
+    // console.log(order)
+    // const itemname = order.localCartData?.map(item => item.ProductName);
     // console?.map(itemname)
     const [searchTerm, setSearchTerm] = useState('');
 
@@ -33,6 +33,36 @@ const ManageOrders = () => {
     });
 
 
+    const HandleStatus = (id, currentRole) => {
+        console.log(id)
+        console.log(currentRole)
+
+        fetch(`https://tahar-server.vercel.app/orders/${id}`, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                Confirm:
+                    currentRole === 'Processing' ? 'Delivered' :
+                        currentRole === 'Delivered' ? 'Cancel' :
+                            currentRole === 'Cancel' ? 'Processing' :
+                                'Unknown'
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.success) {
+                    fetch('https://tahar-server.vercel.app/orders')
+                        .then(res => res.json())
+                        .then(updatedData => setLoggedUser(updatedData))
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    };
 
     return (
         <div className=' container mx-auto'>
@@ -121,7 +151,6 @@ const ManageOrders = () => {
                                         <th>Customer Name</th>
                                         <th>Customer Email</th>
                                         <th>Product Name</th>
-                                        <th>Product Price</th>
                                         <th>Product Size</th>
                                         <th>Product Color</th>
                                         <th>Product Quantity</th>
@@ -131,8 +160,10 @@ const ManageOrders = () => {
                                         <th>Customer Number</th>
                                         <th>Price</th>
                                         <th>Currency</th>
-                                        <th>Order Status</th>
                                         <th>Payment Status</th>
+                                        <th>Order Status</th>
+                                        <th>Action</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -140,52 +171,47 @@ const ManageOrders = () => {
                                         <tr key={index}>
                                             <th>{index + 1}</th>
                                             <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
+                                                {item.localCartData?.map((detail, subIndex) => (
                                                     <div key={subIndex}>{detail?.customerName}</div>
                                                 ))}
                                             </td>
                                             <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
+                                                {item.localCartData?.map((detail, subIndex) => (
                                                     <div key={subIndex}>{detail?.customerEmail}</div>
                                                 ))}
                                             </td>
 
                                             <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
+                                                {item.localCartData?.map((detail, subIndex) => (
                                                     <div key={subIndex}>{detail?.ProductName}</div>
                                                 ))}
                                             </td>
 
-                                            <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
-                                                    <div key={subIndex}>{detail?.
-                                                        ProductPrice}</div>
-                                                ))}
-                                            </td>
+
 
                                             <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
+                                                {item.localCartData?.map((detail, subIndex) => (
                                                     <div key={subIndex}>{detail?.
                                                         ProductSize}</div>
                                                 ))}
                                             </td>
 
                                             <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
+                                                {item.localCartData?.map((detail, subIndex) => (
                                                     <div key={subIndex}>{detail?.
                                                         selectedColor}</div>
                                                 ))}
                                             </td>
 
                                             <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
+                                                {item.localCartData?.map((detail, subIndex) => (
                                                     <div key={subIndex}>{detail?.
                                                         ProductQuantity}</div>
                                                 ))}
                                             </td>
 
                                             <td>
-                                                {item.OrderDetails?.map((detail, subIndex) => (
+                                                {item.localCartData?.map((detail, subIndex) => (
                                                     <div key={subIndex}>{detail?.
                                                         ProductId}</div>
                                                 ))}
@@ -207,15 +233,19 @@ const ManageOrders = () => {
                                                 {item.data.currency}
                                             </td>
                                             <td>
-                                                {item.Confirm}
+                                                {
+                                                    item.paidStatus === true ? (
+                                                        <p>Paid</p>
+                                                    ) : (<p>Unpaid</p>)
+                                                }
+
                                             </td>
                                             <td>
-                                                {
-                                                    item.Confirm ===  true ? (
-                                                        <p>Paid</p>
-                                                    ):(<p>Unpaid</p>)
-                                                }
-                                                
+                                                {item.Confirm}
+                                            </td>
+
+                                            <td>
+                                                <button onClick={()=>HandleStatus(item._id , item.Confirm)} className=' btn btn-sm bg-teal-500'>Change</button>
                                             </td>
 
                                         </tr>

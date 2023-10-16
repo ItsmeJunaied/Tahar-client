@@ -24,12 +24,15 @@ const AuthProvider = ({ children }) => {
     const [discount, setdiscount] = useState(0);
     const [totalShipping, settotalShipping] = useState('');
     const [subtotalTaxandShipping, setsubtotalTaxandShipping] = useState('');
-    const [selectedCurrencyValue, setSelectedCurrencyValue] = useState('BDT');
+    const [selectedCurrencyValue, setSelectedCurrencyValue] = useState(() => {
+        const storedCurrency = localStorage.getItem('selectedCurrency');
+        return storedCurrency || 'BDT'; // Set default value to BDT if nothing is stored in local storage
+    });
     const [selectedColor, setSelectedColor] = useState('');
     const [shippingData, setshippingData] = useState([]);
     // console.log(localCartData);
 
-    const doller= 0.0091;
+    const doller = 0.0091;
 
     const createUser = (email, password) => {
         setLoading(true);
@@ -110,6 +113,7 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         user,
         loading,
+        setLoading,
         createUser,
         signIn,
         logOut,
@@ -129,8 +133,8 @@ const AuthProvider = ({ children }) => {
         totalShipping, settotalShipping,
         subtotalTaxandShipping, setsubtotalTaxandShipping,
         selectedCurrencyValue, setSelectedCurrencyValue,
-        doller,discount, setdiscount,
-        order, setOrder,CODorder, setCODorder,
+        doller, discount, setdiscount,
+        order, setOrder, CODorder, setCODorder,
         selectedColor, setSelectedColor,
         contactInfo, setContactInfo,
         shippingData, setshippingData

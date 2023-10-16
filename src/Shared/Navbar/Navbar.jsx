@@ -2,7 +2,7 @@ import './Navbar.css';
 import taharLogo from '../../../public/photos/tahar-logo.png';
 import userIMG from '../../../public/photos/Create_Account.png';
 import usa from '../../../public/photos/usa.png';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 import SideCart from '../../Pages/Home/SideCart/SideCart';
 import { useContext, useEffect, useState } from 'react';
 
@@ -15,7 +15,7 @@ import Searchbar from '../Searchbar/Searchbar';
 
 
 const Navbar = () => {
-    const { user, logOut, categoryName, localCartData, setLocalCartData, loggedUser, selectedCurrencyValue, setSelectedCurrencyValue, doller } = useContext(AuthContext);
+    const { user, logOut, loading, setLoading, categoryName, localCartData, setLocalCartData, loggedUser, selectedCurrencyValue, setSelectedCurrencyValue, doller } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
 
     // console.log(user)
@@ -27,51 +27,51 @@ const Navbar = () => {
         setLocalCartData(cartData);
     }, [setLocalCartData]);
 
-
-
-
-
-
-
-
     const handleLogOut = () => {
         logOut()
             .then(() => { })
             .catch(error => console.log(error));
     }
 
-    const selectedCurrency = JSON.parse(localStorage.getItem('selectedCurrency'));
-
-    const handleSelectCurrencyChange = (event) => {
-        const selectedCurrency = event.target.value;
-        setSelectedCurrencyValue(selectedCurrency);
-        localStorage.setItem('selectedCurrency', JSON.stringify(selectedCurrency));
-    };
 
 
-    console.log(selectedCurrencyValue);
+    const handleSelectCurrencyChange = (e) => {
+        const selectedValue = e.target.value;
+        setSelectedCurrencyValue(selectedValue);
+        localStorage.setItem('selectedCurrency', selectedValue);
+    }
+
+    useEffect(() => {
+        localStorage.setItem('selectedCurrency', selectedCurrencyValue);
+    }, [selectedCurrencyValue]);
 
 
-    const dropdownLink = <>
-        <div >
-            <button className=' mr-2  btn-md rounded-md bg-[#2c2a2a] w-[160px] h-[42px]'>Track Order</button>
+
+    const location = useLocation();
+    const noHeaderFooter = location.pathname.includes('shipping')
+    const dropdownLink = !noHeaderFooter && (
+        <div className=' flex flex-row'>
+            <NavLink to='trackorder' className='text-center mr-2 btn-md rounded-md bg-[#2c2a2a] flex justify-center align-middle items-center w-[160px] h-[42px]'>
+                Track Order
+            </NavLink>
 
             {/* Select Currency */}
-            <select value={selectedCurrencyValue}
-                onChange={handleSelectCurrencyChange} className=" mr-2 select  bg-[#2c2a2a] w-[138px] h-[42px] ">
-                <option value="BDT" selected>
-                    BDT
-                </option>
-                <option value="USD" >USD</option>
+            <select
+                value={selectedCurrencyValue}
+                onChange={handleSelectCurrencyChange}
+                className="mr-2 select bg-[#2c2a2a] w-[138px] h-[42px]"
+            >
+                <option value="BDT">BDT</option>
+                <option value="USD">USD</option>
             </select>
 
             {/* Select Language */}
-            <select className=" mr-2 select  bg-[#2c2a2a] w-[138px] h-[42px] ">
+            <select className="mr-2 select bg-[#2c2a2a] w-[138px] h-[42px]">
                 <option disabled selected>Eng</option>
                 <option>Ban</option>
             </select>
         </div>
-    </>
+    );
 
 
     const handleColorModeCheck = (event) => {
@@ -150,30 +150,34 @@ const Navbar = () => {
                 </div>
 
                 <div className="navbar-end flex flex-row gap-4">
-                    <div className='hidden lg:flex'>
+
+                    {!noHeaderFooter && (<div className='hidden lg:flex'>
                         <Searchbar></Searchbar>
                         <div className=' w-10'>
                             <Link to='/favourite'>
                                 <FontAwesomeIcon className=' text-3xl w-full h-fit mt-2' icon={faHeart} />
                             </Link>
                         </div>
-                    </div>
-
-
-                    <div className=" relative z-20 flex justify-center items-center ">
-                        <div className={` flex justify-center items-center ${open ? 'border-indigo-700 transform transition duration-300' : ''}`}>
-                            <div onClick={() => setOpen(!open)} className="relative border-b-4 border-transparent py-3">
-                                {
-                                    user ? (
-
-                                        <div className="lg:btn lg:btn-sm bg-[#DBC896] border-[#DBC896] bg-transparent lg:w-[183.67px] lg:h-[44.67px]">
-                                            <img src={userIMG} alt="" />
-                                            <div className='hidden lg:flex'>
-                                                <h1>{user?.displayName}</h1>
-                                            </div>
+                    </div>)}
+                    {!noHeaderFooter && (
+                        <div className=" relative z-20 flex justify-center items-center ">
+                            <div className={` flex justify-center items-center ${open ? 'border-indigo-700 transform transition duration-300' : ''}`}>
+                                <div onClick={() => setOpen(!open)} className="relative border-b-4 border-transparent py-3">
+                                    {loading ? (
+                                        // Render a loading indicator here
+                                        <div className='lg:btn lg:btn-sm bg-[#DBC896] border-[#DBC896] bg-transparent lg:w-[183.67px] lg:h-[44.67px]'>
+                                            <p>Loading...</p>
                                         </div>
-                                    ) :
-                                        (
+                                    ) : (
+                                        // Render the content when data is loaded
+                                        user ? (
+                                            <div className="lg:btn lg:btn-sm bg-[#DBC896] border-[#DBC896] bg-transparent lg:w-[183.67px] lg:h-[44.67px]">
+                                                <img src={userIMG} alt="" />
+                                                <div className='hidden lg:flex'>
+                                                    <h1>{user?.displayName}</h1>
+                                                </div>
+                                            </div>
+                                        ) : (
                                             <Link to='/signup' className="lg:btn lg:btn-sm bg-[#DBC896] border-[#DBC896] bg-transparent lg:w-[183.67px] lg:h-[44.67px]">
                                                 <img src={userIMG} alt="" />
                                                 <div className='hidden lg:flex'>
@@ -181,88 +185,90 @@ const Navbar = () => {
                                                 </div>
                                             </Link>
                                         )
-                                }
-                                {
-                                    user && matchedUser?.role === 'User' &&
-                                    open && (
-                                        <div className="absolute z-50 w-60 px-5 py-3 bg-white rounded-lg shadow border dark:border-transparent mt-5">
-                                            <ul className="space-y-3 text-black">
-                                                <li className="font-medium">
-                                                    <Link to='/userprofile' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 ">
-                                                        <div className="mr-3">
-                                                            <FontAwesomeIcon className=' ml-2 text-xl' icon={faUser} />
-                                                        </div>
-                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Profile</h1>
-                                                    </Link>
-                                                    <Link to='/myorder' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 mt-3">
-                                                        <div className="mr-3">
-                                                            <FontAwesomeIcon className=' ml-2 text-xl' icon={faBagShopping} />
-                                                        </div>
-                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">My Order</h1>
-
-                                                    </Link>
-                                                    <Link to='/trackorder' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 mt-3">
-
-                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">
-                                                            <FontAwesomeIcon className=' ml-2 text-xl text-white' icon={faUser} />
-                                                            Trac Order
-                                                        </h1>
-
-                                                    </Link>
-                                                    <div className=' divider'></div>
-                                                    <button onClick={handleLogOut}
-                                                        className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]" type="button">
-                                                        <div className="mr-3">
-                                                            <FontAwesomeIcon className='ml-2 text-xl text-red-600' icon={faArrowRightFromBracket} />
-                                                        </div>
-                                                        Log Out
-                                                    </button>
-                                                </li>
-                                            </ul>
-                                        </div>
                                     )}
 
-                                {
-                                    user && matchedUser?.role === 'Admin' &&
-                                    open && (
-                                        <div className="absolute z-50 w-60 px-5 py-3 bg-white rounded-lg shadow border dark:border-transparent mt-5">
-                                            <ul className="space-y-3 text-black">
-                                                <li className="font-medium">
-                                                    <Link to='/dashboard' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 ">
-                                                        <div className="mr-3">
-                                                            <FontAwesomeIcon className=' ml-2 text-xl' icon={faChartLine} />
+                                    {
+                                        user && matchedUser?.role === 'User' &&
+                                        open && (
+                                            <div className="absolute z-50 w-60 px-5 py-3 bg-white rounded-lg shadow border dark:border-transparent mt-5">
+                                                <ul className="space-y-3 text-black">
+                                                    <li className="font-medium">
+                                                        <Link to='/userprofile' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 ">
+                                                            <div className="mr-3">
+                                                                <FontAwesomeIcon className=' ml-2 text-xl' icon={faUser} />
+                                                            </div>
+                                                            <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Profile</h1>
+                                                        </Link>
+                                                        <Link to='/myorder' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 mt-3">
+                                                            <div className="mr-3">
+                                                                <FontAwesomeIcon className=' ml-2 text-xl' icon={faBagShopping} />
+                                                            </div>
+                                                            <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">My Order</h1>
 
-                                                        </div>
-                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Dashboard</h1>
+                                                        </Link>
+                                                        <Link to='/trackorder' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 mt-3">
 
-                                                    </Link>
-                                                    <div className=' divider'></div>
-                                                    <button onClick={handleLogOut}
-                                                        className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]" type="button">
-                                                        <div className="mr-3">
-                                                            <FontAwesomeIcon className='ml-2 text-xl text-red-600' icon={faArrowRightFromBracket} />
-                                                        </div>
-                                                        Log Out
-                                                    </button>
+                                                            <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">
+                                                                <FontAwesomeIcon className=' ml-2 text-xl text-white' icon={faUser} />
+                                                                Trac Order
+                                                            </h1>
 
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    )}
+                                                        </Link>
+                                                        <div className=' divider'></div>
+                                                        <button onClick={handleLogOut}
+                                                            className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]" type="button">
+                                                            <div className="mr-3">
+                                                                <FontAwesomeIcon className='ml-2 text-xl text-red-600' icon={faArrowRightFromBracket} />
+                                                            </div>
+                                                            Log Out
+                                                        </button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        )}
+
+                                    {
+                                        user && matchedUser?.role === 'Admin' &&
+                                        open && (
+                                            <div className="absolute z-50 w-60 px-5 py-3 bg-white rounded-lg shadow border dark:border-transparent mt-5">
+                                                <ul className="space-y-3 text-black">
+                                                    <li className="font-medium">
+                                                        <Link to='/dashboard' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 ">
+                                                            <div className="mr-3">
+                                                                <FontAwesomeIcon className=' ml-2 text-xl' icon={faChartLine} />
+
+                                                            </div>
+                                                            <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Dashboard</h1>
+
+                                                        </Link>
+                                                        <div className=' divider'></div>
+                                                        <button onClick={handleLogOut}
+                                                            className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]" type="button">
+                                                            <div className="mr-3">
+                                                                <FontAwesomeIcon className='ml-2 text-xl text-red-600' icon={faArrowRightFromBracket} />
+                                                            </div>
+                                                            Log Out
+                                                        </button>
+
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        )}
+                                </div>
+
                             </div>
-
                         </div>
-                    </div>
-                    <div className="indicator">
+                    )}
+
+
+                    {!noHeaderFooter && (<div className="indicator">
                         {localCartData ? (
                             <span className="indicator-item badge badge-secondary right-5">{localCartData.length}</span>
                         ) : (
                             <span className="indicator-item badge badge-secondary right-5">0</span>
                         )}
                         <SideCart selectedCurrencyValue={selectedCurrencyValue} doller={doller} localCartData={localCartData} setLocalCartData={setLocalCartData}></SideCart>
-                    </div>
-
-
+                    </div>)}
 
                 </div>
             </div>

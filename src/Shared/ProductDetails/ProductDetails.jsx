@@ -8,17 +8,28 @@ import Swal from 'sweetalert2';
 import DetailedColour from '../DetailedColour/DetailedColour';
 import FrequentkyBought from '../FrequentkyBought/FrequentkyBought';
 import PremiumServicesDetails from '../../Pages/Home/PremiumServices/PremiumServicesDetails';
+import CollectionCard from '../../Pages/Home/CollectionCard/CollectionCard';
+import ShopByCategory from '../../Pages/Home/ShopByCategory/ShopByCategory';
+import RatingReview from '../RatingReview/RatingReview';
 const ProductDetails = () => {
 
 
     const { user, doller, setLocalCartData, selectedCurrencyValue, selectedColor, setSelectedColor } = useContext(AuthContext);
 
     const data = useLoaderData();
+    // console.log(data)
     const [count, setCount] = useState(0);
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
+    const [ratingData, setRatingData] = useState([]);
 
     const navigate = useNavigate();
+
+    useState(() => {
+        fetch('https://tahar-server.vercel.app/rating')
+            .then(res => res.json())
+            .then(data => setRatingData(data))
+    }, [])
 
     const customerEmail = user?.email;
     const customerName = user?.displayName;
@@ -38,7 +49,7 @@ const ProductDetails = () => {
     const ProductQuantity = count;
     const ProductId = activeID;
     const ProductSale = data.Clearance;
-    console.log(ProductId)
+    // console.log(ProductId)
     useEffect(() => {
         const retrievedData = JSON.parse(localStorage.getItem('cartData'));
         setLocalCartData(retrievedData);
@@ -217,6 +228,16 @@ const ProductDetails = () => {
     }
 
 
+    const filteredRating = ratingData.filter(item => item.productId === data._id).map(item => item.rating);
+    const averageRating = filteredRating.length > 0 ? filteredRating.reduce((a, b) => a + b) / filteredRating.length : 0;
+
+    const roundedAverage = Math.round(averageRating);
+
+    // Generate stars for display
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+        stars.push(<FontAwesomeIcon key={i} className={`h-[33.8px] ${i <= roundedAverage ? 'text-[#DAB658]' : 'text-gray-300'}`} icon={faStar} />);
+    }
     return (
         <div>
             <div className=' flex flex-col lg:flex-row gap-10 mx-[100px] my-[100px]'>
@@ -260,13 +281,11 @@ const ProductDetails = () => {
                 <div className=' w-1/2'>
 
                     <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase text-[40px] mb-5">{data.category} | {data.title}</h1>
-                    <p className=' mb-5' >
-                        <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
-                        <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
-                        <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
-                        <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
-                        <FontAwesomeIcon className=' h-[33.8px] text-[#DAB658]' icon={faStar} />
+                    <p className='mb-5'>
+                        {stars}
+                        <span className='ml-2 text-[30px]'>({filteredRating.length})</span>
                     </p>
+
                     <div className=" flex flex-row justify-between align-middle items-center gap-2 mt-3 ">
                         <button className="w-[154px] h-[54px] rounded-[10px] text-[#000000B0] bg-transparent border-[2px] border-[#0000002E] [font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase">
                             <p className='text-lg font-bold'>
@@ -460,6 +479,14 @@ const ProductDetails = () => {
                 </div>
             </div>
             <FrequentkyBought data={data} selectedCurrencyValue={selectedCurrencyValue} doller={doller}></FrequentkyBought>
+
+
+            <div className=' mt-10 mb-10 mx-[100px]'>
+                <RatingReview data={data}></RatingReview>
+            </div>
+            <div className=' mt-10 mb-10 mx-[100px]'>
+                <ShopByCategory></ShopByCategory>
+            </div>
         </div>
     );
 };

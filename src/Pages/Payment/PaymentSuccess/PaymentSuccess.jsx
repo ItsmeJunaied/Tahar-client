@@ -12,6 +12,7 @@ const PaymentSuccess = () => {
     useEffect(() => {
         if (tranId) {
             localStorage.removeItem('cartData');
+            localStorage.removeItem('customerCode');
             setLocalCartData([]);
         }
     }, [tranId, setLocalCartData]);

@@ -217,7 +217,7 @@ const ManageUsers = () => {
 
                                                     </td>
                                                     <th>
-                                                        <button className="btn btn-ghost text-2xl"><FontAwesomeIcon icon={faPeopleArrows} /></button>
+                                                        <button onClick={()=>handleUserRole(customer._id, customer.role)} className="btn btn-ghost text-2xl"><FontAwesomeIcon icon={faPeopleArrows} /></button>
                                                     </th>
                                                 </tr>
                                             )

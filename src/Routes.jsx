@@ -133,10 +133,6 @@ const router = createBrowserRouter([
         element: <MyOrder></MyOrder>,
       },
       {
-        path: '/invoice',
-        element: <Invoice></Invoice>,
-      },
-      {
         path: '/trackorder',
         element: <TrackOrder></TrackOrder>,
       },

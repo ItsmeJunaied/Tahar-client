@@ -3,20 +3,10 @@ import './Invoice.css';
 import jsPDF from 'jspdf';
 
 const Invoice = () => {
-    const pdfRef = useRef(null);
 
-    useEffect(() => {
-        const generatePDF = async () => {
-            const pdf = new jsPDF();
-            pdf.addImage(pdfRef.current, 0, 0, 210, 297); // Assuming A4 page size
-            pdf.save('invoice.pdf');
-        };
-
-        generatePDF();
-    }, []);
     return (
-        <div style={{ display: 'none' }}>
-            <div ref={pdfRef}>
+        <div >
+            <div >
                 <div id="invoice-content" className="invoice-box">
                     <table>
                         <tbody>

@@ -13,7 +13,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
     const productdata = AllProducts.find(productdata => productdata?.title === videoTitle);
     const videodata = video.find(productdata => productdata?.title === videoTitle);
 
-    console.log(selectedColor)
+    // console.log(selectedColor)
 
 
     const [count, setCount] = useState(0);

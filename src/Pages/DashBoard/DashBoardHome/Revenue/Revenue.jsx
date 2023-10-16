@@ -1,147 +1,62 @@
-import React, { useEffect, useRef } from 'react';
-import ApexCharts from 'apexcharts';
+import React, { useContext, useEffect, useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { AuthContext } from '../../../../Provider/AuthProvider';
+
+
+
 const Revenue = () => {
-
-  const chartInitialized = useRef(false);
-
+  const { user, } = useContext(AuthContext);
+  const [orderData, setOrderData] = useState([]);
   useEffect(() => {
-    const getMainChartOptions = () => {
-      let mainChartColors = {}
-
-      mainChartColors = {
-        borderColor: '#F3F4F6',
-        labelColor: '#6B7280',
-        opacityFrom: 0.45,
-        opacityTo: 0,
-      };
-
-      return {
-        chart: {
-          height: 420,
-          type: 'area',
-          fontFamily: 'Inter, sans-serif',
-          foreColor: mainChartColors.labelColor,
-          toolbar: {
-            show: false
-          }
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            enabled: true,
-            opacityFrom: mainChartColors.opacityFrom,
-            opacityTo: mainChartColors.opacityTo
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        tooltip: {
-          style: {
-            fontSize: '14px',
-            fontFamily: 'Inter, sans-serif',
-          },
-        },
-        grid: {
-          show: true,
-          borderColor: mainChartColors.borderColor,
-          strokeDashArray: 1,
-          padding: {
-            left: 35,
-            bottom: 15
-          }
-        },
-        series: [
-          {
-            name: 'Revenue',
-            data: [6356, 6218, 6156, 6526, 6356, 6256, 6056],
-            color: '#1A56DB'
-          },
-          {
-            name: 'Revenue (previous period)',
-            data: [6556, 6725, 6424, 6356, 6586, 6756, 6616],
-            color: '#FDBA8C'
-          }
-        ],
-        markers: {
-          size: 5,
-          strokeColors: '#ffffff',
-          hover: {
-            size: undefined,
-            sizeOffset: 3
-          }
-        },
-        xaxis: {
-          categories: ['01 Feb', '02 Feb', '03 Feb', '04 Feb', '05 Feb', '06 Feb', '07 Feb'],
-          labels: {
-            style: {
-              colors: [mainChartColors.labelColor],
-              fontSize: '14px',
-              fontWeight: 500,
-            },
-          },
-          axisBorder: {
-            color: mainChartColors.borderColor,
-          },
-          axisTicks: {
-            color: mainChartColors.borderColor,
-          },
-          crosshairs: {
-            show: true,
-            position: 'back',
-            stroke: {
-              color: mainChartColors.borderColor,
-              width: 1,
-              dashArray: 10,
-            },
-          },
-        },
-        yaxis: {
-          labels: {
-            style: {
-              colors: [mainChartColors.labelColor],
-              fontSize: '14px',
-              fontWeight: 500,
-            },
-            formatter: function (value) {
-              return '$' + value;
-            }
-          },
-        },
-        legend: {
-          fontSize: '14px',
-          fontWeight: 500,
-          fontFamily: 'Inter, sans-serif',
-          labels: {
-            colors: [mainChartColors.labelColor]
-          },
-          itemMargin: {
-            horizontal: 10
-          }
-        },
-        responsive: [
-          {
-            breakpoint: 1024,
-            options: {
-              xaxis: {
-                labels: {
-                  show: false
-                }
-              }
-            }
-          }
-        ]
-      };
-    }
-
-    if (!chartInitialized.current && document.getElementById('main-chart')) {
-      const chart = new ApexCharts(document.getElementById('main-chart'), getMainChartOptions());
-      chart.render();
-      chartInitialized.current = true;
-    }
+    fetch('https://tahar-server.vercel.app/orders')
+      .then(res => res.json())
+      .then(data => {
+        setOrderData(data);
+      });
   }, []);
 
-  return <div id="main-chart" />;
+
+  const allDatesAndSubtotal = orderData.map(item => {
+    const dt = item.data;
+    return { date: dt.date, subtotalTaxandShipping: dt.total_amount };
+  });
+
+  // console.log(allDatesAndSubtotal);
+
+  const filteredData = allDatesAndSubtotal.filter(item => item.date !== undefined);
+
+  const uniqueDates = [...new Set(filteredData.map(item => item.date))];
+
+  const result = uniqueDates.map(date => {
+    const total = filteredData
+      .filter(item => item.date === date)
+      .reduce((acc, item) => acc + parseFloat(item.subtotalTaxandShipping), 0);
+
+    return { date, total };
+  });
+
+  // Sort the result array by date
+  result.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+  const data = result;
+
+
+
+  return (
+    <LineChart
+      width={800}
+      height={400}
+      data={data}
+      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="date" />
+      <YAxis />
+      <Tooltip />
+      <Legend />
+      <Line type="monotone" dataKey="total" stroke="#8884d8" activeDot={{ r: 8 }} />
+    </LineChart>
+  );
 };
 
 export default Revenue;

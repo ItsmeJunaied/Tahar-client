@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const FromalCategory = () => {
     const [category, setCategory] = useState([]);
 
-    console.log(category)
+    // console.log(category)
     useEffect(() => {
         fetch('https://tahar-server.vercel.app/categoryInfo')
             .then(res => res.json())
