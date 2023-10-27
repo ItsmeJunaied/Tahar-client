@@ -14,7 +14,7 @@ const UploadBanner = () => {
     const [bannerinfo, setBannerinfo] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/banner')
+        fetch('https://tahar-server-production.up.railway.app/banner')
             .then(res => res.json())
             .then(data => setBannerinfo(data))
     }, [])
@@ -30,7 +30,7 @@ const UploadBanner = () => {
             formData.append('title', data.title);
             formData.append('description', data.description);
 
-            const response = await fetch('http://localhost:5000/banner', {
+            const response = await fetch('https://tahar-server-production.up.railway.app/banner', {
                 method: 'POST',
                 body: formData,
             });
@@ -45,7 +45,7 @@ const UploadBanner = () => {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                fetch('http://localhost:5000/banner')
+                fetch('https://tahar-server-production.up.railway.app/banner')
                     .then(res => res.json())
                     .then(data => setBannerinfo(data))
                 setUploadedImages(null)
@@ -62,7 +62,7 @@ const UploadBanner = () => {
     const handleBannerDelete = async (id) => {
         console.log(id)
 
-        fetch(`http://localhost:5000/banner/${id}`,{
+        fetch(`https://tahar-server-production.up.railway.app/banner/${id}`,{
             method: 'DELETE'
         })
         .then(res=>res.json())
@@ -70,7 +70,7 @@ const UploadBanner = () => {
             console.log(data);
             if(data.deletedCount > 0){
                 setBannerinfo(prev => prev.filter(banner => banner._id !== id));
-                fetch('http://localhost:5000/banner')
+                fetch('https://tahar-server-production.up.railway.app/banner')
                     .then(res => res.json())
                     .then(data => setBannerinfo(data))
             }
@@ -197,7 +197,7 @@ const UploadBanner = () => {
                                                     <div className="flex items-center space-x-3">
                                                         <div className="avatar">
                                                             <div className="mask mask-squircle w-12 h-12">
-                                                                <img src={`http://localhost:5000/uploads/${item.images}`} alt="banner img" />
+                                                                <img src={`https://tahar-server-production.up.railway.app/uploads/${item.images}`} alt="banner img" />
                                                             </div>
                                                         </div>
                                                     </div>

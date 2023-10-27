@@ -26,7 +26,7 @@ const ProductDetails = () => {
     const navigate = useNavigate();
 
     useState(() => {
-        fetch('http://localhost:5000/rating')
+        fetch('https://tahar-server-production.up.railway.app/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, [])
@@ -268,7 +268,7 @@ const ProductDetails = () => {
                                 <img
                                     key={index}
                                     className={`w-[165px] h-[160px] rounded-[10px] ${index === selectedImageIndex ? 'border-2 border-[#DBC896]' : ''}`}
-                                    src={`http://localhost:5000/uploads/${image}`}
+                                    src={`https://tahar-server-production.up.railway.app/uploads/${image}`}
                                     alt=""
                                     onClick={() => handleImageClick(index)}
                                 />
@@ -280,7 +280,7 @@ const ProductDetails = () => {
                             <img
                                 className='w-[622px] h-[700px] rounded-[10px] object-cover image-box'
 
-                                src={`http://localhost:5000/uploads/${data.images[selectedImageIndex]}`}
+                                src={`https://tahar-server-production.up.railway.app/uploads/${data.images[selectedImageIndex]}`}
                                 alt=""
                             />
                         </div>

@@ -19,7 +19,7 @@ const CategoryUpload = () => {
     const [categoryData, setCategoryData] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/categoryInfo')
+        fetch('https://tahar-server-production.up.railway.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryData(data))
     }, [])
@@ -32,7 +32,7 @@ const CategoryUpload = () => {
         formData.append('categoryImage', data.categoryImage);
         formData.append('status', 'Not Show');
 
-        fetch('http://localhost:5000/categoryInfo', {
+        fetch('https://tahar-server-production.up.railway.app/categoryInfo', {
             method: "POST",
             body: formData
         })
@@ -55,7 +55,7 @@ const CategoryUpload = () => {
             })
     }
     const handleStatus = (id, currentStatus) => {
-        fetch(`http://localhost:5000/categoryInfo/${id}`, {
+        fetch(`https://tahar-server-production.up.railway.app/categoryInfo/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ const CategoryUpload = () => {
                             return category;
                         });
                     });
-                    fetch('http://localhost:5000/categoryInfo')
+                    fetch('https://tahar-server-production.up.railway.app/categoryInfo')
                         .then(res => res.json())
                         .then(data => setCategoryData(data))
                 }

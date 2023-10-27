@@ -72,7 +72,7 @@ const Sale = () => {
                                     <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                         <img
                                             className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                            src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                            src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
                                             alt="" />
                                         <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                             <div
@@ -248,7 +248,7 @@ const Sale = () => {
                                         <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                             <img
                                                 className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                                src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                                src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
                                                 alt="" />
                                             <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                                 <div
@@ -426,7 +426,7 @@ const Sale = () => {
                                             <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                                 <img
                                                     className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                                    src={`http://localhost:5000/uploads/${item.images[0]}`}
+                                                    src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
                                                     alt="" />
                                                 <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                                     <div

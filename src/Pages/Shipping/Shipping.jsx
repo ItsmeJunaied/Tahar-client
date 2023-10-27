@@ -35,7 +35,7 @@ const Shipping = () => {
 
 
     useEffect(() => {
-        fetch('http://localhost:5000/promocode')
+        fetch('https://tahar-server-production.up.railway.app/promocode')
             .then(res => res.json())
             .then(data => setCode(data))
     }, [])
@@ -198,7 +198,7 @@ const Shipping = () => {
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] "
-                                            src={`http://localhost:5000/uploads/${item.ProductImage}`}
+                                            src={`https://tahar-server-production.up.railway.app/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>

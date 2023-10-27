@@ -37,7 +37,7 @@ const ManageOrders = () => {
         console.log(id)
         console.log(currentRole)
 
-        fetch(`http://localhost:5000/orders/${id}`, {
+        fetch(`https://tahar-server-production.up.railway.app/orders/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ const ManageOrders = () => {
             .then(data => {
                 console.log(data);
                 if (data.success) {
-                    fetch('http://localhost:5000/orders')
+                    fetch('https://tahar-server-production.up.railway.app/orders')
                         .then(res => res.json())
                         .then(updatedData => setLoggedUser(updatedData))
                 }

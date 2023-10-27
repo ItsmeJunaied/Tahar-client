@@ -73,38 +73,38 @@ const AuthProvider = ({ children }) => {
     };
     // users
     useEffect(() => {
-        fetch('http://localhost:5000/users')
+        fetch('https://tahar-server-production.up.railway.app/users')
             .then(res => res.json())
             .then(data => setLoggedUser(data))
     }, [])
 
     // product
     useEffect(() => {
-        fetch('http://localhost:5000/product')
+        fetch('https://tahar-server-production.up.railway.app/product')
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
     // category Names
     useEffect(() => {
-        fetch('http://localhost:5000/categoryInfo')
+        fetch('https://tahar-server-production.up.railway.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryName(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('http://localhost:5000/fabrics')
+        fetch('https://tahar-server-production.up.railway.app/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
     // orders Names
     useEffect(() => {
-        fetch('http://localhost:5000/orders')
+        fetch('https://tahar-server-production.up.railway.app/orders')
             .then(res => res.json())
             .then(data => setOrder(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('http://localhost:5000/CODorder')
+        fetch('https://tahar-server-production.up.railway.app/CODorder')
             .then(res => res.json())
             .then(data => setCODorder(data))
     }, [])

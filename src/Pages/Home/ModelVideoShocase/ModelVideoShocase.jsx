@@ -23,7 +23,7 @@ const ModelVideoShocase = () => {
 
     // console.log(AllProducts)
     useEffect(() => {
-        fetch('http://localhost:5000/video')
+        fetch('https://tahar-server-production.up.railway.app/video')
             .then(res => res.json())
             .then(data => setVideo(data))
     }, [])
@@ -106,7 +106,7 @@ const ModelVideoShocase = () => {
                             >
                                 <video
                                     className="object-cover lg:w-full lg:h-full  rounded-xl"
-                                    src={`http://localhost:5000/uploads/${item.video.filename} `}
+                                    src={`https://tahar-server-production.up.railway.app/uploads/${item.video.filename} `}
                                     autoPlay
                                     muted
                                     controls={false}
@@ -119,7 +119,7 @@ const ModelVideoShocase = () => {
                                                 if (product.title === item.title) {
                                                     return (
                                                         <div key={item._id} className="your-class-name">
-                                                            <img className=' w-28 h-28 rounded object-cover' src={`http://localhost:5000/uploads/${product.images[0]}`} alt="" />
+                                                            <img className=' w-28 h-28 rounded object-cover' src={`https://tahar-server-production.up.railway.app/uploads/${product.images[0]}`} alt="" />
                                                             <div className="flex flex-col justify-start align-start items-start">
                                                                 <h1 className="text-[19px]">{product.title}</h1>
                                                                 <p className={`${there === 'light' ? 'text-black' : 'text-[#DBC896]'} text-[18px]`}>

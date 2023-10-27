@@ -12,7 +12,7 @@ const Return = () => {
 
     const onSubmit = data => {
         const { email, orderID } = data;
-        fetch('http://localhost:5000/return', {
+        fetch('https://tahar-server-production.up.railway.app/return', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

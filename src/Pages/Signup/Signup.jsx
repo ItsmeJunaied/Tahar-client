@@ -30,7 +30,7 @@ const Signup = () => {
                 updateUser(data.firstName, data.lastName)
                     .then(() => {
                         const saveUser = { firstName: data.firstName, lastName: data.lastName, photoURL:data.photoURL, email: data.email ,role: 'User'}
-                        fetch('http://localhost:5000/users', {
+                        fetch('https://tahar-server-production.up.railway.app/users', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/json'

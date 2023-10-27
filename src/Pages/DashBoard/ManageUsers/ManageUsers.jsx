@@ -32,7 +32,7 @@ const ManageUsers = () => {
     const handleUserRole = (id, currentRole) => {
         console.log(id)
         console.log(currentRole)
-        fetch(`http://localhost:5000/users/${id}`, {
+        fetch(`https://tahar-server-production.up.railway.app/users/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ const ManageUsers = () => {
             .then(data => {
                 console.log(data);
                 if (data.success) {
-                    fetch('http://localhost:5000/users')
+                    fetch('https://tahar-server-production.up.railway.app/users')
                         .then(res => res.json())
                         .then(updatedData => setLoggedUser(updatedData))
                 }

@@ -8,7 +8,7 @@ const Revenue = () => {
   const { user, } = useContext(AuthContext);
   const [orderData, setOrderData] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:5000/orders')
+    fetch('https://tahar-server-production.up.railway.app/orders')
       .then(res => res.json())
       .then(data => {
         setOrderData(data);

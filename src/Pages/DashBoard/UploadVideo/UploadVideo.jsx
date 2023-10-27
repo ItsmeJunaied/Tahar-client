@@ -14,7 +14,7 @@ const UploadVideo = () => {
     const [video, setVideo] = useState([]);
 
     useEffect(() => {
-        fetch('http://localhost:5000/video')
+        fetch('https://tahar-server-production.up.railway.app/video')
             .then(res => res.json())
             .then(data => setVideo(data))
     }, [])
@@ -55,13 +55,13 @@ const UploadVideo = () => {
         formData.append('title', data.title);
         formData.append('video', data.video);
 
-        const response = await fetch('http://localhost:5000/video', {
+        const response = await fetch('https://tahar-server-production.up.railway.app/video', {
             method: 'POST',
             body: formData,
         });
         if (response.ok) {
             const responseData = await response.json();
-            fetch('http://localhost:5000/video')
+            fetch('https://tahar-server-production.up.railway.app/video')
                 .then(res => res.json())
                 .then(updatedata => setVideo(updatedata))
             Swal.fire({
@@ -89,7 +89,7 @@ const UploadVideo = () => {
         const newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
 
         console.log(newStatus)
-        fetch(`http://localhost:5000/video/${id}`, {
+        fetch(`https://tahar-server-production.up.railway.app/video/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -227,7 +227,7 @@ const UploadVideo = () => {
                                     video && video.map(video =>
                                         <div key={video._id} className="col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
                                             <div className="relative aspect-w-8 aspect-h-8">
-                                                <video className=" w-60 h-64 " src={`http://localhost:5000/uploads/${video.video.filename} `} controls></video>
+                                                <video className=" w-60 h-64 " src={`https://tahar-server-production.up.railway.app/uploads/${video.video.filename} `} controls></video>
                                             </div>
                                             <h1 className="text-lg font-bold mt-2 h-10 ">{video.title}</h1>
                                             <div className="flex justify-between items-center mt-6">

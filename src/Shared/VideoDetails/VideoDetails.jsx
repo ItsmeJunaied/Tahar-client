@@ -185,7 +185,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video,  setSelectedColor, local
                 <div>
                     <video
                         className="object-cover w-full h-[638px] rounded-xl"
-                        src={`http://localhost:5000/uploads/${videodata?.video?.filename} `}
+                        src={`https://tahar-server-production.up.railway.app/uploads/${videodata?.video?.filename} `}
                         autoPlay
                         ref={videoRef}
                         controlsList="nodownload noremoteplayback"
@@ -199,7 +199,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video,  setSelectedColor, local
                             <img
                                 key={index}
                                 className="w-40 h-40 rounded object-cover"
-                                src={`http://localhost:5000/uploads/${image}`}
+                                src={`https://tahar-server-production.up.railway.app/uploads/${image}`}
                                 alt=""
                             />
                         ))}

@@ -7,7 +7,7 @@ const CollectionCard = () => {
 
     // console.log(category)
     useEffect(() => {
-        fetch('http://localhost:5000/categoryInfo')
+        fetch('https://tahar-server-production.up.railway.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -18,7 +18,7 @@ const CollectionCard = () => {
                 category.map(item => {
                     if (item && item.status === 'Container1' && item.title) {
                         const backgroundImageStyle = {
-                            backgroundImage: `url(http://localhost:5000/uploads/${item.image})`,
+                            backgroundImage: `url(https://tahar-server-production.up.railway.app/uploads/${item.image})`,
                             backgroundSize: 'cover',
                             backgroundPosition: 'center center'
                         };
