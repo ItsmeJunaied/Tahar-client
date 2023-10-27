@@ -42,17 +42,14 @@ const ShopWomenFilter = ({ ShopWomen, activeFabric, setActiveFabric, setFiltered
 
     // color
 
-    const SColor = ShopWomen?.map(item => item?.Scolor);
-    const MColor = ShopWomen?.map(item => item?.Mcolor);
-    const LColor = ShopWomen?.map(item => item?.Lcolor);
-    const XLColor = ShopWomen?.map(item => item?.XLcolor);
-    const XXLColor = ShopWomen?.map(item => item?.XXLcolor);
-    const XXXLColor = ShopWomen?.map(item => item?.XXXLcolor);
+    // const SColor = ShopWomen?.map(item => item?.Scolor);
+    // const MColor = ShopWomen?.map(item => item?.Mcolor);
+    // const LColor = ShopWomen?.map(item => item?.Lcolor);
+    // const XLColor = ShopWomen?.map(item => item?.XLcolor);
+    // const XXLColor = ShopWomen?.map(item => item?.XXLcolor);
+    // const XXXLColor = ShopWomen?.map(item => item?.XXXLcolor);
 
-    const combinedColors = [...SColor, ...MColor, ...LColor, ...XLColor, ...XXLColor, ...XXXLColor]
-        .flatMap(colors => colors.split(','))
-        .filter(color => color !== '')
-        .filter((color, index, self) => self.indexOf(color) === index);
+    const combinedColors = ShopWomen.map(item=> item.selectedColor)
 
     // console.log(combinedColors);
 

@@ -44,17 +44,7 @@ const CollectionFilter = ({ categoryWisedata, activeFabric, setActiveFabric, set
 
     // color
 
-    const SColor = categoryWisedata?.map(item => item?.Scolor);
-    const MColor = categoryWisedata?.map(item => item?.Mcolor);
-    const LColor = categoryWisedata?.map(item => item?.Lcolor);
-    const XLColor = categoryWisedata?.map(item => item?.XLcolor);
-    const XXLColor = categoryWisedata?.map(item => item?.XXLcolor);
-    const XXXLColor = categoryWisedata?.map(item => item?.XXXLcolor);
-
-    const combinedColors = [...SColor, ...MColor, ...LColor, ...XLColor, ...XXLColor, ...XXXLColor]
-        .flatMap(colors => colors.split(','))
-        .filter(color => color !== '')
-        .filter((color, index, self) => self.indexOf(color) === index);
+    const combinedColors = categoryWisedata.map(item=> item.selectedColor)
 
     // console.log(combinedColors);
 

@@ -52,7 +52,7 @@ const ShopMen = () => {
             <div className="relative overflow-hidden h-96 flex items-center justify-center">
                 <img className="w-full h-[479]" src={top_bg} alt="" />
                 <div className="absolute bottom-0 top-36 p-4 class-header text-center w-full">
-                    <p className="text-white  font-bold mb-4 font-sans text-5xl">Collections</p>
+                    <p className="text-white  font-bold mb-4 font-sans text-5xl">Shop Men Collection</p>
                     <p className="text-[#DBC896] text-3xl font-bold">for all your celebrations!</p>
                 </div>
             </div>
