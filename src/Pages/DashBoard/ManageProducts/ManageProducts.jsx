@@ -129,7 +129,7 @@ const ManageProducts = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredUsers ===''? (AllProducts.map(product => (
+                                    {filteredUsers === '' ? (AllProducts.map(product => (
                                         <tr key={product?._id}>
                                             <td>
                                                 <div className="flex items-center space-x-3">
@@ -175,111 +175,22 @@ const ManageProducts = () => {
                                                 {/* S */}
                                                 <div className=' flex flex-row gap-1' >
                                                     <div>
-                                                        <p>S</p>
+                                                        <p>Color</p>
                                                     </div>
                                                     <div className=' flex flex-row gap-1'>
-                                                        {product.Scolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.Scolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.Scolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
+
+                                                        <div className={`${product.selectedColor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
+                                                            <div
+                                                                className={`w-[16px] h-[16px] rounded-[104px] `}
+                                                                style={{ backgroundColor: product.selectedColor }}
+                                                            >
+                                                                {product.selectedColor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
                                                             </div>
-                                                        ))}
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                                {/* M */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>M </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.Mcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.Mcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.Mcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* L */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>L </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.Lcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.Lcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.Lcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* XL */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>XL </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.XLcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.XLcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.XLcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* XXL */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>2XL </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.XXLcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.XXLcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.XXLcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* 3XL */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>3XL </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.XXXLcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.XXXLcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.XXXLcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
+
 
                                             </td>
 
@@ -305,9 +216,9 @@ const ManageProducts = () => {
                                             </td>
                                             <td>{product?.sellpercet || 0} %</td>
                                             <td><button><FontAwesomeIcon icon={faPenToSquare} style={{ color: "#ffd43b", }} size='2x' /></button></td>
-                                            <td><button><FontAwesomeIcon icon={faTrashCan} style={{ color: "#f50000", }} size='2x'/></button></td>
+                                            <td><button><FontAwesomeIcon icon={faTrashCan} style={{ color: "#f50000", }} size='2x' /></button></td>
                                         </tr>
-                                    ))):((filteredUsers.map(product => (
+                                    ))) : ((filteredUsers.map(product => (
                                         <tr key={product?._id}>
                                             <td>
                                                 <div className="flex items-center space-x-3">
@@ -353,109 +264,19 @@ const ManageProducts = () => {
                                                 {/* S */}
                                                 <div className=' flex flex-row gap-1' >
                                                     <div>
-                                                        <p>S</p>
+                                                        <p>Color</p>
                                                     </div>
                                                     <div className=' flex flex-row gap-1'>
-                                                        {product.Scolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.Scolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.Scolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
+
+                                                        <div className={`${product.selectedColor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
+                                                            <div
+                                                                className={`w-[16px] h-[16px] rounded-[104px] `}
+                                                                style={{ backgroundColor: product.selectedColor }}
+                                                            >
+                                                                {product.selectedColor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
                                                             </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* M */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>M </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.Mcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.Mcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.Mcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* L */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>L </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.Lcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.Lcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.Lcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* XL */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>XL </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.XLcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.XLcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.XLcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* XXL */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>2XL </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.XXLcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.XXLcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.XXLcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                {/* 3XL */}
-                                                <div className=' flex flex-row gap-1' >
-                                                    <div>
-                                                        <p>3XL </p>
-                                                    </div>
-                                                    <div className=' flex flex-row gap-1'>
-                                                        {product.XXXLcolor.split(',').map((color, index) => (
-                                                            <div key={index} className={`${product.XXXLcolor === '' ? '' : 'border border-black rounded-full p-[1px]'}`}>
-                                                                <div
-                                                                    className={`w-[16px] h-[16px] rounded-[104px] `}
-                                                                    style={{ backgroundColor: color }}
-                                                                >
-                                                                    {product.XXXLcolor === '' ? <FontAwesomeIcon icon={faDropletSlash} style={{ color: "#ffd43b", }} /> : ''}
-                                                                </div>
-                                                            </div>
-                                                        ))}
+                                                        </div>
+
                                                     </div>
                                                 </div>
 
@@ -483,7 +304,7 @@ const ManageProducts = () => {
                                             </td>
                                             <td>{product?.sellpercet || 0} %</td>
                                             <td><button><FontAwesomeIcon icon={faPenToSquare} style={{ color: "#ffd43b", }} size='2x' /></button></td>
-                                            <td><button><FontAwesomeIcon icon={faTrashCan} style={{ color: "#f50000", }} size='2x'/></button></td>
+                                            <td><button><FontAwesomeIcon icon={faTrashCan} style={{ color: "#f50000", }} size='2x' /></button></td>
                                         </tr>
                                     ))))}
                                 </tbody>
