@@ -12,7 +12,7 @@ import ColourChanges from "../../../../Shared/ColourChanges/ColourChanges";
 import { Link } from "react-router-dom";
 
 const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, doller }) => {
-    const { AllProducts, setFavouriteData } = useContext(AuthContext);
+    const { AllProducts, setFavouriteData, there } = useContext(AuthContext);
 
 
     // console.log(filteredFroduct)
@@ -99,20 +99,10 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                 <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                     <img
                                         className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                        src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
+                                        src={`http://localhost:5000/uploads/${item.images[0]}`}
                                         alt="" />
-                                    <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
-                                        <div
-                                            id="MdiheartoutlineRoot"
-                                            className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-20 h-8 items-center rounded-[104px]"
-                                        >
-                                            <FontAwesomeIcon className=' text-white ' icon={faHeart} />
-                                            <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
-                                                {JSON.parse(localStorage.getItem('favourite'))?.includes(item._id) ? 'Liked' : 'Like'}
-                                            </div>
-                                        </div>
-                                    </button>
-                                    <button>
+
+                                    <div>
                                         {
                                             item.Clearance === 'Sale' && (
                                                 <div
@@ -124,159 +114,142 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                                 </div>
                                             )
                                         }
-                                    </button>
-                                </div>
-                                {/* </Link> */}
-
-                                <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
-                                    <Link to={`/product/${item._id}`}>
-                                        <h1 className=" text-[#474747]  h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}
-                                        </h1>
-                                    </Link>
-                                    <p className=" text-black   text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
-
-                                        {selectedCurrencyValue === 'BDT' ? (item.Clearance === 'Sale' ? (
-                                            <>
-                                                <span className="line-through text-[#828282] ">Tk.{parseInt(item.price).toFixed(2)}</span> Tk.{((parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))).toFixed(2)}
-                                            </>
-                                        ) : (
-                                            `Tk.${item.price}`
-                                        )) : (item.Clearance === 'Sale' ? (
-                                            <>
-                                                <span className="line-through text-[#828282]">${parseFloat(item.price * 2.5 * doller).toFixed(2)}</span>
-                                                $ {(((parseInt(item.price) * 2.5 * doller) - ((parseInt(item.price) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100))).toFixed(2)}
-                                            </>
-                                        ) : (
-                                            `$${item.price * 2.5 * doller}`
-                                        ))}
-
-                                    </p>
-
-
-                                    {/* colour */}
-                                    <ColourChanges key={item._id} item={item} activeSize={activeSize} activeID={activeID}></ColourChanges>
-
-                                    <div className=" flex gap-2">
-                                        {
-                                            parseInt(item.Squantity) > 0 ? (
-                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'S' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                    }`}
-                                                    onClick={() => {
-                                                        setActiveSize('S');
-                                                        setActiveID(item._id);
-                                                    }}
-                                                >S</button>
-                                            ) : (
-                                                <button
-                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
-                                                    disabled
-                                                >
-                                                    S
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <FontAwesomeIcon icon={faSlash} size="x" />
-
-                                                    </div>
-                                                </button>
-                                            )
-                                        }
-                                        {
-                                            parseInt(item.Mquantity) > 0 ? (
-                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'M' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                    }`} onClick={() => {
-                                                        setActiveSize('M');
-                                                        setActiveID(item._id);
-                                                    }}>M</button>
-                                            ) : (
-                                                <button
-                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
-                                                    disabled
-                                                >
-                                                    M
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <FontAwesomeIcon icon={faSlash} size="x" />
-                                                    </div>
-                                                </button>
-                                            )
-                                        }
-                                        {
-                                            parseInt(item.Lquantity) > 0 ? (
-                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'L' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                    }`} onClick={() => {
-                                                        setActiveSize('L');
-                                                        setActiveID(item._id);
-                                                    }}>L</button>
-                                            ) : (
-                                                <button
-                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
-                                                    disabled
-                                                >
-                                                    L
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <FontAwesomeIcon icon={faSlash} size="x" />
-                                                    </div>
-                                                </button>
-                                            )
-                                        }
-                                        {
-                                            parseInt(item.XLquantity) > 0 ? (
-                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                    }`} onClick={() => {
-                                                        setActiveSize('XL');
-                                                        setActiveID(item._id);
-                                                    }}>XL</button>
-                                            ) : (
-                                                <button
-                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
-                                                    disabled
-                                                >
-                                                    XL
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <FontAwesomeIcon icon={faSlash} size="x" />
-                                                    </div>
-                                                </button>
-                                            )
-                                        }
-                                        {
-                                            parseInt(item.XXLquantity) > 0 ? (
-                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                    }`} onClick={() => {
-                                                        setActiveSize('XXL');
-                                                        setActiveID(item._id);
-                                                    }}>XXL</button>
-                                            ) : (
-                                                <button
-                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
-                                                    disabled
-                                                >
-                                                    XXL
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <FontAwesomeIcon icon={faSlash} size="x" />
-                                                    </div>
-                                                </button>
-                                            )
-                                        }
-                                        {
-                                            parseInt(item.XXXLquantity) > 0 ? (
-                                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                    }`} onClick={() => {
-                                                        setActiveSize('XXXL');
-                                                        setActiveID(item._id);
-                                                    }}>XXXL</button>
-                                            ) : (
-                                                <button
-                                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
-                                                    disabled
-                                                >
-                                                    XXXL
-                                                    <div className="absolute inset-0 flex items-center justify-center">
-                                                        <FontAwesomeIcon icon={faSlash} size="x" />
-                                                    </div>
-                                                </button>
-                                            )
-                                        }
-
                                     </div>
                                 </div>
+                                {/* </Link> */}
+                                <Link to={`/product/${item._id}`}>
+                                    <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
+
+                                        <h1 className={`  ${there === 'light' ? 'text-black' : 'text-white'}  h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]`}>{item.title} | {item.category}
+                                        </h1>
+
+                                        <p className={` ${there === 'light' ? 'text-black' : 'text-[#DBC896]'}  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]`}>
+
+                                            {selectedCurrencyValue === 'BDT' ? (item.Clearance === 'Sale' ? (
+                                                <>
+                                                    <span className={`line-through  text-[#828282] `}>Tk.{parseInt(item.price).toFixed(2)}</span> Tk.{((parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))).toFixed(2)}
+                                                </>
+                                            ) : (
+                                                `Tk.${item.price}`
+                                            )) : (item.Clearance === 'Sale' ? (
+                                                <>
+                                                    <span className="line-through text-[#828282]">${parseFloat(item.price * 2.5 * doller).toFixed(2)}</span>
+                                                    $ {(((parseInt(item.price) * 2.5 * doller) - ((parseInt(item.price) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100))).toFixed(2)}
+                                                </>
+                                            ) : (
+                                                `$${item.price * 2.5 * doller}`
+                                            ))}
+
+                                        </p>
+
+
+                                        {/* colour */}
+                                        <ColourChanges key={item._id} there={there} item={item} activeSize={activeSize} activeID={activeID}></ColourChanges>
+
+                                        <div className=" flex gap-2">
+                                            {
+                                                parseInt(item.Squantity) > 0 ? (
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >S</button>
+                                                ) : (
+                                                    <button
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
+                                                        disabled
+                                                    >
+                                                        S
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
+
+                                                        </div>
+                                                    </button>
+                                                )
+                                            }
+                                            {
+                                                parseInt(item.Mquantity) > 0 ? (
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >M</button>
+                                                ) : (
+                                                    <button
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
+                                                        disabled
+                                                    >
+                                                        M
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
+                                                        </div>
+                                                    </button>
+                                                )
+                                            }
+                                            {
+                                                parseInt(item.Lquantity) > 0 ? (
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >L</button>
+                                                ) : (
+                                                    <button
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
+                                                        disabled
+                                                    >
+                                                        L
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
+                                                        </div>
+                                                    </button>
+                                                )
+                                            }
+                                            {
+                                                parseInt(item.XLquantity) > 0 ? (
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >XL</button>
+                                                ) : (
+                                                    <button
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
+                                                        disabled
+                                                    >
+                                                        XL
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
+                                                        </div>
+                                                    </button>
+                                                )
+                                            }
+                                            {
+                                                parseInt(item.XXLquantity) > 0 ? (
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >
+                                                        XXL
+                                                    </button>
+                                                ) : (
+                                                    <button
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
+                                                        disabled
+                                                    >
+                                                        XXL
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
+                                                        </div>
+                                                    </button>
+                                                )
+                                            }
+                                            {
+                                                parseInt(item.XXXLquantity) > 0 ? (
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >XXXL</button>
+                                                ) : (
+                                                    <button
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center  ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
+                                                        disabled
+                                                    >
+                                                        XXXL
+                                                        <div className="absolute inset-0 flex items-center justify-center">
+                                                            <FontAwesomeIcon icon={faSlash} size="x" />
+                                                        </div>
+                                                    </button>
+                                                )
+                                            }
+
+                                        </div>
+                                    </div>
+                                </Link>
                             </div>
                         )
                     ) :
@@ -287,7 +260,7 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                     <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                         <img
                                             className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                            src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
+                                            src={`http://localhost:5000/uploads/${item.images[0]}`}
                                             alt="" />
                                         <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                             <div
@@ -317,12 +290,15 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                     {/* </Link> */}
 
                                     <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
-                                        <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>
-                                        <p className=" text-black  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                        <Link to={`/product/${item._id}`}>
+                                            <h1 className={`  ${there === 'light' ? 'text-black' : 'text-white'}  h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]`}>{item.title} | {item.category}
+                                            </h1>
+                                        </Link>
+                                        <p className={` ${there === 'light' ? 'text-black' : 'text-[#DBC896]'}  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]`}>
 
                                             {selectedCurrencyValue === 'BDT' ? (item.Clearance === 'Sale' ? (
                                                 <>
-                                                    <span className="line-through text-[#828282]">Tk.{parseInt(item.price).toFixed(2)}</span> Tk.{((parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))).toFixed(2)}
+                                                    <span className={`line-through  text-[#828282] `}>Tk.{parseInt(item.price).toFixed(2)}</span> Tk.{((parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))).toFixed(2)}
                                                 </>
                                             ) : (
                                                 `Tk.${item.price}`
@@ -339,40 +315,35 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
 
 
                                         {/* colour */}
-                                        <ColourChanges key={item._id} item={item} activeSize={activeSize} activeID={activeID}></ColourChanges>
+                                        <ColourChanges key={item._id} there={there} item={item} activeSize={activeSize} activeID={activeID}></ColourChanges>
 
                                         <div className=" flex gap-2">
                                             {
                                                 parseInt(item.Squantity) > 0 ? (
-                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'S' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'S' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
                                                         }`}
-                                                        onClick={() => {
-                                                            setActiveSize('S');
-                                                            setActiveID(item._id);
-                                                        }}
+
                                                     >S</button>
                                                 ) : (
                                                     <button
-                                                        className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                         disabled
                                                     >
                                                         S
                                                         <div className="absolute inset-0 flex items-center justify-center">
                                                             <FontAwesomeIcon icon={faSlash} size="x" />
+
                                                         </div>
                                                     </button>
                                                 )
                                             }
                                             {
                                                 parseInt(item.Mquantity) > 0 ? (
-                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'M' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                        }`} onClick={() => {
-                                                            setActiveSize('M');
-                                                            setActiveID(item._id);
-                                                        }}>M</button>
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'M' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                        }`} >M</button>
                                                 ) : (
                                                     <button
-                                                        className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                         disabled
                                                     >
                                                         M
@@ -384,14 +355,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                             }
                                             {
                                                 parseInt(item.Lquantity) > 0 ? (
-                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'L' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                        }`} onClick={() => {
-                                                            setActiveSize('L');
-                                                            setActiveID(item._id);
-                                                        }}>L</button>
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'L' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                        }`} >L</button>
                                                 ) : (
                                                     <button
-                                                        className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                         disabled
                                                     >
                                                         L
@@ -403,14 +371,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                             }
                                             {
                                                 parseInt(item.XLquantity) > 0 ? (
-                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                        }`} onClick={() => {
-                                                            setActiveSize('XL');
-                                                            setActiveID(item._id);
-                                                        }}>XL</button>
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'XL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                        }`} >XL</button>
                                                 ) : (
                                                     <button
-                                                        className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                         disabled
                                                     >
                                                         XL
@@ -422,14 +387,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                             }
                                             {
                                                 parseInt(item.XXLquantity) > 0 ? (
-                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                        }`} onClick={() => {
-                                                            setActiveSize('XXL');
-                                                            setActiveID(item._id);
-                                                        }}>XXL</button>
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'XXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                        }`} >XXL</button>
                                                 ) : (
                                                     <button
-                                                        className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                         disabled
                                                     >
                                                         XXL
@@ -441,14 +403,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                             }
                                             {
                                                 parseInt(item.XXXLquantity) > 0 ? (
-                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                        }`} onClick={() => {
-                                                            setActiveSize('XXXL');
-                                                            setActiveID(item._id);
-                                                        }}>XXXL</button>
+                                                    <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'XXXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                        }`} >XXXL</button>
                                                 ) : (
                                                     <button
-                                                        className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                        className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                         disabled
                                                     >
                                                         XXXL
@@ -474,7 +433,7 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                         <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                             <img
                                                 className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                                src={`https://tahar-server.vercel.app/uploads/${item.images[0]}`}
+                                                src={`http://localhost:5000/uploads/${item.images[0]}`}
                                                 alt="" />
                                             <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                                 <div
@@ -504,13 +463,15 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                         {/* </Link> */}
 
                                         <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
-                                            <Link to={`/product/${item._id}`}><h1 className=" text-[#474747] h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">{item.title} | {item.category}</h1></Link>
-
-                                            <p className=" text-black  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
+                                            <Link to={`/product/${item._id}`}>
+                                                <h1 className={`  ${there === 'light' ? 'text-black' : 'text-white'}  h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]`}>{item.title} | {item.category}
+                                                </h1>
+                                            </Link>
+                                            <p className={` ${there === 'light' ? 'text-black' : 'text-[#DBC896]'}  text-[19px] [font-family:'Helvetica_Now_Display-Medium',Helvetica]`}>
 
                                                 {selectedCurrencyValue === 'BDT' ? (item.Clearance === 'Sale' ? (
                                                     <>
-                                                        <span className="line-through text-[#828282]">Tk.{parseInt(item.price).toFixed(2)}</span> Tk.{((parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))).toFixed(2)}
+                                                        <span className={`line-through  text-[#828282] `}>Tk.{parseInt(item.price).toFixed(2)}</span> Tk.{((parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))).toFixed(2)}
                                                     </>
                                                 ) : (
                                                     `Tk.${item.price}`
@@ -527,40 +488,35 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
 
 
                                             {/* colour */}
-                                            <ColourChanges key={item._id} item={item} activeSize={activeSize} activeID={activeID}></ColourChanges>
+                                            <ColourChanges key={item._id} there={there} item={item} activeSize={activeSize} activeID={activeID}></ColourChanges>
 
                                             <div className=" flex gap-2">
                                                 {
                                                     parseInt(item.Squantity) > 0 ? (
-                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'S' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'S' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
                                                             }`}
-                                                            onClick={() => {
-                                                                setActiveSize('S');
-                                                                setActiveID(item._id);
-                                                            }}
+
                                                         >S</button>
                                                     ) : (
                                                         <button
-                                                            className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                            className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                             disabled
                                                         >
                                                             S
                                                             <div className="absolute inset-0 flex items-center justify-center">
                                                                 <FontAwesomeIcon icon={faSlash} size="x" />
+
                                                             </div>
                                                         </button>
                                                     )
                                                 }
                                                 {
                                                     parseInt(item.Mquantity) > 0 ? (
-                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'M' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                            }`} onClick={() => {
-                                                                setActiveSize('M');
-                                                                setActiveID(item._id);
-                                                            }}>M</button>
+                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'M' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                            }`} >M</button>
                                                     ) : (
                                                         <button
-                                                            className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                            className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                             disabled
                                                         >
                                                             M
@@ -572,14 +528,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                                 }
                                                 {
                                                     parseInt(item.Lquantity) > 0 ? (
-                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'L' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                            }`} onClick={() => {
-                                                                setActiveSize('L');
-                                                                setActiveID(item._id);
-                                                            }}>L</button>
+                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'L' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                            }`} >L</button>
                                                     ) : (
                                                         <button
-                                                            className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                            className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                             disabled
                                                         >
                                                             L
@@ -591,14 +544,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                                 }
                                                 {
                                                     parseInt(item.XLquantity) > 0 ? (
-                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                            }`} onClick={() => {
-                                                                setActiveSize('XL');
-                                                                setActiveID(item._id);
-                                                            }}>XL</button>
+                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'XL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                            }`} >XL</button>
                                                     ) : (
                                                         <button
-                                                            className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                            className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                             disabled
                                                         >
                                                             XL
@@ -610,14 +560,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                                 }
                                                 {
                                                     parseInt(item.XXLquantity) > 0 ? (
-                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                            }`} onClick={() => {
-                                                                setActiveSize('XXL');
-                                                                setActiveID(item._id);
-                                                            }}>XXL</button>
+                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'XXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                            }`} >XXL</button>
                                                     ) : (
                                                         <button
-                                                            className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                            className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                             disabled
                                                         >
                                                             XXL
@@ -629,14 +576,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                                 }
                                                 {
                                                     parseInt(item.XXXLquantity) > 0 ? (
-                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                                            }`} onClick={() => {
-                                                                setActiveSize('XXXL');
-                                                                setActiveID(item._id);
-                                                            }}>XXXL</button>
+                                                        <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A]' : 'text-black'}  ${activeSize === 'XXXL' && activeID === item._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
+                                                            }`} >XXXL</button>
                                                     ) : (
                                                         <button
-                                                            className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                                            className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                                             disabled
                                                         >
                                                             XXXL

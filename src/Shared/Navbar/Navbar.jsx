@@ -2,6 +2,7 @@ import './Navbar.css';
 import taharLogo from '../../../public/photos/tahar-logo.png';
 import userIMG from '../../../public/photos/Create_Account.png';
 import usa from '../../../public/photos/usa.png';
+import ban from '../../../public/photos/bangladesh.png';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import SideCart from '../../Pages/Home/SideCart/SideCart';
 import { useContext, useEffect, useState } from 'react';
@@ -9,13 +10,13 @@ import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faArrowRightFromBracket, faBagShopping, faChartLine } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faBagShopping, faChartLine, faFlagUsa, faTruckFast } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Searchbar from '../Searchbar/Searchbar';
 
 
 const Navbar = () => {
-    const { user, logOut, loading, setLoading, categoryName, localCartData, setLocalCartData, loggedUser, selectedCurrencyValue, setSelectedCurrencyValue, doller } = useContext(AuthContext);
+    const { user, logOut, loading, setLoading, categoryName, localCartData, setLocalCartData, loggedUser, selectedCurrencyValue, setSelectedCurrencyValue, doller, there, setTheme } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
 
     // console.log(user)
@@ -49,21 +50,31 @@ const Navbar = () => {
 
     const location = useLocation();
     const noHeaderFooter = location.pathname.includes('shipping')
+
+
     const dropdownLink = !noHeaderFooter && (
         <div className=' flex flex-row'>
             <NavLink to='trackorder' className='text-center mr-2 btn-md rounded-md bg-[#2c2a2a] flex justify-center align-middle items-center w-[160px] h-[42px]'>
-                Track Order
+                <FontAwesomeIcon className=' w-6 h-5' icon={faTruckFast} style={{ color: "#ffffff", }} />
+                <p className='ml-1'>Track Order</p>
             </NavLink>
 
             {/* Select Currency */}
-            <select
-                value={selectedCurrencyValue}
-                onChange={handleSelectCurrencyChange}
-                className="mr-2 select bg-[#2c2a2a] w-[138px] h-[42px]"
-            >
-                <option value="BDT">BDT</option>
-                <option value="USD">USD</option>
-            </select>
+            <div className=' bg-[#2c2a2a] w-[138px] rounded-md mr-2  flex justify-center px-2 items-center'>
+                {
+                    selectedCurrencyValue === 'USD'? <img className='w-6 h-6' src={usa} alt="" /> : <img className='w-6 h-6' src={ban} alt="" />
+                }
+                
+                
+                <select
+                    value={selectedCurrencyValue}
+                    onChange={handleSelectCurrencyChange}
+                    className="mr-2 select bg-[#2c2a2a] w-full  h-[42px]"
+                >
+                    <option value="BDT">BDT</option>
+                    <option value="USD">USD</option>
+                </select>
+            </div>
 
             {/* Select Language */}
             <select className="mr-2 select bg-[#2c2a2a] w-[138px] h-[42px]">
@@ -78,11 +89,13 @@ const Navbar = () => {
         const selectedOption = event.target.value;
         const htmlElement = document.querySelector('html');
         if (selectedOption === "Light Mode") {
+            setTheme('light'); // Update the state to 'light'
             htmlElement.setAttribute('data-theme', 'light');
         } else if (selectedOption === "Dark Mode") {
+            setTheme('forest'); // Update the state to 'forest'
             htmlElement.setAttribute('data-theme', 'forest');
         }
-    }
+    };
 
     const navLink = <>
         {/* <NavLink to='/collections' >Collections</NavLink> */}
@@ -165,20 +178,20 @@ const Navbar = () => {
                                 <div onClick={() => setOpen(!open)} className="relative border-b-4 border-transparent py-3">
                                     {loading ? (
                                         // Render a loading indicator here
-                                        <div className='lg:btn lg:btn-sm bg-[#DBC896] border-[#DBC896] bg-transparent lg:w-[183.67px] lg:h-[44.67px]'>
+                                        <div className='w-44 h-11 px-3.5 py-2 rounded-lg border-2 border-orange-200 justify-end items-center gap-1.5 inline-flex'>
                                             <p>Loading...</p>
                                         </div>
                                     ) : (
                                         // Render the content when data is loaded
                                         user ? (
-                                            <div className="lg:btn lg:btn-sm bg-[#DBC896] border-[#DBC896] bg-transparent lg:w-[183.67px] lg:h-[44.67px]">
+                                            <div className="w-fit h-11 px-3.5 py-2 rounded-lg border-2 border-orange-200 justify-end items-center gap-1.5 inline-flex uppercase">
                                                 <img src={userIMG} alt="" />
                                                 <div className='hidden lg:flex'>
                                                     <h1>{user?.displayName}</h1>
                                                 </div>
                                             </div>
                                         ) : (
-                                            <Link to='/signup' className="lg:btn lg:btn-sm bg-[#DBC896] border-[#DBC896] bg-transparent lg:w-[183.67px] lg:h-[44.67px]">
+                                            <Link to='/signup' className="w-44 h-11 px-3.5 py-2 rounded-lg border-2 border-orange-200 justify-end items-center gap-1.5 inline-flex">
                                                 <img src={userIMG} alt="" />
                                                 <div className='hidden lg:flex'>
                                                     <h1>Create Account</h1>
@@ -207,9 +220,9 @@ const Navbar = () => {
 
                                                         </Link>
                                                         <Link to='/trackorder' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 mt-3">
-
+                                                            <FontAwesomeIcon icon={faTruckFast} style={{ color: "#ffffff", }} />
                                                             <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">
-                                                                <FontAwesomeIcon className=' ml-2 text-xl text-white' icon={faUser} />
+
                                                                 Trac Order
                                                             </h1>
 

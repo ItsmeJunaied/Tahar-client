@@ -20,11 +20,12 @@ import top from '../../../../public/photos/top.png'
 import BankAsia from '../../../../public/photos/bankAsia.png'
 
 
-const Partners = () => {
+const Partners = ({there}) => {
 
+    
     return (
         <div className=''>
-            <div className='hidden lg:flex lg:flex-row md:flex-col sm:flex-col lg:bg-[#E7E7E7] md:bg-[#E7E7E7] lg:h-[350px] md:h-[497px]'>
+            <div className={`hidden lg:flex lg:flex-row md:flex-col sm:flex-col  lg:h-[350px] md:h-[497px] ${there === 'light' ? 'bg-[#E7E7E7]' : 'bg-black'}`}>
                 {/* Delivery Partners */}
                 <div className='lg:ml-20'>
                     <h1 className='text-[19px] font-semibold pb-5 lg:mt-10'>Our Delivery Partners</h1>

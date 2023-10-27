@@ -24,6 +24,7 @@ const AuthProvider = ({ children }) => {
     const [discount, setdiscount] = useState(0);
     const [totalShipping, settotalShipping] = useState('');
     const [subtotalTaxandShipping, setsubtotalTaxandShipping] = useState('');
+    const [there, setTheme] = useState('light');
     const [selectedCurrencyValue, setSelectedCurrencyValue] = useState(() => {
         const storedCurrency = localStorage.getItem('selectedCurrency');
         return storedCurrency || 'BDT'; // Set default value to BDT if nothing is stored in local storage
@@ -72,38 +73,38 @@ const AuthProvider = ({ children }) => {
     };
     // users
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/users')
+        fetch('http://localhost:5000/users')
             .then(res => res.json())
             .then(data => setLoggedUser(data))
     }, [])
 
     // product
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/product')
+        fetch('http://localhost:5000/product')
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
     // category Names
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/categoryInfo')
+        fetch('http://localhost:5000/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryName(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/fabrics')
+        fetch('http://localhost:5000/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
     // orders Names
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/orders')
+        fetch('http://localhost:5000/orders')
             .then(res => res.json())
             .then(data => setOrder(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/CODorder')
+        fetch('http://localhost:5000/CODorder')
             .then(res => res.json())
             .then(data => setCODorder(data))
     }, [])
@@ -137,7 +138,8 @@ const AuthProvider = ({ children }) => {
         order, setOrder, CODorder, setCODorder,
         selectedColor, setSelectedColor,
         contactInfo, setContactInfo,
-        shippingData, setshippingData
+        shippingData, setshippingData,
+        there, setTheme
     }
 
     return (

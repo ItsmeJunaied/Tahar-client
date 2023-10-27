@@ -12,7 +12,7 @@ const CategoryShow = () => {
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/categoryInfo')
+        fetch('http://localhost:5000/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -41,15 +41,15 @@ const CategoryShow = () => {
             <div className='mt-10 w-full hidden sm:block md:block'>
                 {/* {!isMediumDevice && ( */}
                 {/* <Slider {...settings}> */}
-                <div className='flex flex-row justify-center align-middle items-center w-full lg:w-[1,775.99px] gap-10 '>
+                <div className='flex flex-row justify-center align-middle items-center w-full lg:w-[1,775.99px] gap-5 '>
                     {
                         category.map(item => {
                             if (item.status === 'Show') {
                                 return (
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
                                         <img
-                                        className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
-                                        src={`https://tahar-server.vercel.app/uploads/${item.image}`} alt="" />
+                                            className='w-[260px] h-[250px] border-[7px] border-[#CBB06B] rounded-full'
+                                            src={`http://localhost:5000/uploads/${item.image}`} alt="" />
                                         <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );
@@ -71,9 +71,9 @@ const CategoryShow = () => {
                             if (item.status === 'Show') {
                                 return (
                                     <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
-                                        <img 
-                                        className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
-                                        src={`https://tahar-server.vercel.app/uploads/${item.image}`} alt="" />
+                                        <img
+                                            className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
+                                            src={`http://localhost:5000/uploads/${item.image}`} alt="" />
                                         <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
                                     </Link>
                                 );

@@ -8,7 +8,7 @@ const Revenue = () => {
   const { user, } = useContext(AuthContext);
   const [orderData, setOrderData] = useState([]);
   useEffect(() => {
-    fetch('https://tahar-server.vercel.app/orders')
+    fetch('http://localhost:5000/orders')
       .then(res => res.json())
       .then(data => {
         setOrderData(data);

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import VideoDetails from '../../../Shared/VideoDetails/VideoDetails';
 
 const ModelVideoShocase = () => {
-    const { AllProducts, setAllCartData, localCartData, setLocalCartData, user, doller, selectedCurrencyValue, selectedColor, setSelectedColor } = useContext(AuthContext);
+    const { AllProducts, setAllCartData, localCartData, setLocalCartData, user, doller, selectedCurrencyValue, selectedColor, setSelectedColor , there} = useContext(AuthContext);
     const [videoTitle, setVideoTitle] = useState(null);
 
     const [video, setVideo] = useState([]);
@@ -23,7 +23,7 @@ const ModelVideoShocase = () => {
 
     // console.log(AllProducts)
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/video')
+        fetch('http://localhost:5000/video')
             .then(res => res.json())
             .then(data => setVideo(data))
     }, [])
@@ -106,7 +106,7 @@ const ModelVideoShocase = () => {
                             >
                                 <video
                                     className="object-cover lg:w-full lg:h-full  rounded-xl"
-                                    src={`https://tahar-server.vercel.app/uploads/${item.video.filename} `}
+                                    src={`http://localhost:5000/uploads/${item.video.filename} `}
                                     autoPlay
                                     muted
                                     controls={false}
@@ -119,10 +119,10 @@ const ModelVideoShocase = () => {
                                                 if (product.title === item.title) {
                                                     return (
                                                         <div key={item._id} className="your-class-name">
-                                                            <img className=' w-28 h-28 rounded object-cover' src={`https://tahar-server.vercel.app/uploads/${product.images[0]}`} alt="" />
+                                                            <img className=' w-28 h-28 rounded object-cover' src={`http://localhost:5000/uploads/${product.images[0]}`} alt="" />
                                                             <div className="flex flex-col justify-start align-start items-start">
                                                                 <h1 className="text-[19px]">{product.title}</h1>
-                                                                <p className="text-[#B7B7B7] text-[18px]">
+                                                                <p className={`${there === 'light' ? 'text-black' : 'text-[#DBC896]'} text-[18px]`}>
                                                                     {selectedCurrencyValue === 'BDT' ? (product.Clearance === 'Sale' ? (
                                                                         <>
                                                                             <span className="line-through text-[#828282]">Tk.{parseInt(product.price).toFixed(2)}</span> Tk.{((parseInt(product.price) - (parseInt(product.price) * (parseInt(product.sellpercet) / 100)))).toFixed(2)}
@@ -139,7 +139,6 @@ const ModelVideoShocase = () => {
                                                                     ))}
                                                                 </p>
                                                             </div>
-                                                            {/* <button onClick={() => handleVideoDetails(product.title)}>Show Details</button> Added this button */}
                                                         </div>
                                                     );
                                                 }
@@ -167,6 +166,7 @@ const ModelVideoShocase = () => {
                                         handleCloseModal={handleCloseModal}
                                         selectedColor={selectedColor}
                                         setSelectedColor={setSelectedColor}
+                                        there={there}
                                     >
 
                                     </VideoDetails>

@@ -207,7 +207,7 @@ const CheckOut = () => {
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] "
-                                            src={`https://tahar-server.vercel.app/uploads/${item.ProductImage}`}
+                                            src={`http://localhost:5000/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>

@@ -8,7 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus, faSlash, faTimes } from '@fortawesome/free-solid-svg-icons';
 import VideoDataColor from '../VideoDataColor/VideoDataColor';
 import { Link } from 'react-router-dom';
-const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelectedColor, localCartData, setLocalCartData, user, doller, selectedCurrencyValue, handleCloseModal }) => {
+import ColourChanges from '../ColourChanges/ColourChanges';
+const VideoDetails = ({ AllProducts, videoTitle, video,  setSelectedColor, localCartData, setLocalCartData, there, user, doller, selectedCurrencyValue, handleCloseModal }) => {
 
     const productdata = AllProducts.find(productdata => productdata?.title === videoTitle);
     const videodata = video.find(productdata => productdata?.title === videoTitle);
@@ -40,6 +41,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
     const sellpercet = productdata?.sellpercet;
     const ProductPrice = productdata?.price;
     const ProductDetails = productdata?.description;
+    const selectedColor=productdata?.selectedColor
     const ProductSize = activeSize;
     const ProductQuantity = count;
     const ProductId = activeID;
@@ -133,19 +135,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
 
     const handleAddCart = () => {
 
-        if (selectedColor === '' && activeSize === '') {
-            toast.error('Please Select Size', {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-            });
-            return
-        }
+        
         const item = {
             customerEmail,
             customerName,
@@ -195,7 +185,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                 <div>
                     <video
                         className="object-cover w-full h-[638px] rounded-xl"
-                        src={`https://tahar-server.vercel.app/uploads/${videodata?.video?.filename} `}
+                        src={`http://localhost:5000/uploads/${videodata?.video?.filename} `}
                         autoPlay
                         ref={videoRef}
                         controlsList="nodownload noremoteplayback"
@@ -209,13 +199,13 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                             <img
                                 key={index}
                                 className="w-40 h-40 rounded object-cover"
-                                src={`https://tahar-server.vercel.app/uploads/${image}`}
+                                src={`http://localhost:5000/uploads/${image}`}
                                 alt=""
                             />
                         ))}
                     </div>
                     <h1 className=' text-[19px] font-semibold mt-3'>{productdata?.title}</h1>
-                    <p className=' text-[#6F6F6F] mt-2 '>
+                    <p className={`${there === 'light' ? 'text-black' : 'text-[#DBC896]'} text-[18px]`}>
 
                         {selectedCurrencyValue === 'BDT' ? (productdata?.Clearance === 'Sale' ? (
                             <>
@@ -232,34 +222,34 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                             `$${productdata?.price * 2.5 * doller}`
                         ))}
                     </p>
-                    <p className=' text-[#121212] mt-4 font-semibold'>Color</p>
+                    <p className={` mt-4 font-semibold ${there === 'light' ? 'text-black' : 'text-white'}`} >Color</p>
 
                     <div className=" flex gap-2 mt-2">
 
-                        <VideoDataColor
-                            productdata={productdata}
-                            activeSize={activeSize}
-                            activeID={activeID}
-                            selectedColor={selectedColor}
-                            setSelectedColor={setSelectedColor}
-                            setActiveSize={setActiveSize}
-                        ></VideoDataColor>
+                        <div className={`border-[2px] rounded-full p-[2px] ${there === 'light' ? 'border-black' : 'border-white'}`}>
+                            <div
+
+                                className={`w-[28px] h-[28px] rounded-[104px] `}
+                                style={{ backgroundColor: productdata?.selectedColor }}
+                            >
+                                {/* Any content you want to include */}
+                            </div>
+
+                        </div>
+
                     </div>
 
-                    <p className=' text-[#121212] text[19px] mt-2 font-semibold'>Size</p>
+                    <p className={`text-[#121212] text[19px] mt-2 font-semibold ${there === 'light' ? 'text-black' : 'text-white'}`} >Size</p>
+
+
                     <div className=" flex gap-2">
                         {
                             parseInt(productdata?.Squantity) > 0 ? (
-                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'S' && activeID === productdata?._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                    }`}
-                                    onClick={() => {
-                                        setActiveSize('S');
-                                        setActiveID(productdata?._id);
-                                    }}
-                                >S</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >S</button>
                             ) : (
                                 <button
-                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                     disabled
                                 >
                                     S
@@ -272,14 +262,11 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                         }
                         {
                             parseInt(productdata?.Mquantity) > 0 ? (
-                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'M' && activeID === productdata?._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                    }`} onClick={() => {
-                                        setActiveSize('M');
-                                        setActiveID(productdata?._id);
-                                    }}>M</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >M</button>
                             ) : (
                                 <button
-                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                     disabled
                                 >
                                     M
@@ -291,14 +278,11 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                         }
                         {
                             parseInt(productdata?.Lquantity) > 0 ? (
-                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'L' && activeID === productdata?._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                    }`} onClick={() => {
-                                        setActiveSize('L');
-                                        setActiveID(productdata?._id);
-                                    }}>L</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >L</button>
                             ) : (
                                 <button
-                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                     disabled
                                 >
                                     L
@@ -310,14 +294,11 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                         }
                         {
                             parseInt(productdata?.XLquantity) > 0 ? (
-                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XL' && activeID === productdata?._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                    }`} onClick={() => {
-                                        setActiveSize('XL');
-                                        setActiveID(productdata?._id);
-                                    }}>XL</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >XL</button>
                             ) : (
                                 <button
-                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                     disabled
                                 >
                                     XL
@@ -329,14 +310,13 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                         }
                         {
                             parseInt(productdata?.XXLquantity) > 0 ? (
-                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXL' && activeID === productdata?._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                    }`} onClick={() => {
-                                        setActiveSize('XXL');
-                                        setActiveID(productdata?._id);
-                                    }}>XXL</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >
+                                    XXL
+                                </button>
                             ) : (
                                 <button
-                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                     disabled
                                 >
                                     XXL
@@ -348,14 +328,11 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                         }
                         {
                             parseInt(productdata?.XXXLquantity) > 0 ? (
-                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center text-[#5A5A5A] ${activeSize === 'XXXL' && activeID === productdata?._id ? 'bg-white border-[#5A5A5A]' : 'bg-[#ebebeb] hover:border-[#5A5A5A]'
-                                    }`} onClick={() => {
-                                        setActiveSize('XXXL');
-                                        setActiveID(productdata?._id);
-                                    }}>XXXL</button>
+                                <button className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px] rounded-[8px] flex justify-center items-center ${there === 'light' ? 'text-[#5A5A5A] bg-[#ebebeb] ' : 'text-black bg-[#DBC896] border-[#DBC896]'}  
+                                                `} >XXXL</button>
                             ) : (
                                 <button
-                                    className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center bg-[#ebebeb] relative"
+                                    className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] w-[51px] h-[40px] border-[2px]  rounded-[8px] flex justify-center items-center  ${there === 'light' ? 'bg-[#ebebeb] text-[#5A5A5A]' : 'bg-[#DBC896] text-black border-[#DBC896]'} relative`}
                                     disabled
                                 >
                                     XXXL
@@ -367,10 +344,11 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                         }
 
                     </div>
-                    <p className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] mt-2 text-black text-[19px] font-semibold ">Quantity</p>
+
+                    <p className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica] mt-2 ${there === 'light' ? 'text-black' : 'text-white'} text-[19px] font-semibold `}>Quantity</p>
                     <p className=" text-xs mb-3 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Choose upto Highest Stock based on size</p>
                     {/* quantity */}
-                    <div className='mb-3 w-[118px] h-[43px] rounded-[10px] bg-transparent border-[2px] border-[#0000002E] flex justify-evenly items-center align-middle'>
+                    <div className={`mb-3 w-[118px] h-[43px] rounded-[10px] bg-transparent border-[2px] ${there === 'light' ? 'border-[#0000002E]' : 'border-white'}   flex justify-evenly items-center align-middle`}>
                         <button onClick={handleDecrement}>
                             <FontAwesomeIcon icon={faMinus} />
                         </button>
@@ -386,12 +364,12 @@ const VideoDetails = ({ AllProducts, videoTitle, video, selectedColor, setSelect
                     <div className=' flex flex-row mt-5 gap-4'>
                         <Link to={`/product/${productdata?._id}`}>
 
-                            <button className=' w-[238px] h-[59px] text-[#000000] text-[19px] border-[3px] border-[#000000] bg-transparent rounded-[120px]'>View Details</button>
+                            <button className={`w-[238px] h-[59px]  text-[19px] border-[3px] ${there === 'light' ? 'border-[#0000002E] text-[#000000]' : 'border-white text-white'} bg-transparent rounded-[120px]`} >View Details</button>
 
                         </Link>
                         <div>
                             <button onClick={handleAddCart}
-                                className={`w-[238px] h-[59px] text-white text-[19px] bg-black rounded-[120px] ${activeSize === '' ? 'disabled' : ''}`}>Add To Cart</button>
+                                className={`w-[238px] h-[59px]  text-[19px]  ${there === 'light' ? 'bg-black text-white' : 'bg-white text-black'} rounded-[120px] ${activeSize === '' ? 'disabled' : ''}`}>Add To Cart</button>
 
                             <ToastContainer />
                         </div>

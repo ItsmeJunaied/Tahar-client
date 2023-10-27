@@ -135,7 +135,7 @@ const ManageProducts = () => {
                                                 <div className="flex items-center space-x-3">
                                                     <div className="avatar">
                                                         <div className="mask mask-squircle w-12 h-12">
-                                                            <img src={`https://tahar-server.vercel.app/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
+                                                            <img src={`http://localhost:5000/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -313,7 +313,7 @@ const ManageProducts = () => {
                                                 <div className="flex items-center space-x-3">
                                                     <div className="avatar">
                                                         <div className="mask mask-squircle w-12 h-12">
-                                                            <img src={`https://tahar-server.vercel.app/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
+                                                            <img src={`http://localhost:5000/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
                                                         </div>
                                                     </div>
                                                 </div>

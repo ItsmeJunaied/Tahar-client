@@ -37,7 +37,7 @@ const ManageOrders = () => {
         console.log(id)
         console.log(currentRole)
 
-        fetch(`https://tahar-server.vercel.app/orders/${id}`, {
+        fetch(`http://localhost:5000/orders/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ const ManageOrders = () => {
             .then(data => {
                 console.log(data);
                 if (data.success) {
-                    fetch('https://tahar-server.vercel.app/orders')
+                    fetch('http://localhost:5000/orders')
                         .then(res => res.json())
                         .then(updatedData => setLoggedUser(updatedData))
                 }

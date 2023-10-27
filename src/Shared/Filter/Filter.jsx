@@ -11,7 +11,7 @@ import MultiRangeSlider from '../MultiRangeSlider/MultiRangeSlider';
 
 
 const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct }) => {
-    const { fabricsdata } = useContext(AuthContext);
+    const { fabricsdata, there } = useContext(AuthContext);
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
 
@@ -49,10 +49,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
     const XXLColor = AllProducts?.map(item => item?.XXLcolor);
     const XXXLColor = AllProducts?.map(item => item?.XXXLcolor);
 
-    const combinedColors = [...SColor, ...MColor, ...LColor, ...XLColor, ...XXLColor, ...XXXLColor]
-        .flatMap(colors => colors.split(','))
-        .filter(color => color !== '')
-        .filter((color, index, self) => self.indexOf(color) === index);
+
 
     // console.log(combinedColors);
 
@@ -100,43 +97,43 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
         );
     }
 
-    // console.log(ChooseSize)
+    // // console.log(ChooseSize)
 
-    //show selected fabricsData
-    const FindFabricsData = AllProducts.filter(item =>
-        ChooseFabrics?.includes(item.fabrics)
-    );
+    // //show selected fabricsData
+    // const FindFabricsData = AllProducts.filter(item =>
+    //     ChooseFabrics?.includes(item.fabrics)
+    // );
 
-    //show selected color data
-    const FindColordata = AllProducts.filter(item => {
-        const colors = [
-            ...(item.Scolor && item.Scolor.split(',')) || [],
-            ...(item.Mcolor && item.Mcolor.split(',')) || [],
-            ...(item.Lcolor && item.Lcolor.split(',')) || [],
-            ...(item.XLcolor && item.XLcolor.split(',')) || [],
-            ...(item.XXLcolor && item.XXLcolor.split(',')) || [],
-            ...(item.XXXLcolor && item.XXXLcolor.split(',')) || [],
-        ];
+    // //show selected color data
+    // const FindColordata = AllProducts.filter(item => {
+    //     const colors = [
+    //         ...(item.Scolor && item.Scolor.split(',')) || [],
+    //         ...(item.Mcolor && item.Mcolor.split(',')) || [],
+    //         ...(item.Lcolor && item.Lcolor.split(',')) || [],
+    //         ...(item.XLcolor && item.XLcolor.split(',')) || [],
+    //         ...(item.XXLcolor && item.XXLcolor.split(',')) || [],
+    //         ...(item.XXXLcolor && item.XXXLcolor.split(',')) || [],
+    //     ];
 
-        return colors.some(color => ChooseColor.includes(color));
-    });
+    //     return colors.some(color => ChooseColor.includes(color));
+    // });
 
-    //show selected size data
-    const FindSizedata = AllProducts.filter(item => {
-        const sizeQuantityMap = {
-            'S': 'Squantity',
-            'M': 'Mquantity',
-            'L': 'Lquantity',
-            'XL': 'XLquantity',
-            'XXL': 'XXLquantity',
-            'XXXL': 'XXXLquantity'
-        };
+    // //show selected size data
+    // const FindSizedata = AllProducts.filter(item => {
+    //     const sizeQuantityMap = {
+    //         'S': 'Squantity',
+    //         'M': 'Mquantity',
+    //         'L': 'Lquantity',
+    //         'XL': 'XLquantity',
+    //         'XXL': 'XXLquantity',
+    //         'XXXL': 'XXXLquantity'
+    //     };
 
-        return ChooseSize.some(size => {
-            const quantityProperty = sizeQuantityMap[size];
-            return quantityProperty && parseInt(item[quantityProperty]) > 0;
-        });
-    });
+    //     return ChooseSize.some(size => {
+    //         const quantityProperty = sizeQuantityMap[size];
+    //         return quantityProperty && parseInt(item[quantityProperty]) > 0;
+    //     });
+    // });
 
 
     const handleApply = () => {
@@ -203,28 +200,27 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
         <div>
             <div className=' flex flex-row justify-between items-center mt-[48px]'>
 
-                <div className=" [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase hidden lg:flex gap-3 text-[18px] text-[#7D7D7D]">
+                <div className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase hidden lg:flex gap-3 text-[18px] ${there === 'light' ? 'text-black' : 'text-[#DBC896]'}`}>
                     {fabricsdata &&
                         fabricsdata.map((item) => (
                             <button
                                 key={item._id}
-                                className={`${activeFabric === item.fabricsType
-                                    ? 'activeFilter'
-                                    : ''
-                                    }`}
+                                className={`${activeFabric === item.fabricsType ? 'activeFilter' : ''}`}
                                 onClick={() => handleButtonClick(item.fabricsType)}
                             >
                                 {item.fabricsType}
                             </button>
                         ))}
-
                 </div>
+
                 <div className=' flex flex-row gap-2 justify-center items-center align-middle'>
                     <div>
                         <button
-                            className=" w-[155px] h-[43px] p-[10px] border-[2px] border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase  flex justify-center items-center"
+                            className={` w-[155px] h-[43px] p-[10px] border-[2px]  rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase  flex justify-center items-center 
+                            ${there === 'light' ? 'border-[#1C2E37] text-[#1C2E37]' : 'border-[#DBC896] text-[#DBC896]'} `}
                             onClick={() => document.getElementById('my_modal_5').showModal()}
-                        >Size Chart <FontAwesomeIcon icon={faRuler} /></button>
+                        >Size Chart <FontAwesomeIcon icon={faRuler} />
+                        </button>
 
                         <dialog id="my_modal_5" className="modal  ">
                             <div className="modal-box w-11/12 max-w-5xl bg-transparent shadow-none">
@@ -243,7 +239,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                         <div className="drawer-content">
                             {/* Page content here */}
                             <label htmlFor="my-drawer-6"
-                                className="w-[155px] h-[43px]  flex justify-center items-center gap-10 border-2 border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase"
+                                className={`w-[155px] h-[43px]  flex justify-center items-center gap-10 border-2 ${there === 'light' ? 'border-[#1C2E37] text-[#1C2E37]' : 'border-[#DBC896] text-[#DBC896]'} rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase`}
                             >
                                 Filter
                             </label>
@@ -408,17 +404,17 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                                         <>
                                             <div className=' grid grid-cols-4 gap-3'>
                                                 {
-                                                    combinedColors && combinedColors.map((color, index) => (
-                                                        <div key={index} className={`${ChooseColor.includes(color) ? 'border-[2px] border-black p-2 rounded-full' : ''}`}>
+                                                    AllProducts.map((color, index) => (
+                                                        <div key={index} className={`${ChooseColor.includes(color?.selectedColor) ? 'border-[2px] border-black p-2 rounded-full' : ''}`}>
                                                             <button
 
-                                                                onClick={() => handleColour(color)}
+                                                                onClick={() => handleColour(color?.selectedColor)}
                                                                 className={`flex flex-col justify-center w-20 h-10 items-center rounded-[70px]  mx-auto `}
-                                                                style={{ backgroundColor: color }}
+                                                                style={{ backgroundColor: color?.selectedColor }}
                                                             >
                                                                 <div className="text-center text-sm font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium
-                                                            " style={{ color: color }}>
-                                                                    {color}
+                                                            " style={{ color: color?.selectedColor }}>
+                                                                    {color?.selectedColor}
                                                                 </div>
                                                             </button>
                                                         </div>
@@ -475,7 +471,10 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                     </div>
 
 
-                    <Link to='/viewAll' className=" hidden md:flex justify-center items-center w-[138px] h-[43px] bg-[#1C2E37] p-3 text-white rounded-full text-center text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase ">View All</Link>
+                    <Link to='/viewAll'
+                        className={` hidden md:flex justify-center items-center w-[138px] h-[43px] ${there === 'light' ? 'bg-[#1C2E37] text-white' : 'bg-[#DBC896] text-black'} p-3 text-white rounded-full text-center text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase `}>
+                        View All
+                    </Link>
                 </div>
             </div>
         </div>

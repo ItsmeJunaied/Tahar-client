@@ -9,8 +9,9 @@ const DashBoardHome = () => {
     const [ratingData, setRatingData] = useState([]);
     const [orderData, setOrderData] = useState([]);
 
+    console.log(ratingData)
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/orders')
+        fetch('http://localhost:5000/orders')
             .then(res => res.json())
             .then(data => {
                 setOrderData(data);
@@ -19,7 +20,7 @@ const DashBoardHome = () => {
 
 
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/rating')
+        fetch('http://localhost:5000/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, []);

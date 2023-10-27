@@ -15,7 +15,7 @@ const MyOrder = () => {
     const [showInvoice, setShowInvoice] = useState(false);
     useEffect(() => {
         setLoading(true);
-        fetch('https://tahar-server.vercel.app/orders')
+        fetch('http://localhost:5000/orders')
             .then(res => res.json())
             .then(data => {
                 setOrderData(data);
@@ -64,7 +64,7 @@ const MyOrder = () => {
                                                     <tr key={detail._id}>
                                                         <td className='text-start'>
                                                             <div className="mask mask-squircle w-12 h-12">
-                                                                <img src={`https://tahar-server.vercel.app/uploads/${detail.ProductImage}`} alt="Product Image" />
+                                                                <img src={`http://localhost:5000/uploads/${detail.ProductImage}`} alt="Product Image" />
                                                             </div>
                                                         </td>
                                                         <td className='text-start '>

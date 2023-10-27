@@ -14,7 +14,7 @@ import RatingReview from '../RatingReview/RatingReview';
 const ProductDetails = () => {
 
 
-    const { user, doller, setLocalCartData, selectedCurrencyValue, selectedColor, setSelectedColor } = useContext(AuthContext);
+    const { user, doller, setLocalCartData, selectedCurrencyValue, there, setFavouriteData } = useContext(AuthContext);
 
     const data = useLoaderData();
     // console.log(data)
@@ -26,7 +26,7 @@ const ProductDetails = () => {
     const navigate = useNavigate();
 
     useState(() => {
-        fetch('https://tahar-server.vercel.app/rating')
+        fetch('http://localhost:5000/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, [])
@@ -49,6 +49,7 @@ const ProductDetails = () => {
     const ProductQuantity = count;
     const ProductId = activeID;
     const ProductSale = data.Clearance;
+    const selectedColor = data.selectedColor;
     // console.log(ProductId)
     useEffect(() => {
         const retrievedData = JSON.parse(localStorage.getItem('cartData'));
@@ -132,10 +133,7 @@ const ProductDetails = () => {
 
 
     const handleAddCart = () => {
-        if (selectedColor === '' && activeSize === '') {
-            alert('Please select Color or size');
-            return
-        }
+
         const item = {
             customerEmail,
             customerName,
@@ -179,10 +177,7 @@ const ProductDetails = () => {
 
 
     const handleBuyNow = () => {
-        if (selectedColor === '' && activeSize === '') {
-            alert('Please select Color or size');
-            return;
-        }
+
 
         const item = {
             customerEmail,
@@ -236,8 +231,31 @@ const ProductDetails = () => {
     // Generate stars for display
     const stars = [];
     for (let i = 1; i <= 5; i++) {
-        stars.push(<FontAwesomeIcon key={i} className={`h-[33.8px] ${i <= roundedAverage ? 'text-[#DAB658]' : 'text-gray-300'}`} icon={faStar} />);
+        stars.push(<FontAwesomeIcon key={i} className={` w-[33.8px] h-[33.8px] ${i <= roundedAverage ? 'text-[#DAB658]' : 'text-gray-300'}`} icon={faStar} />);
     }
+
+    const handlefavourite = (id) => {
+        let favourites = JSON.parse(localStorage.getItem('favourite')) || [];
+
+        const index = favourites.indexOf(id);
+
+        if (index !== -1) {
+            // If already in favourites, remove it
+            favourites.splice(index, 1);
+        } else {
+            // If not in favourites, add it
+            favourites.push(id);
+        }
+
+        localStorage.setItem('favourite', JSON.stringify(favourites));
+
+        setFavouriteData(favourites)
+    }
+
+    useEffect(() => {
+        const retrievedData = JSON.parse(localStorage.getItem('favourite'));
+        setFavouriteData(retrievedData);
+    }, [setFavouriteData])
     return (
         <div>
             <div className=' flex flex-col lg:flex-row gap-10 mx-[100px] my-[100px]'>
@@ -250,7 +268,7 @@ const ProductDetails = () => {
                                 <img
                                     key={index}
                                     className={`w-[165px] h-[160px] rounded-[10px] ${index === selectedImageIndex ? 'border-2 border-[#DBC896]' : ''}`}
-                                    src={`https://tahar-server.vercel.app/uploads/${image}`}
+                                    src={`http://localhost:5000/uploads/${image}`}
                                     alt=""
                                     onClick={() => handleImageClick(index)}
                                 />
@@ -262,7 +280,7 @@ const ProductDetails = () => {
                             <img
                                 className='w-[622px] h-[700px] rounded-[10px] object-cover image-box'
 
-                                src={`https://tahar-server.vercel.app/uploads/${data.images[selectedImageIndex]}`}
+                                src={`http://localhost:5000/uploads/${data.images[selectedImageIndex]}`}
                                 alt=""
                             />
                         </div>
@@ -304,7 +322,23 @@ const ProductDetails = () => {
                         </button>
 
                         <p className=" text-[15px] text-[#00000061] font-bold [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tax included. Shipping calculated at checkout.</p>
-                        <button className=" w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faHeart} />Add to Wishlist</button>
+                        {/* <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
+                            <div
+                                id="MdiheartoutlineRoot"
+                                className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-20 h-8 items-center rounded-[104px]"
+                            >
+                                <FontAwesomeIcon className=' text-white ' icon={faHeart} />
+                                <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                    {JSON.parse(localStorage.getItem('favourite'))?.includes(item._id) ? 'Liked' : 'Like'}
+                                </div>
+                            </div>
+                        </button> */}
+                        <button onClick={() => handlefavourite(data._id)} className=" w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">
+                            <FontAwesomeIcon icon={faHeart} />
+                            
+                            {JSON.parse(localStorage.getItem('favourite'))?.includes(data._id) ? 'Added to Wishlist' : 'Add to Wishlist'}
+                        </button>
+
                         <button className=" w-[110px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faShareNodes} />Share</button>
                     </div>
                     <div className="divider mt-5 text-[#0000001C]"></div>
@@ -315,10 +349,7 @@ const ProductDetails = () => {
                     {/* <ColourChanges data={data} activeSize={activeSize} activeID={activeID}></ColourChanges> */}
                     <DetailedColour
                         data={data}
-                        activeSize={activeSize}
-                        activeID={activeID}
-                        selectedColor={selectedColor}
-                        setSelectedColor={setSelectedColor}
+                        there={there}
                     ></DetailedColour>
 
 

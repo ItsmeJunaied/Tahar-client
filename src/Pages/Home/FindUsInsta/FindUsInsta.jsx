@@ -9,8 +9,11 @@ import InstaImg1 from '../../../../public/photos/InstaImg1.png'
 import InstaImg2 from '../../../../public/photos/InstaImg2.png'
 import InstaImg3 from '../../../../public/photos/InstaImg3.png'
 import InstaImg4 from '../../../../public/photos/InstaImg4.png'
+import { useContext } from 'react';
+import { AuthContext } from '../../../Provider/AuthProvider';
 
 const FindUsInsta = () => {
+    const { there } = useContext(AuthContext);
     const settings = {
         dots: true,
         infinite: false,
@@ -60,12 +63,12 @@ const FindUsInsta = () => {
             
           `}
             </style>
-            <div className='flex justify-between mt-20 mb-20 align-middle items-center '>
+            <div className={`flex justify-between mt-20 mb-20 align-middle items-center `}>
                 <p> </p>
                 <h1 className=' text-center text-[28px] font-semibold '>Find us on Instagram</h1>
                 <a
                     href='https://www.instagram.com/tahar__official/'
-                    className='text-white text-center flex justify-center items-center align-middle w-[193px] h-[43px] bg-[#1C2E37] rounded-[120px]'
+                    className={` text-center flex justify-center items-center align-middle w-[193px] h-[43px] bg-[#1C2E37] rounded-[120px] ${there === 'light' ? 'bg-[#FFFF] text-white' : 'bg-[#DBC896] border-[#DBC896] text-black'}`}
                     target="_blank"
                     rel="noreferrer"
                 >
@@ -73,7 +76,7 @@ const FindUsInsta = () => {
                 </a>
             </div>
             <Slider {...settings} >
-                <div className=' div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5'>
+                <div className={`div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5 ${there === 'light' ? 'bg-[#FFFF]' : 'bg-[#2b2829] border-[#2b2829]'}`} >
                     <div className=' p-3'>
                         <div className=' flex justify-between items-center'>
                             <div>
@@ -94,7 +97,7 @@ const FindUsInsta = () => {
                         </div>
                     </div>
                 </div>
-                <div className=' div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5'>
+                <div className={`div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5 ${there === 'light' ? 'bg-[#FFFF]' : 'bg-[#2b2829] border-[#2b2829]'}`}>
                     <div className=' p-3'>
                         <div className=' flex justify-between items-center'>
                             <div>
@@ -115,7 +118,7 @@ const FindUsInsta = () => {
                         </div>
                     </div>
                 </div>
-                <div className=' div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5'>
+                <div className={`div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5 ${there === 'light' ? 'bg-[#FFFF]' : 'bg-[#2b2829] border-[#2b2829]'}`}>
                     <div className=' p-3'>
                         <div className=' flex justify-between items-center'>
                             <div>
@@ -136,7 +139,7 @@ const FindUsInsta = () => {
                         </div>
                     </div>
                 </div>
-                <div className=' div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5'>
+                <div className={`div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5 ${there === 'light' ? 'bg-[#FFFF]' : 'bg-[#2b2829] border-[#2b2829]'}`}>
                     <div className=' p-3'>
                         <div className=' flex justify-between items-center'>
                             <div>
@@ -157,7 +160,7 @@ const FindUsInsta = () => {
                         </div>
                     </div>
                 </div>
-                <div className=' div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5'>
+                <div className={`div-card w-[429px] h-[545px] border-[2px] rounded-[10px] pl-5 ${there === 'light' ? 'bg-[#FFFF]' : 'bg-[#2b2829] border-[#2b2829]'}`}>
                     <div className=' p-3'>
                         <div className=' flex justify-between items-center'>
                             <div>

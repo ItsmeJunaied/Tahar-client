@@ -1,4 +1,4 @@
-import { faAngleDown, faX } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faRuler, faX } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import sizeChart from '../../../public/photos/size chart.png'
 const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProfuct }) => {
     console.log(ShopMen)
-    const { fabricsdata } = useContext(AuthContext);
+    const { fabricsdata, there ,AllProducts} = useContext(AuthContext);
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
 
@@ -41,17 +41,8 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
 
     // color
 
-    const SColor = ShopMen?.map(item => item?.Scolor);
-    const MColor = ShopMen?.map(item => item?.Mcolor);
-    const LColor = ShopMen?.map(item => item?.Lcolor);
-    const XLColor = ShopMen?.map(item => item?.XLcolor);
-    const XXLColor = ShopMen?.map(item => item?.XXLcolor);
-    const XXXLColor = ShopMen?.map(item => item?.XXXLcolor);
 
-    const combinedColors = [...SColor, ...MColor, ...LColor, ...XLColor, ...XXLColor, ...XXXLColor]
-        .flatMap(colors => colors.split(','))
-        .filter(color => color !== '')
-        .filter((color, index, self) => self.indexOf(color) === index);
+
 
     // console.log(combinedColors);
 
@@ -202,28 +193,27 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
         <div>
             <div className=' flex flex-row justify-between items-center mt-[48px]'>
 
-                <div className=" [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase hidden lg:flex gap-3 text-[18px] text-[#7D7D7D]">
+                <div className={`[font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase hidden lg:flex gap-3 text-[18px] ${there === 'light' ? 'text-black' : 'text-[#DBC896]'}`}>
                     {fabricsdata &&
                         fabricsdata.map((item) => (
                             <button
                                 key={item._id}
-                                className={`${activeFabric === item.fabricsType
-                                    ? 'activeFilter'
-                                    : ''
-                                    }`}
+                                className={`${activeFabric === item.fabricsType ? 'activeFilter' : ''}`}
                                 onClick={() => handleButtonClick(item.fabricsType)}
                             >
                                 {item.fabricsType}
                             </button>
                         ))}
-
                 </div>
+
                 <div className=' flex flex-row gap-2 justify-center items-center align-middle'>
                     <div>
                         <button
-                            className=" w-[155px] h-[43px] p-[10px] border-[2px] border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase  flex justify-center items-center"
+                            className={` w-[155px] h-[43px] p-[10px] border-[2px]  rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase  flex justify-center items-center 
+                            ${there === 'light' ? 'border-[#1C2E37] text-[#1C2E37]' : 'border-[#DBC896] text-[#DBC896]'} `}
                             onClick={() => document.getElementById('my_modal_5').showModal()}
-                        >Size Chart</button>
+                        >Size Chart <FontAwesomeIcon icon={faRuler} />
+                        </button>
 
                         <dialog id="my_modal_5" className="modal  ">
                             <div className="modal-box w-11/12 max-w-5xl bg-transparent shadow-none">
@@ -242,7 +232,7 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                         <div className="drawer-content">
                             {/* Page content here */}
                             <label htmlFor="my-drawer-6"
-                                className="w-[155px] h-[43px]  flex justify-center items-center gap-10 border-2 border-[#1C2E37] rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase"
+                                className={`w-[155px] h-[43px]  flex justify-center items-center gap-10 border-2 ${there === 'light' ? 'border-[#1C2E37] text-[#1C2E37]' : 'border-[#DBC896] text-[#DBC896]'} rounded-full text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase`}
                             >
                                 Filter
                             </label>
@@ -297,7 +287,7 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                                         <>
 
                                             <div className='grid grid-cols-5 gap-3'>
-                                                {ShopMen.some(item => parseInt(item.Squantity) > 0) && (
+                                                {AllProducts.some(item => parseInt(item.Squantity) > 0) && (
                                                     <button
                                                         onClick={() => {
                                                             setActiveSize('S');
@@ -313,7 +303,7 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                                                     </button>
                                                 )}
 
-                                                {ShopMen.some(item => parseInt(item.Mquantity) > 0) && (
+                                                {AllProducts.some(item => parseInt(item.Mquantity) > 0) && (
                                                     <button
                                                         onClick={() => {
                                                             setActiveSize('M');
@@ -329,7 +319,7 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                                                     </button>
                                                 )}
 
-                                                {ShopMen.some(item => parseInt(item.Lquantity) > 0) && (
+                                                {AllProducts.some(item => parseInt(item.Lquantity) > 0) && (
                                                     <button
                                                         onClick={() => {
                                                             setActiveSize('L');
@@ -345,7 +335,7 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                                                     </button>
                                                 )}
 
-                                                {ShopMen.some(item => parseInt(item.XLquantity) > 0) && (
+                                                {AllProducts.some(item => parseInt(item.XLquantity) > 0) && (
                                                     <button
                                                         onClick={() => {
                                                             setActiveSize('XL');
@@ -361,7 +351,7 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                                                     </button>
                                                 )}
 
-                                                {ShopMen.some(item => parseInt(item.XXLquantity) > 0) && (
+                                                {AllProducts.some(item => parseInt(item.XXLquantity) > 0) && (
                                                     <button
                                                         onClick={() => {
                                                             setActiveSize('XXL');
@@ -376,7 +366,7 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                                                         </div>
                                                     </button>
                                                 )}
-                                                {ShopMen.some(item => parseInt(item.XXXLquantity) > 0) && (
+                                                {AllProducts.some(item => parseInt(item.XXXLquantity) > 0) && (
                                                     <button
                                                         onClick={() => {
                                                             setActiveSize('XXXL');
@@ -407,17 +397,17 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                                         <>
                                             <div className=' grid grid-cols-4 gap-3'>
                                                 {
-                                                    combinedColors && combinedColors.map((color, index) => (
-                                                        <div key={index} className={`${ChooseColor.includes(color) ? 'border-[2px] border-black p-2 rounded-full' : ''}`}>
+                                                    AllProducts.map((color, index) => (
+                                                        <div key={index} className={`${ChooseColor.includes(color?.selectedColor) ? 'border-[2px] border-black p-2 rounded-full' : ''}`}>
                                                             <button
 
-                                                                onClick={() => handleColour(color)}
+                                                                onClick={() => handleColour(color?.selectedColor)}
                                                                 className={`flex flex-col justify-center w-20 h-10 items-center rounded-[70px]  mx-auto `}
-                                                                style={{ backgroundColor: color }}
+                                                                style={{ backgroundColor: color?.selectedColor }}
                                                             >
                                                                 <div className="text-center text-sm font-['Helvetica_Now_Display-Medium',Helvetica'] font-medium
-                                                            " style={{ color: color }}>
-                                                                    {color}
+                                                            " style={{ color: color?.selectedColor }}>
+                                                                    {color?.selectedColor}
                                                                 </div>
                                                             </button>
                                                         </div>
@@ -474,7 +464,10 @@ const ShopMenFilter = ({ ShopMen, activeFabric, setActiveFabric, setFilteredProf
                     </div>
 
 
-                    <Link to='/viewAll' className=" hidden md:flex justify-center items-center w-[138px] h-[43px] bg-[#1C2E37] p-3 text-white rounded-full text-center text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase ">View All</Link>
+                    <Link to='/viewAll'
+                        className={` hidden md:flex justify-center items-center w-[138px] h-[43px] ${there === 'light' ? 'bg-[#1C2E37] text-white' : 'bg-[#DBC896] text-black'} p-3 text-white rounded-full text-center text-[18px] [font-family:'Helvetica_Now_Display-Medium',Helvetica-Medium',Helvetica] uppercase `}>
+                        View All
+                    </Link>
                 </div>
             </div>
         </div>

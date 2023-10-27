@@ -17,7 +17,7 @@ const Banner = () => {
     const [bannerinfo, setBannerinfo] = useState([]);
 
     useEffect(() => {
-        fetch('https://tahar-server.vercel.app/banner')
+        fetch('http://localhost:5000/banner')
             .then(res => res.json())
             .then(data => setBannerinfo(data))
     }, [])
@@ -46,7 +46,7 @@ const Banner = () => {
         >
             {
                 bannerinfo?.map(item =>
-                    <div key={item._id} data-src={`https://tahar-server.vercel.app/uploads/${item.images}`}>
+                    <div key={item._id} data-src={`http://localhost:5000/uploads/${item.images}`}>
                         <div style={textOverlayStyle}>
 
                             <div className="flex flex-col gap-10 w-full items-center">
