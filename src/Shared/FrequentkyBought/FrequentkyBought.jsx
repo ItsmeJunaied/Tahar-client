@@ -31,12 +31,12 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
         const totalPrice = randomdata.reduce((accumulator, item) => {
             const price = selectedCurrencyValue === 'BDT' ?
                 (item.Clearance === 'Sale' ?
-                    (parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100))) :
-                    parseInt(item.price)
+                    <p>Tk.{(parseInt(item.price) - (parseInt(item.price) * (parseInt(item?.sellpercet) / 100)))}</p> :
+                    <p>Tk.{parseInt(item.price)}</p>
                 ) :
                 (item.Clearance === 'Sale' ?
-                    ((parseInt(item.price) * 2.5 * doller) - ((parseInt(item.price) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100)) :
-                    (item.price * 2.5 * doller)
+                    <p>${((parseInt(item.price) * 2.5 * doller) - ((parseInt(item.price) * 2.5 * doller) * (parseInt(item?.sellpercet)) / 100))}</p> :
+                    <p>${(item.price * 2.5 * doller)}</p>
                 );
 
             return accumulator + price;
@@ -46,7 +46,6 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
         SetTotalPrice(totalPrice)
     }, [AllProducts, selectedCurrencyValue, doller]);
 
-    // console.log(randomdata)
 
 
 
@@ -62,10 +61,24 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
     };
 
     const [selectedData, setSelectedData] = useState([])
+    const [isChecked, setIsChecked] = useState({});
 
-    console.log(selectedData)
     const handleCheckBox = (productId) => {
+        const Size = selectedSizes[productId];
+
+        if (!Size) {
+            alert('Please select a size before checking the box.');
+            return;
+        }
+
+        setIsChecked(prev => ({
+            ...prev,
+            [productId]: !prev[productId]
+        }));
+
+
         const filter = AllProducts.find(item => item._id === productId);
+        // console.log(filter)
         const ProductHeightQuantity = getProductHeightQuantity(selectedSizes[productId], filter);
 
         const existingProduct = selectedData.find(item => item.ProductId === productId);
@@ -80,7 +93,15 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
                 ProductSize: selectedSizes[productId],
                 ProductQuantity: 1,
                 ProductId: filter._id,
-                ProductHeightQuantity: ProductHeightQuantity
+                ProductHeightQuantity: ProductHeightQuantity,
+                selectedColor: filter.selectedColor,
+                sellpercet : filter.sellpercet,
+                ProductSale : filter.Clearance,
+                priceInBDT : filter.price, // Regular price in BDT
+                priceInUSD : (filter.price * 2.5 * doller).toFixed(2),
+                salePriceInBDT : filter.Clearance === 'Sale' ? (parseInt(filter.price) - (parseInt(filter.price) * (parseInt(filter.sellpercet) / 100))).toFixed(2) : '',
+                salePriceInUSD :filter.Clearance === 'Sale' ? ((parseInt(filter.price) - (parseInt(filter.price) * (parseInt(filter.sellpercet) / 100))) * 2.5 * doller).toFixed(2) : '',
+
             };
 
             setSelectedData(prevData => [...prevData, selectedProductInfo]);
@@ -90,8 +111,9 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
         }
     };
 
+    console.log(selectedData)
+
     const getProductHeightQuantity = (activeSize, filter) => {
-        console.log(activeSize)
         switch (activeSize) {
             case "S":
                 return filter.Squantity;
@@ -109,14 +131,6 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
                 return null; // Handle the case where activeSize is not one of the expected values
         }
     };
-
-
-
-
-
-    // console.log('selectedData',selectedData)
-    console.log('localCartData',localCartData);
-
 
     const handleAddCart = () => {
         if (selectedData.length === 0) {
@@ -150,13 +164,13 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
         let updatedCartData;
 
         if (Array.isArray(localCartData) && localCartData.length > 0) {
-          updatedCartData = [...localCartData, ...selectedData];
+            updatedCartData = [...localCartData, ...selectedData];
         } else {
-          updatedCartData = [...selectedData];
+            updatedCartData = [...selectedData];
         }
-        
+
         // Now you can use `updatedCartData` here or anywhere else in the current scope.
-        
+
 
         // Save updated cartData to local storage
         localStorage.setItem('cartData', JSON.stringify(updatedCartData));
@@ -235,13 +249,19 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
                 <div className="self-center flex flex-col justify-between gap-8 w-3/5">
                     {
                         randomdata && randomdata.map(item =>
-                            <div key={item._id} className="border-solid border-[rgba(25,_30,_27,_0.14)] flex flex-row justify-between items-center px-4 border-2 rounded-lg">
-                                <div className="bg-[#0000000F] flex flex-col justify-center pl-8 w-1/2 h-20 items-baseline my-3 rounded-lg">
-                                    <div className="text-lg  [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#3d3d3d]">
-                                        {item.title} | {item.category}
+                            <div key={item._id} className="border-solid border-[rgba(25,_30,_27,_0.14)] flex flex-row justify-between items-center px-4 border-2 rounded-lg gap-5">
+                                <div className="bg-[#0000000F] flex justify-start items-center pl-8 w-4/6 h-20 my-3 rounded-lg gap-5">
+                                    <div className="text-lg font-medium text-[#3d3d3d]">
+                                        <p>{item.title} | {item.category} |</p>
+                                    </div>
+                                    <div className='border-[2px] rounded-full p-[2px] border-[#1c2e37]'>
+                                        <div className={`w-[28px] h-[28px] rounded-[104px]  `} style={{ backgroundColor: item.selectedColor }}>
+
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="bg-[#0000000F] flex flex-row justify-center gap-8 h-20 items-center pl-8 pr-6 py-8 rounded-lg">
+
+                                <div className="bg-[#0000000F] flex flex-row justify-center gap-8 w-1/6 h-20 items-center pl-8 pr-6 py-8 rounded-lg">
                                     <select
                                         value={selectedSizes[item._id] || 'Pick One'}
                                         onChange={(event) => handleOptionClick(event, item._id)}
@@ -256,7 +276,7 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
                                     </select>
                                 </div>
 
-                                <div className="bg-[#0000000F] flex flex-col justify-center pl-8 h-20 items-start rounded-lg">
+                                <div className="bg-[#0000000F] flex flex-col justify-center pl-8 w-1/6 h-20 items-start rounded-lg">
                                     <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-[#3d3d3d] mr-20">
                                         <p>
                                             {selectedCurrencyValue === 'BDT' ? (item.Clearance === 'Sale' ? (
@@ -279,7 +299,19 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
                                         </p>
                                     </div>
                                 </div>
-                                <input onClick={() => handleCheckBox(item._id)} type="checkbox" className="checkbox checkbox-[#000000] border-[2px] border-[#000000]" />
+
+                                <input
+                                    key={isChecked[item._id]} // Add a key prop here
+                                    onClick={(e) => {
+                                        e.preventDefault(); // Prevent default behavior
+                                        handleCheckBox(item._id);
+                                    }}
+                                    type="checkbox"
+                                    checked={isChecked[item._id] || false}
+                                    onChange={() => {}} 
+                                    className="checkbox checkbox-[#000000] border-[2px] border-[#000000]"
+                                />
+
                             </div>
                         )
                     }

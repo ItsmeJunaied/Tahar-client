@@ -4,10 +4,10 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../../Provider/AuthProvider';
 import CartCalculation from '../CartCalculation/CartCalculation';
 import { Link } from 'react-router-dom';
+import cart from '../../../../public/photos/cart.png';
+const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doller }) => {
 
-const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doller  }) => {
-
-// console.log(localCartData)
+    // console.log(localCartData.length)
 
     const { user, AllcartData, setAllCartData } = useContext(AuthContext);
     const [accespted, setAccepted] = useState(false);
@@ -36,15 +36,15 @@ const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doll
     let quantity = 0;
     if (localCartData) {
         for (const product of localCartData) {
-            const productPrice = selectedCurrencyValue === 'BDT' ? 
-                                (product.ProductSale === 'Sale' ? product.salePriceInBDT : product.priceInBDT) : 
-                                (product.ProductSale === 'Sale' ? product.salePriceInUSD : product.priceInUSD);
-    
+            const productPrice = selectedCurrencyValue === 'BDT' ?
+                (product.ProductSale === 'Sale' ? product.salePriceInBDT : product.priceInBDT) :
+                (product.ProductSale === 'Sale' ? product.salePriceInUSD : product.priceInUSD);
+
             quantity = quantity + product.ProductQuantity;
             total = (total + productPrice * product.ProductQuantity);
         }
     }
-    
+
 
     const handleTerms = (event) => {
         setAccepted(event.target.checked)
@@ -71,61 +71,49 @@ const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doll
                         <h1 className=' text-[20px] font-bold uppercase'>Shopping Cart</h1>
                         <div className="divider"></div>
                         <div className=' flex flex-col gap-10'>
+
                             {
-                                localCartData && localCartData.map((item, index) =>
-                                    <CartCalculation selectedCurrencyValue={selectedCurrencyValue} doller={doller} key={index} item={item} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation>
+                                localCartData && localCartData.length > 0 ? (
+                                    localCartData.map((item, index) =>
+                                        <CartCalculation
+                                            selectedCurrencyValue={selectedCurrencyValue}
+                                            doller={doller}
+                                            key={index}
+                                            item={item}
+                                            setAllCartData={setAllCartData}
+                                            onQuantityChange={handleQuantityChange}
+                                        ></CartCalculation>
+                                    )
+                                ) : (
+                                    <div>
+                                        <img src={cart} alt="" />
+                                    </div>
                                 )
                             }
-                            {/* <CartCalculation item={localCartData} setAllCartData={setAllCartData} onQuantityChange={handleQuantityChange}></CartCalculation> */}
+
 
                         </div>
-                        {/* <h1 className=' text-[20px] font-bold mt-5 mb-2 uppercase'>Promo code</h1>
-                        <div className="divider mb-2"></div> */}
-                        {/* promo */}
-                        {/* <div className=' flex justify-around items-center w-[415px] border-[#191E1B2B] h-[69px] rounded-[10px] border-[2px] bg-transparent'>
-                            <div>
-                                <input
-                                    type="text" placeholder='For e.g: TAHAR4EID' name="" id=""
-                                    className=' text-[#828282] text-[18px] font-semibold  border-transparent outline-none bg-transparent '
-                                />
-                            </div>
-                            <div>
-                                <button className=' w-[40px] h-[40px] text-white rounded-full bg-[#1C2E37]'>
-                                    <FontAwesomeIcon icon={faArrowRight} />
-                                </button>
-                            </div>
-                        </div>
 
-                        <h1 className=' text-[20px] font-bold mt-5 mb-2 uppercase'>Coupone</h1>
-                        <div className="divider mb-2"></div> */}
-                        {/* Coupors */}
-                        {/* <div className=' flex justify-around items-center w-[415px] border-[#191E1B2B] h-[69px] rounded-[10px] border-[2px] bg-transparent'>
-                            <div>
-                                <input
-                                    type="text" placeholder='For e.g: TAHAR4EID' name="" id=""
-                                    className=' text-[#828282] text-[18px] font-semibold  border-transparent outline-none bg-transparent '
-                                />
-                            </div>
-                            <div>
-                                <button className=' w-[40px] h-[40px] text-white rounded-full bg-[#1C2E37]'>
-                                    <FontAwesomeIcon icon={faArrowRight} />
-                                </button>
-                            </div>
-                        </div> */}
                         <div className="divider mb-2 mt-2"></div>
 
                         <div className=' w-1/2 flex justify-between align-middle items-center mb-3'>
                             <h1 className=' text-[20px] font-bold  uppercase'>Sub total</h1>
                             <p className='   text-[#828282] text-[20px] font-bold '>
                                 {
-                                    selectedCurrencyValue === 'BDT'? `Tk.${(total).toFixed(2)}`  : `$${(total).toFixed(2)}`
+                                    selectedCurrencyValue === 'BDT' ? `Tk.${(total).toFixed(2)}` : `$${(total).toFixed(2)}`
                                 }
                             </p>
                         </div>
                         <div className="divider mb-2 mt-2"></div>
                         <div className=' flex justify-start items-center gap-2'>
                             <div>
-                                <input onClick={handleTerms} type="checkbox" name="accept" className="checkbox" />
+                                <input
+                                    onClick={handleTerms}
+                                    type="checkbox"
+                                    name="accept"
+                                    className="checkbox"
+                                // disabled={localCartData.length === 0 }
+                                />
                             </div>
                             <div>
                                 <p className='text-[#828282] text-[17px]'>I agree with terms and condition</p>

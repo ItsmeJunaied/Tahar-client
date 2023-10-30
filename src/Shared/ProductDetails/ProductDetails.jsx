@@ -38,9 +38,9 @@ const ProductDetails = () => {
     const sellpercet = data.sellpercet;
 
     const priceInBDT = data.price; // Regular price in BDT
-    const salePriceInBDT = data.Clearance === 'Sale' ? (parseInt(priceInBDT) - (parseInt(priceInBDT) * (parseInt(sellpercet) / 100))).toFixed(2) : priceInBDT; // Sale price in BDT
+    const salePriceInBDT = data.Clearance === 'Sale' ? (parseInt(priceInBDT) - (parseInt(priceInBDT) * (parseInt(sellpercet) / 100))).toFixed(2) : ''; 
 
-    const priceInUSD = (priceInBDT * 2.5 * doller).toFixed(2); // Regular price in USD
+    const priceInUSD = (priceInBDT * 2.5 * doller).toFixed(2);
     const salePriceInUSD = (salePriceInBDT * 2.5 * doller).toFixed(2);
 
 
@@ -335,7 +335,7 @@ const ProductDetails = () => {
                         </button> */}
                         <button onClick={() => handlefavourite(data._id)} className=" w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">
                             <FontAwesomeIcon icon={faHeart} />
-                            
+
                             {JSON.parse(localStorage.getItem('favourite'))?.includes(data._id) ? 'Added to Wishlist' : 'Add to Wishlist'}
                         </button>
 
@@ -351,7 +351,8 @@ const ProductDetails = () => {
                         data={data}
                         there={there}
                     ></DetailedColour>
-
+                    
+                    {/*  */}
 
                     <p className=' text-black text-[19px] font-semibold mb-3'>Size</p>
                     <div className=" flex gap-2">

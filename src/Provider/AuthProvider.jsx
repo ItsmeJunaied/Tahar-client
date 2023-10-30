@@ -1,6 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { app } from '../Firebase/firebase.config';
 import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+import axios from 'axios';
+
 
 export const AuthContext = createContext(null);
 const auth = getAuth(app);
@@ -33,7 +35,26 @@ const AuthProvider = ({ children }) => {
     const [shippingData, setshippingData] = useState([]);
     // console.log(localCartData);
 
-    const doller = 0.0091;
+    // const doller = 0.0091;
+
+    const [doller , setdoller ] = useState(null);
+
+    useEffect(() => {
+        const apiKey = '3a4af9e02140b22b89ebead94195ccc3'; // Replace with your actual API key
+        const apiUrl = `http://data.fixer.io/api/latest?access_key=${apiKey}&symbols=USD&base=EUR`;
+
+        axios.get(apiUrl)
+            .then(response => {
+                const usdRate = response.data.rates.USD;
+                setdoller (usdRate);
+            })
+            .catch(error => {
+                console.error('Error fetching exchange rates:', error);
+            });
+    }, []);
+
+
+    // console.log(doller );
 
     const createUser = (email, password) => {
         setLoading(true);
