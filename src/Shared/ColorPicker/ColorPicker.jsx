@@ -12,27 +12,22 @@ const ColorPicker = ({ selectedColor, setSelectedColor }) => {
     };
 
     return (
-        <div className="flex align-bottom items-end gap-5">
+        <div className="flex flex-col align-bottom items-end gap-5">
             <div className=" relative rounded-lg">
                 <input
                     type="color"
                     value={selectedColor}
-                    className='w-60 h-10 rounded-full'
+                    className='w-60 h-[50px]  bg-transparent '
+                    style={{ boxShadow: '0 0 0 5px #2E2A2B' }}
                     onChange={(e) => setSelectedColor(e.target.value)}
                 />
-                {/* <button
-                    className="absolute -top-1 -right-1 p-1 bg-green-500 text-white rounded-full w-7 h-7 flex justify-center align-middle items-center"
-                    onClick={handleColorClick}
-                >
-                    <FontAwesomeIcon icon={faPlus} />
-                </button> */}
             </div>
             <div className="w-full">
                 <div className="flex flex-wrap ">
                     {selectedColor && (
                         <div className="relative">
                             <div
-                                className="w-8 h-8 rounded-full bg-gray-300 cursor-pointer hover:shadow-md overflow-hidden"
+                                className="w-8 h-8 rounded-full  cursor-pointer hover:shadow-md overflow-hidden"
                                 style={{ backgroundColor: selectedColor }}
                                 onClick={handleRemoveColor}
                             >

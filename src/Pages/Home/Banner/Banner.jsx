@@ -2,10 +2,6 @@ import './Banner.css';
 import AwesomeSlider from 'react-awesome-slider';
 import withAutoplay from 'react-awesome-slider/dist/autoplay';
 import 'react-awesome-slider/dist/styles.css';
-
-import sliderIMG1 from '../../../../public/photos/slider_img1.jpg'
-import sliderIMG2 from '../../../../public/photos/slider_img2.jpg'
-import sliderIMG3 from '../../../../public/photos/slider_img3.jpg'
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 

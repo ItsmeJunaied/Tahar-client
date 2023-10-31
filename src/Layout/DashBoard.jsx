@@ -1,4 +1,4 @@
-import { faArrowRightArrowLeft, faArrowUpFromBracket, faBagShopping, faBars, faBarsStaggered,  faBoxesPacking, faBoxesStacked, faCartShopping, faClipboardQuestion, faCloudArrowUp, faDatabase, faPanorama, faPeopleRoof, faShieldHalved, faShop, faStar, faTicket, faUserGroup } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightArrowLeft, faArrowUpFromBracket, faBagShopping, faBars, faBarsStaggered, faBoxesPacking, faBoxesStacked, faCartShopping, faCircleArrowUp, faClipboardQuestion, faCloudArrowUp, faDatabase, faPanorama, faPeopleRoof, faShieldHalved, faShop, faStar, faTicket, faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
@@ -19,9 +19,9 @@ const DashBoard = () => {
     return (
         <div className="drawer ">
             <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content flex flex-col border-b-2 border-white border-opacity-10 ">
+            <div className="drawer-content flex flex-col  ">
                 {/* Navbar */}
-                <div className="w-full navbar bg-[#110e0e] border border-b-2 px-[100px]">
+                <div className="w-full navbar bg-[#110e0e] border border-b-2 border-[#FFFFFF24] px-[100px]">
                     <div className="flex-none ">
                         <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost ">
                             <FontAwesomeIcon className=' text-xl' icon={faBarsStaggered} style={{ color: "#ffffff", }} />
@@ -142,6 +142,15 @@ const DashBoard = () => {
                                 <div className="w-80 h-10 px-7 py-3.5 mt-[35px] rounded-md justify-start items-center gap-2 inline-flex">
                                     <div className="top-menu-text ">Upload</div>
                                 </div>
+
+                                <NavLink to='/dashboard/uploadProducts' className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
+                                    <div className=" relative">
+                                        <FontAwesomeIcon className=' w-[20px] h-[20px]' icon={faCircleArrowUp} style={{ color: "#8b909a", }} />
+                                    </div>
+                                    <div className="">
+                                        <p className='sidebar_text'>Upload Product</p>
+                                    </div>
+                                </NavLink >
 
                                 <NavLink to='/dashboard/categoryUpload' className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
                                     <div className=" relative">

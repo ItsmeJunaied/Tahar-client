@@ -38,54 +38,65 @@ const UploadFabrics = () => {
             })
     }
     return (
-        <div className=' flex lg:flex-row flex-col gap-5 '>
+        <div className=' flex  flex-col md:flex-row gap-5 '>
 
-            <div className=' bg-white shadow-lg rounded-sm border border-gray-200 p-10 w-1/2'>
-                <h1 className='block text-gray-700 text-sm font-bold mb-2 text-center'>UploadFabrics</h1>
+            <div className=' bg-[#201D1D] shadow-lg  border border-[#FFFFFF24] h-[256px] rounded-[18px] p-[41px] w-full md:w-1/2 '>
+                <h1 className='section-name-category  text-start mb-2'>Upload Fabrics</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <input
                         type="text"
-                        id="text-input"
-                        className="border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-400"
+                        id="text-input-category"
+                        className=" bg-[#2E2A2B] w-full h-[50px] rounded-md p-5 outline-none placeholder-text "
                         {...register("fabrics", { required: true })}
                     />
-                    <input type="submit"
-                        value=" Add" className=' btn btn-primary rounded-full ml-5' />
+                    {/* <input type="submit" value="Add" className=' btn btn-primary rounded-full ml-5' /> */}
+                    <div className=' flex justify-center'>
+                        <input
+                            type="submit"
+                            value="Create Febrics"
+                            placeholder=' E.Z. Modal'
+                            className=" dash-normal-text mt-4 bg-[#DBC896] h-[60px] text-[#201D1D] w-[250px] font-bold py-2 px-4 rounded-full"
+                        />
+                    </div>
                 </form>
             </div>
-            <div className=' w-1/2'>
-                <div className="flex flex-col justify-center h-full">
-                    <div className="w-full max-w-2xl mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
+
+            <div className=' w-full md:w-1/2  '>
+                <div className="flex flex-col   overflow-y-auto">
+                    <div className="w-full bg-[#201D1D] shadow-lg  border border-[#FFFFFF24] rounded-[18px] p-10 max-h-[664px] ">
                         <header className="px-5 py-4 border-b border-gray-100">
-                            <h2 className="font-semibold text-gray-800">Category</h2>
+                            <h2 className="font-semibold text-gray-800 category_text text-start">Fabrics List</h2>
                         </header>
                         <div className="p-3">
                             <div className="overflow-x-auto">
                                 <table className="table-auto w-full">
-                                    <thead className="text-xs font-semibold uppercase text-gray-400 bg-gray-50">
+                                    <thead className="text-xs font-semibold uppercase ">
                                         <tr>
                                             <th className="p-2 whitespace-nowrap">
-                                                <div className="font-semibold text-left">Fabrics</div>
+                                                <div className="Category_List text-center">Fabrics</div>
+                                                <div className=" bg-[#FFFFFF24] h-[2px] divider"></div>
                                             </th>
                                             <th className="p-2 whitespace-nowrap">
-                                                <div className="font-semibold text-left">Update</div>
+                                                <div className="Category_List text-center">Update</div>
+                                                <div className=" bg-[#FFFFFF24] h-[2px] divider"></div>
                                             </th>
                                             <th className="p-2 whitespace-nowrap">
-                                                <div className="font-semibold text-center">Delete</div>
+                                                <div className="Category_List text-center">Delete</div>
+                                                <div className=" bg-[#FFFFFF24] h-[2px] divider"></div>
                                             </th>
                                         </tr>
                                     </thead>
-                                    <tbody className="text-sm divide-y divide-gray-100">
+                                    <tbody className="text-sm font-['Manrope'] section-name-category">
                                         {
                                             fabricsdata.map(item =>
                                                 <tr key={item._id}>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">
+                                                        <div className="text-center">
                                                             {item.fabricsType}
                                                         </div>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium ">
+                                                        <div className="text-center font-medium ">
                                                             <button><FontAwesomeIcon icon={faPenNib} /></button>
                                                         </div>
                                                     </td>
