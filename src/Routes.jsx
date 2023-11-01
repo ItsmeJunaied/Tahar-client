@@ -136,11 +136,7 @@ const router = createBrowserRouter([
       {
         path: '/trackorder',
         element: <TrackOrder></TrackOrder>,
-      },
-      {
-        path: '/imageDND',
-        element: <Dndgrid></Dndgrid>,
-      },
+      }
 
     ]
   },
