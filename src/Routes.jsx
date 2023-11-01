@@ -39,6 +39,7 @@ import Invoice from "./Shared/Invoice/Invoice";
 import ManageOrders from "./Pages/DashBoard/ManageOrders/ManageOrders";
 import UploadProductsPro from "./Pages/DashBoard/UploadProductsPro/UploadProductsPro";
 import UploadBanner from "./Pages/DashBoard/UploadBanner/UploadBanner";
+import Dndgrid from "./Pages/DNDGRID/DNDGRID";
 
 const router = createBrowserRouter([
   {
@@ -135,6 +136,10 @@ const router = createBrowserRouter([
       {
         path: '/trackorder',
         element: <TrackOrder></TrackOrder>,
+      },
+      {
+        path: '/imageDND',
+        element: <Dndgrid></Dndgrid>,
       },
 
     ]
