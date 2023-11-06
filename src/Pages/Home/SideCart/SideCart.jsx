@@ -52,7 +52,7 @@ const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doll
 
     return (
         <div>
-            <div className="drawer drawer-end w-[150px] relative z-20">
+            <div className="drawer drawer-end w-[150px] relative z-50 ">
                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">
                     {/* Page content here */}
@@ -65,9 +65,9 @@ const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doll
                         </div>
                     </label>
                 </div>
-                <div className="drawer-side">
-                    <label htmlFor="my-drawer-4" className="drawer-overlay"></label>
-                    <ul className="menu p-4 w-[482px] min-h-screen bg-[#f9f2ea] text-base-content">
+                <div className="drawer-side  z-50 fixed">
+                    <label htmlFor="my-drawer-4" className="drawer-overlay fixed "></label>
+                    <ul className="menu p-4  fixed df bg-[#f9f2ea] text-base-content  w-80 md:w-[430px]">
                         <h1 className=' text-[20px] font-bold uppercase'>Shopping Cart</h1>
                         <div className="divider"></div>
                         <div className=' flex flex-col gap-10'>
@@ -119,10 +119,10 @@ const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doll
                                 <p className='text-[#828282] text-[17px]'>I agree with terms and condition</p>
                             </div>
                         </div>
-                        <Link to='/cart' disabled={!accespted} className=' btn w-[415px] h-[54px] rounded-[10px] bg-[#066EA138] border-none  text-[18px] font-semibold mt-2'>
+                        <Link to='/cart' disabled={!accespted} className=' btn w-[300px] md:w-[415px] h-[54px] rounded-[10px] bg-[#066EA138] border-none  text-[18px] font-semibold mt-2'>
                             View Cart
                         </Link>
-                        <Link to='/checkout' disabled={!accespted} className='btn w-[415px] h-[54px] text-white rounded-[10px] bg-[#1C2E37] border-none  text-[18px] font-semibold mt-2'>
+                        <Link to='/checkout' disabled={!accespted} className='btn w-[300px] md:w-[415px] h-[54px] text-white rounded-[10px] bg-[#1C2E37] border-none  text-[18px] font-semibold mt-2'>
                             Check Out
                         </Link>
                     </ul>

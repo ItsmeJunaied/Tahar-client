@@ -160,40 +160,7 @@ const CategoryUpload = () => {
                                     />
                                 </div>
 
-                                {/* <label className="block text-white text-sm font-bold mb-2 text-center " htmlFor="photo">
-                                    Profile Photo
-                                </label>
 
-                                <div className="text-center">
-                                    <div className="mt-2" style={{ display: photoPreview ? 'block' : 'none' }}>
-                                        <div
-                                            className="w-40 h-40 m-auto rounded-full shadow"
-                                            style={{
-                                                backgroundSize: 'cover',
-                                                backgroundRepeat: 'no-repeat',
-                                                backgroundPosition: 'center center',
-                                                backgroundImage: `url('${photoPreview}')`,
-                                            }}
-                                        />
-                                    </div>
-                                    <input
-                                        type="file"
-                                        id="photo"
-                                        name='categoryImage'
-                                        className="hidden"
-                                        onChange={(e) => {
-                                            handleFileChange(e);
-                                            setValue("categoryImage", e.target.files[0]);
-                                        }}
-                                    />
-
-                                    <label
-                                        htmlFor="photo"
-                                        className="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-[#ABA9A966] uppercase tracking-widest shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-400 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50 transition ease-in-out duration-150 mt-2"
-                                    >
-                                        Select Photo
-                                    </label>
-                                </div> */}
 
                                 <div className=' mt-5 '>
                                     <label htmlFor="first-name" className="section-name-category ">Upload Picture</label>
