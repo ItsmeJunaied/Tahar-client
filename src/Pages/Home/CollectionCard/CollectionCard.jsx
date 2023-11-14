@@ -13,7 +13,7 @@ const CollectionCard = () => {
     }, [])
 
     return (
-        <div className='lg:flex lg:flex-row md:flex-col gap-5 mt-20'>
+        <div className='flex flex-col lg:flex-row justify-between gap-5 mt-20'>
             {
                 category.map(item => {
                     if (item && item.status === 'Container1' && item.title) {
@@ -23,7 +23,7 @@ const CollectionCard = () => {
                             backgroundPosition: 'center center'
                         };
                         return (
-                            <div key={item._id} className='lg:flex lg:flex-row md:flex-col'>
+                            <div key={item._id} className='flex flex-col lg:flex-row w-1/2 justify-center align-middle '>
                                 <span className="single-img img-three" style={backgroundImageStyle}>
                                     <span className="img-text">
                                         <h4 className="lg:w-[478px] md:w-full lg:h-[36px] md:h-auto  collectionCard-text ">

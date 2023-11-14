@@ -12,18 +12,18 @@ const FromalCategory = () => {
     }, [])
 
     return (
-        <div className='lg:flex lg:flex-row md:flex-col gap-5 mt-20'>
+        <div className='flex flex-col lg:flex-row justify-between gap-5 mt-20'>
             {
                 category.map(item => {
                     if (item && item.status === 'Container2' && item.title) {
                         const backgroundImageStyle = {
                             backgroundImage: `url(https://tahar-server-production.up.railway.app/uploads/${item.image})`,
                             backgroundSize: 'cover',
-                            backgroundPosition: 'center center'
+                            backgroundPosition: ' center'
                         };
                         return (
-                            <div key={item._id} className='lg:flex lg:flex-row md:flex-col'>
-                                <span className="single-img img-three" style={backgroundImageStyle}>
+                            <div key={item._id} className='flex flex-col lg:flex-row w-1/2 justify-center align-middle '>
+                                <span className="single-img img-three w-1/2" style={backgroundImageStyle}>
                                     <span className="img-text">
                                         <h4 className="lg:w-[478px] md:w-full lg:h-[36px] md:h-auto text-[54px] collectionCard-text [font-family:'Helvetica_Now_Display-Medium',Helvetica]">The {item.title}</h4>
                                         <p className="lg:w-[415px] md:w-full lg:h-[65px] md:h-auto text-[17px] mb-5 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">A small paragraph creatively explaining what the collection is about or what vibe this collection gives off or inspiration of this category</p>

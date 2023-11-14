@@ -5,6 +5,8 @@ import { AuthContext } from '../../../Provider/AuthProvider';
 import CartCalculation from '../CartCalculation/CartCalculation';
 import { Link } from 'react-router-dom';
 import cart from '../../../../public/photos/cart.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBagShopping } from '@fortawesome/free-solid-svg-icons';
 const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doller }) => {
 
     // console.log(localCartData.length)
@@ -52,13 +54,13 @@ const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doll
 
     return (
         <div>
-            <div className="drawer drawer-end w-[150px] relative z-50 ">
+            <div className="drawer drawer-end  relative z-50 ">
                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">
                     {/* Page content here */}
-                    <label htmlFor="my-drawer-4" className="drawer-button btn h-10 hover:bg-[#DBC896] border-none bg-[#DBC896] outline-none">
+                    <label htmlFor="my-drawer-4" className="drawer-button btn h-8 bg-transparent lg:hover:bg-[#DBC896] border-none lg:bg-[#DBC896] outline-none">
                         <div className="flex items-center "> {/* Wrap content in a flex container */}
-                            <img className='mr-2' src={bagIMG} alt="" /> {/* Add margin-right to the image */}
+                            <FontAwesomeIcon className=' text-2xl text-[#DBC896] lg:text-black lg:mr-3' icon={faBagShopping} /> {/* Add margin-right to the image */}
                             <div className='hidden lg:flex'>
                                 <h1 className='#1C2E37 text-white dark:text-black'>My Cart</h1>
                             </div>

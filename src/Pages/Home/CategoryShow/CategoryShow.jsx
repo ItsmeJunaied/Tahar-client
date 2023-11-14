@@ -17,12 +17,13 @@ const CategoryShow = () => {
             .then(data => setCategory(data))
     }, [])
 
-    var settings = {
+    var setting = {
         dots: true,
         infinite: false,
         speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 3,
+        slidesToShow: 5,
+        arrows: false,
+        slidesToScroll: 5,
         responsive: [
             {
                 breakpoint: 768,
@@ -37,56 +38,29 @@ const CategoryShow = () => {
     };
     return (
         <div>
-
-            <div className='mt-10 w-full hidden sm:block md:block'>
-                {/* {!isMediumDevice && ( */}
-                {/* <Slider {...settings}> */}
-                <div className='flex flex-row justify-center align-middle items-center w-full lg:w-[1,775.99px] gap-5 '>
+            <div className='mt-10 w-full '>
+                <Slider {...setting}>
                     {
                         category.map(item => {
                             if (item.status === 'Show') {
                                 return (
-                                    <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
-                                        <img
-                                            className='w-[260px] h-[250px] border-[7px] border-[#CBB06B] rounded-full'
-                                            src={`https://tahar-server-production.up.railway.app/uploads/${item.image}`} alt="" />
-                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
+                                    <Link
+                                        key={item._id} to={`/product/category/${item._id}`}>
+                                        <div className='flex flex-col justify-center items-center gap-[32px]'>
+                                            <img
+                                                className=' w-[120px] h-[120px] lg:w-[267px] lg:h-[267px] border-[4px]  lg:border-[7px] border-[#CBB06B] rounded-full'
+                                                src={`https://tahar-server-production.up.railway.app/uploads/${item.image}`} alt="" />
+                                            <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[15px] lg:text-[19px]">{item.title}</h1>
+                                        </div>
                                     </Link>
                                 );
                             } else {
-                                return null; // Return null for items with status other than 'Show'
+                                return null;
                             }
                         })
                     }
-
-
-
-                </div>
-            </div>
-
-            <div className=' block lg:hidden'>
-                <Slider {...settings}>
-                    {
-                        category.map(item => {
-                            if (item.status === 'Show') {
-                                return (
-                                    <Link key={item._id} to={`/product/category/${item._id}`} className='flex flex-col justify-center items-center gap-[32px]'>
-                                        <img
-                                            className=' w-[267px]  border-[7px] border-[#CBB06B] rounded-full'
-                                            src={`https://tahar-server-production.up.railway.app/uploads/${item.image}`} alt="" />
-                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">{item.title}</h1>
-                                    </Link>
-                                );
-                            } else {
-                                return null; // Return null for items with status other than 'Show'
-                            }
-                        })
-                    }
-
-
                 </Slider>
             </div>
-
         </div>
     );
 };

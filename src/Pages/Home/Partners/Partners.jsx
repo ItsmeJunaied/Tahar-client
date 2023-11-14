@@ -25,11 +25,11 @@ const Partners = ({there}) => {
     
     return (
         <div className=''>
-            <div className={`hidden lg:flex lg:flex-row md:flex-col sm:flex-col  lg:h-[350px] md:h-[497px] ${there === 'light' ? 'bg-[#E7E7E7]' : 'bg-black'}`}>
+            <div className={`hidden lg:flex lg:flex-row md:flex-col sm:flex-col  lg:h-fit md:h-[497px] p-2 ${there === 'light' ? 'bg-[#E7E7E7]' : 'bg-black'}`}>
                 {/* Delivery Partners */}
-                <div className='lg:ml-20'>
+                <div className='lg:ml-20 w-1/3'>
                     <h1 className='text-[19px] font-semibold pb-5 lg:mt-10'>Our Delivery Partners</h1>
-                    <div className='grid grid-cols-2 lg:gap-12 md:gap-2'>
+                    <div className='grid grid-cols-2 lg:gap-5 md:gap-2'>
                         <div className='w-[200px] h-[76px] rounded-[6px] bg-white grid place-items-center'>
                             <img src={fedex} alt="" />
                         </div>
@@ -48,9 +48,9 @@ const Partners = ({there}) => {
                 <div className="divider divider-horizontal my-20 w-32 hidden sm:hidden md:hidden lg:block"></div>
 
                 {/* Payment Partners */}
-                <div className='lg:mr-20'>
+                <div className='lg:mr-20 w-2/3 '>
                     <h1 className='text-[19px] font-semibold pb-5 lg:mt-10'>Our Payment Partners</h1>
-                    <div className='grid lg:grid-cols-6 md:grid-cols-6 sm:grid-cols-2 lg:gap-12'>
+                    <div className='grid lg:grid-cols-5 md:grid-cols-6 sm:grid-cols-2 lg:gap-5'>
                         <div className=' w-[200px] h-[76px] rounded-[6px] bg-white grid place-items-center'>
                             <img src={mastecard} alt="" />
                         </div>
@@ -92,18 +92,18 @@ const Partners = ({there}) => {
             <div className='lg:hidden'>
                 {/* Delivery Partners */}
                 <div className="text-center">
-                    <h1 className='text-[19px] font-semibold pb-5 mt-10'>Our Delivery Partners</h1>
+                    <h1 className="text-[19px] font-semibold pb-5 mt-10 [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Our Delivery Partners</h1>
                     <div className='grid grid-cols-2 gap-2'>
-                        <div className='w-[200px] h-[76px] rounded-[6px] bg-white grid place-items-center'>
+                        <div className=' h-[76px] rounded-[6px] bg-white grid place-items-center'>
                             <img src={fedex} alt="" />
                         </div>
-                        <div className='w-[200px] h-[76px] rounded-[6px] bg-white grid place-items-center'>
+                        <div className=' h-[76px] rounded-[6px] bg-white grid place-items-center'>
                             <img src={DHL} alt="" />
                         </div>
-                        <div className='w-[200px] h-[76px] rounded-[6px] bg-white grid place-items-center'>
+                        <div className=' h-[76px] rounded-[6px] bg-white grid place-items-center'>
                             <img src={pathao} alt="" />
                         </div>
-                        <div className='w-[200px] h-[76px] rounded-[6px] bg-white grid place-items-center'>
+                        <div className=' h-[76px] rounded-[6px] bg-white grid place-items-center'>
                             <img src={paperfly} alt="" />
                         </div>
                     </div>
@@ -111,7 +111,7 @@ const Partners = ({there}) => {
 
                 {/* Payment Partners Marquee */}
                 <div className='mt-10'>
-                    <h1 className='text-[19px] font-semibold pb-5'>Our Payment Partners</h1>
+                    <h1 className="text-[19px] font-semibold pb-5 text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Our Payment Partners</h1>
                     <Marquee>
                         <div className=' w-[200px] h-[76px] rounded-[6px] bg-white grid place-items-center'>
                             <img src={mastecard} alt="" />
@@ -154,6 +154,3 @@ const Partners = ({there}) => {
 };
 
 export default Partners;
-
-
-{/*  */ }

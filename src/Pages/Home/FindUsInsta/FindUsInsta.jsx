@@ -20,6 +20,7 @@ const FindUsInsta = () => {
         speed: 500,
         slidesToShow: 4,
         slidesToScroll: 4,
+        arrows: false,
         initialSlide: 0,
         responsive: [
             {
@@ -52,23 +53,27 @@ const FindUsInsta = () => {
         <div className=' mb-20'>
             <style>
                 {`
-            .slick-prev:before, .slick-next:before {
+            .slick-prev:before, .slick-next:before , .slick-dots{
               
-              color: black;
+                display: none;
             }
             
             .div-card{
                 max-width: 95%;
+                
             }
             
+            .slick-next , .slick-prev , .slick-dots{
+                display: none
+            }
           `}
             </style>
-            <div className={`flex justify-between mt-20 mb-20 align-middle items-center `}>
-                <p> </p>
-                <h1 className=' text-center text-[28px] font-semibold '>Find us on Instagram</h1>
+            <div className={`flex justify-center lg:justify-between mt-20 mb-20 align-middle items-center `}>
+                <p className=' hidden lg:flex'></p>
+                <h1 className=" text-[28px] font-semibold [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">Find us on Instagram</h1>
                 <a
                     href='https://www.instagram.com/tahar__official/'
-                    className={` text-center flex justify-center items-center align-middle w-[193px] h-[43px] bg-[#1C2E37] rounded-[120px] ${there === 'light' ? 'bg-[#FFFF] text-white' : 'bg-[#DBC896] border-[#DBC896] text-black'}`}
+                    className={` text-center hidden lg:flex justify-center items-center align-middle w-[193px] h-[43px] bg-[#1C2E37] rounded-[120px] ${there === 'light' ? 'bg-[#1C2E37] border-[#1C2E37] text-white' : ' bg-[#DBC896] border-[#DBC896] text-black '}`}
                     target="_blank"
                     rel="noreferrer"
                 >
@@ -182,6 +187,17 @@ const FindUsInsta = () => {
                     </div>
                 </div>
             </Slider>
+
+            <div className=' w-full flex justify-center mt-3'>
+                <a
+                    href='https://www.instagram.com/tahar__official/'
+                    className={` text-center  lg:hidden flex justify-center items-center align-middle w-[193px] h-[43px] bg-[#1C2E37] rounded-[120px] ${there === 'light' ? 'bg-[#1C2E37] border-[#1C2E37] text-white' : ' bg-[#DBC896] border-[#DBC896] text-black '}`}
+                    target="_blank"
+                    rel="noreferrer"
+                >
+                    Open Instagram
+                </a>
+            </div>
         </div>
     );
 };

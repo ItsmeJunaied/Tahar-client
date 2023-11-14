@@ -19,10 +19,11 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
     const [activeSize, setActiveSize] = useState('');
     const [activeID, setActiveID] = useState('');
     const settings = {
-        dots: true,
+        dots: false,
         infinite: false,
         speed: 500,
         slidesToShow: 4,
+        arrows: false,
         slidesToScroll: 4,
         initialSlide: 0,
         responsive: [
@@ -32,7 +33,7 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                     slidesToShow: 3,
                     slidesToScroll: 3,
                     infinite: true,
-                    dots: true
+                    dots: false
                 }
             },
             {
@@ -85,12 +86,12 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
             }
             
             img{
-                max-width: 95%;
+                max-width: 100%;
             }
             
           `}
             </style>
-            <Slider {...settings} >
+            <Slider {...settings}  >
                 {
                     activeFabric === '' && filteredFroduct.length <= 0 ? (
                         AllProducts && AllProducts.map(item =>
@@ -98,7 +99,7 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                 {/* <Link to={`/product/${item._id}`}> */}
                                 <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                     <img
-                                        className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
+                                        className="mx-auto lg:max-w-[95%] block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
                                         src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
                                         alt="" />
 

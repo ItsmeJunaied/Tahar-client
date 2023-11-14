@@ -97,43 +97,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
         );
     }
 
-    // // console.log(ChooseSize)
 
-    // //show selected fabricsData
-    // const FindFabricsData = AllProducts.filter(item =>
-    //     ChooseFabrics?.includes(item.fabrics)
-    // );
-
-    // //show selected color data
-    // const FindColordata = AllProducts.filter(item => {
-    //     const colors = [
-    //         ...(item.Scolor && item.Scolor.split(',')) || [],
-    //         ...(item.Mcolor && item.Mcolor.split(',')) || [],
-    //         ...(item.Lcolor && item.Lcolor.split(',')) || [],
-    //         ...(item.XLcolor && item.XLcolor.split(',')) || [],
-    //         ...(item.XXLcolor && item.XXLcolor.split(',')) || [],
-    //         ...(item.XXXLcolor && item.XXXLcolor.split(',')) || [],
-    //     ];
-
-    //     return colors.some(color => ChooseColor.includes(color));
-    // });
-
-    // //show selected size data
-    // const FindSizedata = AllProducts.filter(item => {
-    //     const sizeQuantityMap = {
-    //         'S': 'Squantity',
-    //         'M': 'Mquantity',
-    //         'L': 'Lquantity',
-    //         'XL': 'XLquantity',
-    //         'XXL': 'XXLquantity',
-    //         'XXXL': 'XXXLquantity'
-    //     };
-
-    //     return ChooseSize.some(size => {
-    //         const quantityProperty = sizeQuantityMap[size];
-    //         return quantityProperty && parseInt(item[quantityProperty]) > 0;
-    //     });
-    // });
 
 
     const handleApply = () => {
@@ -224,7 +188,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
 
                         <dialog id="my_modal_5" className="modal  ">
                             <div className="modal-box w-11/12 max-w-5xl bg-transparent shadow-none">
-                                <img className=' w-[900px] h-[800px]' src={sizeChart} alt="" />
+                                <img className=' w-[600px]  lg:w-[900px] lg:h-[800px]' src={sizeChart} alt="" />
                                 <div className="modal-action">
                                     <form method="dialog">
                                         <button className="btn btn-sm bg-white btn-circle  absolute right-2 top-2  shadow-lg">✕</button>
@@ -246,7 +210,7 @@ const Filter = ({ AllProducts, activeFabric, setActiveFabric, setFilteredProfuct
                         </div>
                         <div className="drawer-side">
                             <label htmlFor="my-drawer-6" className="drawer-overlay"></label>
-                            <ul className="  w-[482px] min-h-screen  text-base-content bg-[#ececec]">
+                            <ul className=" w-80  lg:w-[482px] min-h-screen  text-base-content bg-[#ececec]">
 
                                 <div className="shadow-[0px_18px_70px_0px_rgba(0,_0,_0,_0.13)] bg-white relative flex flex-row justify-between w-full items-start pt-16 pb-8 px-8">
                                     <div className="text-xl font-['Helvetica_Now_Display-Medium',Helvetica'] font-bold text-[#1c1c1c] relative">

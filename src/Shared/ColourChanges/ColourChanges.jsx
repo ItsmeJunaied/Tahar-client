@@ -6,7 +6,7 @@ const ColourChanges = ({ item,there}) => {
     // console.log(there)
 
     return (
-        <div>
+        <div className=' '>
             <div className=" flex gap-2">
 
                     <div className={`border-[2px] rounded-full p-[2px] ${there === 'light' ? 'border-black' : 'border-white'}`}>
