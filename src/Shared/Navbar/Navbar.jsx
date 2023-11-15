@@ -8,9 +8,9 @@ import SideCart from '../../Pages/Home/SideCart/SideCart';
 import { useContext, useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { faFileLines, faHeart, faImage, faNewspaper } from '@fortawesome/free-regular-svg-icons';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faArrowRightFromBracket, faBagShopping, faBarsStaggered, faChartLine, faCircleXmark, faFlagUsa, faTruckFast } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRightFromBracket, faBagShopping, faBarsStaggered, faChartLine, faTruckFast, faArrowRightArrowLeft, faArrowUpFromBracket, faBoxesPacking, faBoxesStacked, faCartShopping, faCircleArrowUp, faClipboardQuestion, faCloudArrowUp, faPanorama, faPeopleRoof, faShieldHalved, faStar, faTicket, faUserGroup, faList } from '@fortawesome/free-solid-svg-icons';
 import { AuthContext } from '../../Provider/AuthProvider';
 import Searchbar from '../Searchbar/Searchbar';
 
@@ -122,7 +122,6 @@ const Navbar = () => {
                                     )
                                 }
                             </div>
-
                         </ul>
                     </div>
                 </div>
@@ -142,6 +141,13 @@ const Navbar = () => {
         setIsDrawerOpen(!isDrawerOpen);
     };
 
+
+    function toggleDropdown(dropdownId) {
+        const dropdown = document.getElementById(dropdownId);
+        if (dropdown) {
+            dropdown.classList.toggle("hidden");
+        }
+    }
 
     return (
         <div className=''>
@@ -193,14 +199,14 @@ const Navbar = () => {
                                                 ) : (
                                                     // Render the content when data is loaded
                                                     user ? (
-                                                        <div className="w-fit h-11 px-3.5 py-2 rounded-lg  border-orange-200 justify-end items-center gap-1.5 inline-flex uppercase lg:border-2">
+                                                        <div className="w-10 lg:w-fit h-11  py-2 rounded-lg  border-orange-200 justify-end items-center gap-1.5 inline-flex uppercase lg:border-2">
                                                             <img src={userIMG} alt="" />
                                                             <div className='hidden lg:flex '>
                                                                 <h1>{user?.displayName}</h1>
                                                             </div>
                                                         </div>
                                                     ) : (
-                                                        <Link to='/signup' className="w-44 h-11 px-3.5 py-2 rounded-lg lg:border-2 border-orange-200 justify-end items-center gap-1.5 inline-flex">
+                                                        <Link to='/signup' className=" w-10 lg:w-44 h-11  py-2 rounded-lg lg:border-2 border-orange-200 justify-end items-center gap-1.5 inline-flex">
                                                             <img src={userIMG} alt="" />
                                                             <div className='hidden lg:flex'>
                                                                 <h1>Create Account</h1>
@@ -217,20 +223,20 @@ const Navbar = () => {
                                                                 <li className="font-medium">
                                                                     <Link to='/userprofile' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 ">
                                                                         <div className="mr-3">
-                                                                            <FontAwesomeIcon className=' ml-2 text-xl' icon={faUser} />
+                                                                            <FontAwesomeIcon className=' lg:ml-2 text-lg lg:text-xl' icon={faUser} />
                                                                         </div>
-                                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Profile</h1>
+                                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">Profile</h1>
                                                                     </Link>
                                                                     <Link to='/myorder' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 mt-3">
                                                                         <div className="mr-3">
-                                                                            <FontAwesomeIcon className=' ml-2 text-xl' icon={faBagShopping} />
+                                                                            <FontAwesomeIcon className=' lg:ml-2 text-lg lg:text-xl' icon={faBagShopping} />
                                                                         </div>
-                                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">My Order</h1>
+                                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">My Order</h1>
 
                                                                     </Link>
                                                                     <Link to='/trackorder' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 mt-3">
                                                                         <FontAwesomeIcon icon={faTruckFast} style={{ color: "#ffffff", }} />
-                                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">
+                                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">
 
                                                                             Trac Order
                                                                         </h1>
@@ -238,11 +244,11 @@ const Navbar = () => {
                                                                     </Link>
                                                                     <div className=' divider'></div>
                                                                     <button onClick={handleLogOut}
-                                                                        className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]" type="button">
+                                                                        className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]" type="button">
                                                                         <div className="mr-3">
-                                                                            <FontAwesomeIcon className='ml-2 text-xl text-red-600' icon={faArrowRightFromBracket} />
+                                                                            <FontAwesomeIcon className='lg:ml-2 text-lg lg:text-xl text-red-600' icon={faArrowRightFromBracket} />
                                                                         </div>
-                                                                        Log Out
+                                                                        <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">Log Out</h1>
                                                                     </button>
                                                                 </li>
                                                             </ul>
@@ -250,24 +256,25 @@ const Navbar = () => {
                                                     )}
 
                                                 {user && (matchedUser?.role === 'Admin' || matchedUser?.role === 'Manager') && open && (
-                                                    <div className="absolute z-50 w-60 px-5 py-3 bg-white rounded-lg shadow border dark:border-transparent mt-5">
+                                                    <div className="absolute z-50 w-36 lg:w-60 px-5 py-3 bg-white rounded-lg shadow border dark:border-transparent mt-5">
                                                         <ul className="space-y-3 text-black">
                                                             <li className="font-medium">
                                                                 <Link to='/dashboard' className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 ">
                                                                     <div className="mr-3">
-                                                                        <FontAwesomeIcon className=' ml-2 text-xl' icon={faChartLine} />
+                                                                        <FontAwesomeIcon className=' lg:ml-2 text-lg lg:text-xl' icon={faChartLine} />
 
                                                                     </div>
-                                                                    <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Dashboard</h1>
+                                                                    <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">Dashboard</h1>
 
                                                                 </Link>
                                                                 <div className=' divider'></div>
                                                                 <button onClick={handleLogOut}
-                                                                    className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]" type="button">
+                                                                    className="flex items-start transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700 [font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]" type="button">
                                                                     <div className="mr-3">
-                                                                        <FontAwesomeIcon className='ml-2 text-xl text-red-600' icon={faArrowRightFromBracket} />
+                                                                        <FontAwesomeIcon className='lg:ml-2 text-lg lg:text-xl text-red-600' icon={faArrowRightFromBracket} />
                                                                     </div>
-                                                                    Log Out
+                                                                    <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">Log Out</h1>
+
                                                                 </button>
 
                                                             </li>
@@ -307,8 +314,8 @@ const Navbar = () => {
                             </div>
                             <div className=' flex justify-end align-middle items-center mr-10'>
                                 <select onClick={handleColorModeCheck} className="select w-[154px] h-[42px] bg-[#2c2a2a] text-white max-w-xs">
-                                    <option selected className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Light Mode</option>
-                                    <option className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[19px]">Dark Mode</option>
+                                    <option selected className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">Light Mode</option>
+                                    <option className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[16px] lg:text-[19px]">Dark Mode</option>
                                 </select>
                             </div>
                         </div>
@@ -316,25 +323,147 @@ const Navbar = () => {
 
                 </div>
 
-                <div className="drawer-side z-50 md:hidden fixed" >
+                <div className="drawer-side z-50  md:hidden fixed" >
                     <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay w-80 fixed"></label>
                     <ul className="menu p-4 df w-80 bg-[#201D1D] fixed ">
                         {/* Sidebar */}
-                        <div className=' flex flex-row justify-between align-middle items-center'>
-                            <p> </p>
-                            <Link to='/' >
-                                <div className=" flex justify-center">
-                                    <img className=' w-[67px] h-[86px] ' src={taharLogo} alt="" />
-                                </div>
-                            </Link>
-                            <button
-                                className=' flex justify-end'
-                                onClick={() => { document.getElementById('my-drawer-3').click(); }}
-                            >
-                                <FontAwesomeIcon className='text-[30px]' icon={faBarsStaggered} style={{ color: "#ffffff" }} />
-                            </button>
+                        <div className=' flex flex-col'>
+                            <div className=' flex flex-row justify-around align-middle items-center'>
+                                <Link to='/' >
+                                    <div className=" flex justify-center">
+                                        <img className=' w-[67px] h-[86px] ' src={taharLogo} alt="" />
+                                    </div>
+                                </Link>
+                                <button
+                                    className=' flex justify-end'
+                                    onClick={() => { document.getElementById('my-drawer-3').click(); }}
+                                >
+                                    <FontAwesomeIcon className='text-[30px]' icon={faBarsStaggered} style={{ color: "#ffffff" }} />
+                                </button>
+                            </div>
+
+                            {/* drawer menu */}
+                            <div>
+                                <>
+                                    <div className="w-80 h-10 px-7 py-3.5 mt-[35px] rounded-md justify-start items-center gap-2 inline-flex">
+                                        <div className="top-menu-text ">MAIN MENU</div>
+                                    </div>
+
+                                    <li>
+                                        <button
+                                            onClick={() => toggleDropdown("dropdown-example")}
+                                            type="button"
+                                            className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex" aria-controls="dropdown-example"
+                                            data-collapse-toggle="dropdown-example">
+
+                                            <FontAwesomeIcon className='w-[20px] h-[20px]' icon={faList} style={{ color: "#8b909a", }} />
+                                            <span
+                                                className="sidebar_text">
+                                                Collections
+                                            </span>
+
+                                        </button>
+                                        <ul id="dropdown-example" className="hidden py-2 space-y-2">
+                                            <div className=" flex flex-col">
+                                                {
+                                                    categoryName.map(cat =>
+                                                        <Link key={cat._id} to={`/product/category/${cat._id}`}
+                                                            className="bg-transparent text-gray-500  font-semibold  bold py-1 block">
+                                                            {cat.title}
+                                                        </Link>
+                                                    )
+                                                }
+                                            </div>
+                                        </ul>
+                                    </li>
+
+                                    {/* upload */}
+                                    <NavLink to='/shop-men' className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
+                                        <div className=" relative">
+                                            <FontAwesomeIcon className=' w-[20px] h-[20px]' icon={faBoxesPacking} style={{ color: "#8b909a", }} />
+                                        </div>
+                                        <div className="text-[17px] sidebar_text leading-snug">Shop Men</div>
+                                    </NavLink>
+                                    <NavLink to='/shop-women' className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
+                                        <div className=" relative">
+                                            <FontAwesomeIcon className=' w-[20px] h-[20px]' icon={faBoxesPacking} style={{ color: "#8b909a", }} />
+                                        </div>
+                                        <div className="text-[17px] sidebar_text leading-snug">Shop Women</div>
+                                    </NavLink>
+                                    <NavLink to='/return' className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
+
+                                        <div className=" relative">
+                                            <FontAwesomeIcon className=' w-[20px] h-[20px]' icon={faBoxesPacking} style={{ color: "#8b909a", }} />
+                                        </div>
+                                        <div className="text-[17px] sidebar_text leading-snug">Return/Exchange</div>
+                                    </NavLink>
+                                    <NavLink to='/contact' className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
+                                        <div className=" relative">
+                                            <FontAwesomeIcon className=' w-[20px] h-[20px]' icon={faBoxesPacking} style={{ color: "#8b909a", }} />
+                                        </div>
+                                        <div className="text-[17px] sidebar_text leading-snug">Contact</div>
+                                    </NavLink>
+                                    <NavLink to='/customer-spotlight' className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
+                                        <div className=" relative">
+                                            <FontAwesomeIcon className=' w-[20px] h-[20px]' icon={faBoxesPacking} style={{ color: "#8b909a", }} />
+                                        </div>
+                                        <div className="text-[17px] sidebar_text leading-snug">Customer Spotlight</div>
+                                    </NavLink>
+                                    <NavLink to='/sale' style={{ color: '#FF7575' }} className="w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex">
+                                        <div className=" relative">
+                                            <FontAwesomeIcon className=' w-[20px] h-[20px]' icon={faBoxesPacking} style={{ color: "#8b909a", }} />
+                                        </div>
+                                        <div className="text-[17px] sidebar_text leading-snug">SALE</div>
+                                    </NavLink>
+
+
+
+
+                                    <div className="w-80 h-10 px-7 py-3.5 mt-[35px] rounded-md justify-start items-center gap-2 inline-flex">
+                                        <div className="top-menu-text ">Others</div>
+                                    </div>
+
+
+                                    <NavLink to='trackorder' className='w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex'>
+                                        <FontAwesomeIcon className=' w-6 h-5' icon={faTruckFast} style={{ color: "#ffffff", }} />
+                                        <p className='text-[17px] sidebar_text leading-snug'>Track Order</p>
+                                    </NavLink>
+
+                                    <NavLink to='/favourite' className='w-72 h-12 px-5 py-2 rounded-md justify-start items-center gap-5 inline-flex'>
+                                        <FontAwesomeIcon className=' w-6 h-5' icon={faHeart} style={{ color: "#ffffff", }} />
+                                        <p className='text-[17px] sidebar_text leading-snug'>Favourite</p>
+                                    </NavLink>
+
+                                    <div className="w-80 h-10 px-7 py-3.5 mt-[35px] rounded-md justify-start items-center gap-2 inline-flex">
+                                        <div className="top-menu-text ">Select</div>
+                                    </div>
+
+                                    <div className=' flex flex-row'>
+                                        <div className=' bg-[#2c2a2a] w-[138px] rounded-md mr-2  flex justify-center px-2 items-center'>
+                                            {
+                                                selectedCurrencyValue === 'USD' ? <img className='w-6 h-6' src={usa} alt="" /> : <img className='w-6 h-6' src={ban} alt="" />
+                                            }
+
+
+                                            <select
+                                                value={selectedCurrencyValue}
+                                                onChange={handleSelectCurrencyChange}
+                                                className="mr-2 select bg-[#2c2a2a] text-white w-full  h-[42px]"
+                                            >
+                                                <option value="BDT">BDT</option>
+                                                <option value="USD">USD</option>
+                                            </select>
+                                        </div>
+
+                                        {/* Select Language */}
+                                        <select className="mr-2 select bg-[#2c2a2a] text-white w-[138px] h-[42px]">
+                                            <option disabled selected>Eng</option>
+                                            <option>Ban</option>
+                                        </select>
+                                    </div>
+                                </>
+                            </div>
                         </div>
-                        
                     </ul>
                 </div>
 

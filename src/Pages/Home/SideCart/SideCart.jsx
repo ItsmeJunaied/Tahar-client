@@ -58,7 +58,7 @@ const SideCart = ({ localCartData, setLocalCartData, selectedCurrencyValue, doll
                 <input id="my-drawer-4" type="checkbox" className="drawer-toggle" />
                 <div className="drawer-content">
                     {/* Page content here */}
-                    <label htmlFor="my-drawer-4" className="drawer-button btn h-8 bg-transparent lg:hover:bg-[#DBC896] border-none lg:bg-[#DBC896] outline-none">
+                    <label htmlFor="my-drawer-4" className="drawer-button btn h-8 bg-transparent lg:hover:bg-[#DBC896] lg:border-none lg:bg-[#DBC896] outline-none">
                         <div className="flex items-center "> {/* Wrap content in a flex container */}
                             <FontAwesomeIcon className=' text-2xl text-[#DBC896] lg:text-black lg:mr-3' icon={faBagShopping} /> {/* Add margin-right to the image */}
                             <div className='hidden lg:flex'>
