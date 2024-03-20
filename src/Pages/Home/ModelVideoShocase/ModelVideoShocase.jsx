@@ -10,7 +10,7 @@ import { useState } from 'react';
 import VideoDetails from '../../../Shared/VideoDetails/VideoDetails';
 
 const ModelVideoShocase = () => {
-    const { AllProducts, setAllCartData, localCartData, setLocalCartData, user, doller, selectedCurrencyValue, selectedColor, setSelectedColor , there} = useContext(AuthContext);
+    const { AllProducts, setAllCartData, localCartData, setLocalCartData, user, doller, selectedCurrencyValue, selectedColor, setSelectedColor, there } = useContext(AuthContext);
     const [videoTitle, setVideoTitle] = useState(null);
 
     const [video, setVideo] = useState([]);
@@ -23,7 +23,7 @@ const ModelVideoShocase = () => {
 
     // console.log(AllProducts)
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/video')
+        fetch('https://taharz.onrender.com/video')
             .then(res => res.json())
             .then(data => setVideo(data))
     }, [])
@@ -33,8 +33,30 @@ const ModelVideoShocase = () => {
     const handleCloseModal = () => {
         document.getElementById('my_modal_1').close();
         setVideoTitle(null);
-        videoRef.current.pause(); // Pause the video
     }
+
+    useEffect(() => {
+        const modalElement = document.getElementById('my_modal_1');
+
+        if (!modalElement) {
+            console.error("Modal element with ID 'my_modal_1' not found.");
+            return;
+        }
+
+        const handleModalHidden = () => {
+            const currentVideoRef = videoRef.current;
+            if (currentVideoRef) {
+                currentVideoRef.pause();
+            }
+        };
+
+        modalElement.addEventListener('hidden.bs.modal', handleModalHidden);
+
+        return () => {
+            modalElement.removeEventListener('hidden.bs.modal', handleModalHidden);
+        };
+    }, []);
+    
 
 
 
@@ -101,26 +123,26 @@ const ModelVideoShocase = () => {
                             <button
                                 className="video-container w-[429px] h-[597px] relative"
                                 onClick={() => {
-                                    handleVideoDetails(item.title);
+                                    handleVideoDetails(item.fileInfo.title);
                                     document.getElementById('my_modal_1').showModal();
                                 }}
                             >
-                                <video
+                                <video ref={videoRef}
                                     className="object-cover lg:w-full lg:h-full  rounded-xl"
-                                    src={`https://tahar-server-production.up.railway.app/uploads/${item.video.filename} `}
+                                    src={item.fileInfo.url}
                                     autoPlay
                                     muted
-                                    controls={false}
+                                    controls
                                     loop
                                 ></video>
                                 <div className="video-overlay w-full h-full video-overlay">
                                     <div className=' flex justify-start align-middle items-center gap-5'>
                                         {
                                             AllProducts.map(product => {
-                                                if (product.title === item.title) {
+                                                if (product.title === item.fileInfo.title) {
                                                     return (
                                                         <div key={item._id} className="your-class-name">
-                                                            <img className=' w-28 h-28 rounded object-cover' src={`https://tahar-server-production.up.railway.app/uploads/${product.images[0]}`} alt="" />
+                                                            <img className=' w-28 h-28 rounded object-cover' src={`https://taharz.onrender.com/uploads/${product.images[0]}`} alt="" />
                                                             <div className="flex flex-col justify-start align-start items-start">
                                                                 <h1 className="text-[19px]">{product.title}</h1>
                                                                 <p className={`${there === 'light' ? 'text-black' : 'text-[#DBC896]'} text-[18px]`}>
@@ -156,7 +178,8 @@ const ModelVideoShocase = () => {
                                 <div className="modal-box w-11/12 max-w-5xl">
 
                                     <VideoDetails
-                                        doller={doller} selectedCurrencyValue={selectedCurrencyValue}
+                                        doller={doller}
+                                        selectedCurrencyValue={selectedCurrencyValue}
                                         localCartData={localCartData}
                                         setAllCartData={setAllCartData}
                                         videoTitle={videoTitle}

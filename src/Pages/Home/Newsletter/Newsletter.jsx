@@ -13,7 +13,7 @@ const Newsletter = () => {
 
     const onSubmit = (data) => {
 
-        fetch('https://tahar-server-production.up.railway.app/newsletter', {
+        fetch('https://taharz.onrender.com/newsletter', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'

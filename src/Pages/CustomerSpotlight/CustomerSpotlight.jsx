@@ -5,7 +5,7 @@ import './CustomerSpotlight.css';
 const CustomerSpotlight = () => {
     const [customerImg, setCustomerImg] = useState([])
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/customarSpotlight')
+        fetch('https://taharz.onrender.com/customarSpotlight')
             .then(res => res.json())
             .then(data => setCustomerImg(data))
     }, [])

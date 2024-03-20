@@ -15,7 +15,7 @@ const RatingReview = ({ data }) => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('https://tahar-server-production.up.railway.app/orders')
+        fetch('https://taharz.onrender.com/orders')
             .then(res => res.json())
             .then(data => {
                 setOrderData(data);
@@ -25,7 +25,7 @@ const RatingReview = ({ data }) => {
 
 
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/rating')
+        fetch('https://taharz.onrender.com/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, [])
@@ -59,7 +59,7 @@ const RatingReview = ({ data }) => {
         data.photo = user?.photoURL;
         data.productId = reviewedProductId;
         data.name = reviewedProductName;
-        fetch('https://tahar-server-production.up.railway.app/rating', {
+        fetch('https://taharz.onrender.com/rating', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ const RatingReview = ({ data }) => {
                         timer: 1500
                     })
                 }
-                fetch('https://tahar-server-production.up.railway.app/rating')
+                fetch('https://taharz.onrender.com/rating')
                     .then(res => res.json())
                     .then(data => setRatingData(data))
                 reset();

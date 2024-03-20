@@ -9,7 +9,7 @@ const UploadFabrics = () => {
     const [fabricsdata, setFabricsData] = useState([]);
 
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/fabrics')
+        fetch('https://taharz.onrender.com/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
@@ -18,7 +18,7 @@ const UploadFabrics = () => {
         console.log(data);
         const { fabrics } = data;
         const item = { fabrics };
-        fetch('https://tahar-server-production.up.railway.app/fabrics', {
+        fetch('https://taharz.onrender.com/fabrics', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ const UploadFabrics = () => {
                 console.log(responseData);
 
                 if (responseData.success) {
-                    fetch('https://tahar-server-production.up.railway.app/fabrics')
+                    fetch('https://taharz.onrender.com/fabrics')
                         .then(res => res.json())
                         .then(updatedData => setFabricsData(updatedData));
                     reset();

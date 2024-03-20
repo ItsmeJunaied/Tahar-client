@@ -13,7 +13,7 @@ const Banner = () => {
     const [bannerinfo, setBannerinfo] = useState([]);
 
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/banner')
+        fetch('https://taharz.onrender.com/banner')
             .then(res => res.json())
             .then(data => setBannerinfo(data))
     }, [])
@@ -42,7 +42,7 @@ const Banner = () => {
         >
             {
                 bannerinfo?.map(item =>
-                    <div key={item._id} data-src={`https://tahar-server-production.up.railway.app/uploads/${item.images}`}>
+                    <div key={item._id} data-src={`https://taharz.onrender.com/uploads/${item.images}`}>
                         <div style={textOverlayStyle}>
 
                             <div className="flex flex-col gap-10 w-full items-center">

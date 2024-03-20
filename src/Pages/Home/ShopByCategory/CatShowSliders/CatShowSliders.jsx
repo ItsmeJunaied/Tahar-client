@@ -97,28 +97,29 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                         AllProducts && AllProducts.map(item =>
                             <div key={item._id} className=' w-[431px] h-fit '>
                                 {/* <Link to={`/product/${item._id}`}> */}
-                                <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
-                                    <img
-                                        className="mx-auto lg:max-w-[95%] block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                        src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
-                                        alt="" />
-
-                                    <div>
-                                        {
-                                            item.Clearance === 'Sale' && (
-                                                <div
-                                                    className="absolute top-3 left-3 bg-[rgba(255,_75,_64,_0.71)] flex flex-col justify-center w-20 h-8 items-center rounded-[63.22041702270508px]"
-                                                >
-                                                    <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
-                                                        {`${item?.sellpercet}% Off`}
-                                                    </div>
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                </div>
-                                {/* </Link> */}
                                 <Link to={`/product/${item._id}`}>
+                                    <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
+                                        <img
+                                            className="mx-auto lg:max-w-[95%] block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
+                                            src={`https://taharz.onrender.com/uploads/${item.images[0]}`}
+                                            alt="" />
+
+                                        <div>
+                                            {
+                                                item.Clearance === 'Sale' && (
+                                                    <div
+                                                        className="absolute top-3 left-3 bg-[rgba(255,_75,_64,_0.71)] flex flex-col justify-center w-20 h-8 items-center rounded-[63.22041702270508px]"
+                                                    >
+                                                        <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
+                                                            {`${item?.sellpercet}% Off`}
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
+                                    {/* </Link> */}
+
                                     <div className="flex flex-col justify-center align-middle items-center mt-2 gap-3">
 
                                         <h1 className={`  ${there === 'light' ? 'text-black' : 'text-white'}  h-16 text-[19px] uppercase text-xl text-center [font-family:'Helvetica_Now_Display-Medium',Helvetica]`}>{item.title} | {item.category}
@@ -261,7 +262,7 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                     <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                         <img
                                             className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                            src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
+                                            src={`https://taharz.onrender.com/uploads/${item.images[0]}`}
                                             alt="" />
                                         <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                             <div
@@ -434,7 +435,7 @@ const CatShowSliders = ({ activeFabric, filteredFroduct, selectedCurrencyValue, 
                                         <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                             <img
                                                 className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                                src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
+                                                src={`https://taharz.onrender.com/uploads/${item.images[0]}`}
                                                 alt="" />
                                             <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
                                                 <div

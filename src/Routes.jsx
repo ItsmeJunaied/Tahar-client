@@ -52,7 +52,7 @@ const router = createBrowserRouter([
       {
         path: '/product/category/:category',
         element: <Collections></Collections>,
-        loader: ({ params }) => fetch(`https://tahar-server-production.up.railway.app/product/category/${params.category}`)
+        loader: ({ params }) => fetch(`https://taharz.onrender.com/product/category/${params.category}`)
       },
 
       {
@@ -114,7 +114,7 @@ const router = createBrowserRouter([
       {
         path: '/product/:id',
         element: <ProductDetails></ProductDetails>,
-        loader: ({ params }) => fetch(`https://tahar-server-production.up.railway.app/product/${params.id}`)
+        loader: ({ params }) => fetch(`https://taharz.onrender.com/product/${params.id}`)
       },
       {
         path: '/payment/success/:tranId',
@@ -158,7 +158,7 @@ const router = createBrowserRouter([
       {
         path: 'categoryUpload/:id',
         element: <CategoryUpload></CategoryUpload>,
-        loader: ({ params }) => fetch(`https://tahar-server-production.up.railway.app/product/${params.id}`)
+        loader: ({ params }) => fetch(`https://taharz.onrender.com/product/${params.id}`)
       },
       {
         path: 'manageProducts',

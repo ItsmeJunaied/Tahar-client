@@ -106,7 +106,7 @@ const UploadProducts = () => {
 
 
 
-            const response = await fetch('https://tahar-server-production.up.railway.app/product', {
+            const response = await fetch('https://taharz.onrender.com/product', {
                 method: 'POST',
                 body: formData,
             });

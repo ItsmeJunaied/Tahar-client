@@ -13,7 +13,7 @@ const IncreaseButtonCart = ({ item, onQuantityChange }) => {
             onQuantityChange(id, newQuantity);
             console.log(newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://tahar-server-production.up.railway.app/userCartData/${id}`, {
+            fetch(`https://taharz.onrender.com/userCartData/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ const IncreaseButtonCart = ({ item, onQuantityChange }) => {
             onQuantityChange(id, newQuantity);
             console.log(newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://tahar-server-production.up.railway.app/userCartData/${id}`, {
+            fetch(`https://taharz.onrender.com/userCartData/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

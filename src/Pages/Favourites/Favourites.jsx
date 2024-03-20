@@ -70,7 +70,7 @@ const Favourites = () => {
                                 <div className=" w-[431px]" style={{ position: 'relative', display: 'inline-block' }}>
                                     <img
                                         className="mx-auto block w-[431px] h-[417px] rounded-[10px] object-cover object-center"
-                                        src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
+                                        src={`https://taharz.onrender.com/uploads/${item.images[0]}`}
                                         alt="" />
 
                                     <div>

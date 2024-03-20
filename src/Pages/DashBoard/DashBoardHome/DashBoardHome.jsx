@@ -11,7 +11,7 @@ const DashBoardHome = () => {
 
     console.log(ratingData)
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/orders')
+        fetch('https://taharz.onrender.com/orders')
             .then(res => res.json())
             .then(data => {
                 setOrderData(data);
@@ -20,7 +20,7 @@ const DashBoardHome = () => {
 
 
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/rating')
+        fetch('https://taharz.onrender.com/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, []);

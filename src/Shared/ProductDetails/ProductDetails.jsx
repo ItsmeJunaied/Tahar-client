@@ -26,7 +26,7 @@ const ProductDetails = () => {
     const navigate = useNavigate();
 
     useState(() => {
-        fetch('https://tahar-server-production.up.railway.app/rating')
+        fetch('https://taharz.onrender.com/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, [])
@@ -38,7 +38,7 @@ const ProductDetails = () => {
     const sellpercet = data.sellpercet;
 
     const priceInBDT = data.price; // Regular price in BDT
-    const salePriceInBDT = data.Clearance === 'Sale' ? (parseInt(priceInBDT) - (parseInt(priceInBDT) * (parseInt(sellpercet) / 100))).toFixed(2) : ''; 
+    const salePriceInBDT = data.Clearance === 'Sale' ? (parseInt(priceInBDT) - (parseInt(priceInBDT) * (parseInt(sellpercet) / 100))).toFixed(2) : '';
 
     const priceInUSD = (priceInBDT * 2.5 * doller).toFixed(2);
     const salePriceInUSD = (salePriceInBDT * 2.5 * doller).toFixed(2);
@@ -258,47 +258,64 @@ const ProductDetails = () => {
     }, [setFavouriteData])
     return (
         <div>
-            <div className=' flex flex-col lg:flex-row gap-10 mx-[100px] my-[100px]'>
+            <div className=' flex flex-col lg:flex-row gap-10 lg:mx-[100px] lg:my-[100px]'>
                 <div className=' flex flex-col w-1/2'>
 
-                    <div className='flex flex-row'>
-                        {/* Container 1 */}
+                    {/* Container 1*/}
+                    <div className='lg:flex flex-row hidden '>
+
                         <div className='flex flex-col gap-5'>
                             {data?.images?.map((image, index) => (
                                 <img
                                     key={index}
                                     className={`w-[165px] h-[160px] rounded-[10px] ${index === selectedImageIndex ? 'border-2 border-[#DBC896]' : ''}`}
-                                    src={`https://tahar-server-production.up.railway.app/uploads/${image}`}
+                                    src={`https://taharz.onrender.com/uploads/${image}`}
                                     alt=""
                                     onClick={() => handleImageClick(index)}
                                 />
                             ))}
                         </div>
 
-                        {/* Container 2 */}
+
                         <div className='ml-5 '>
                             <img
                                 className='w-[622px] h-[700px] rounded-[10px] object-cover image-box'
 
-                                src={`https://tahar-server-production.up.railway.app/uploads/${data.images[selectedImageIndex]}`}
+                                src={`https://taharz.onrender.com/uploads/${data.images[selectedImageIndex]}`}
                                 alt=""
                             />
                         </div>
 
 
                     </div>
+                    {/* Container 2 */}
+                    <div className='lg:hidden'>
+                        <div className="carousel w-screen">
+                            <div id="slide1" className="carousel-item relative w-screen">
+                                {data?.images?.map((image, index) => (
+                                    <img
+                                        key={index}
+                                        src={`https://taharz.onrender.com/uploads/${image}`}
+                                        className=" w-screen" />
 
-
-                    <div>
+                                ))}
+                                <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+                                    <a href="#slide4" className="btn btn-circle">❮</a>
+                                    <a href="#slide2" className="btn btn-circle">❯</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className=' lg:flex hidden'>
                         <PremiumServicesDetails></PremiumServicesDetails>
                     </div>
 
 
 
                 </div>
-                <div className=' w-1/2'>
+                <div className=' lg:w-1/2 '>
 
-                    <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase text-[40px] mb-5">{data.category} | {data.title}</h1>
+                    <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] uppercase text-[30px] lg:text-[40px] mb-5 ">{data.category} | {data.title}</h1>
                     <p className='mb-5'>
                         {stars}
                         <span className='ml-2 text-[30px]'>({filteredRating.length})</span>
@@ -322,36 +339,25 @@ const ProductDetails = () => {
                         </button>
 
                         <p className=" text-[15px] text-[#00000061] font-bold [font-family:'Helvetica_Now_Display-Medium',Helvetica]">Tax included. Shipping calculated at checkout.</p>
-                        {/* <button onClick={() => handlefavourite(item._id)} style={{ position: 'absolute', top: 13, right: 8 }}>
-                            <div
-                                id="MdiheartoutlineRoot"
-                                className="overflow-hidden bg-[rgba(28,_46,_55,_0.61)] flex flex-row justify-center gap-2 w-20 h-8 items-center rounded-[104px]"
-                            >
-                                <FontAwesomeIcon className=' text-white ' icon={faHeart} />
-                                <div className="text-center text-lg [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-medium text-white">
-                                    {JSON.parse(localStorage.getItem('favourite'))?.includes(item._id) ? 'Liked' : 'Like'}
-                                </div>
-                            </div>
-                        </button> */}
-                        <button onClick={() => handlefavourite(data._id)} className=" w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">
+
+                        <button onClick={() => handlefavourite(data._id)} className=" w-[177px] h-[42px] text-[#1C2E37] rounded-[10px] text-[12px] lg:text-[16px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] ">
                             <FontAwesomeIcon icon={faHeart} />
 
                             {JSON.parse(localStorage.getItem('favourite'))?.includes(data._id) ? 'Added to Wishlist' : 'Add to Wishlist'}
                         </button>
 
-                        <button className=" w-[110px] h-[42px] text-[#1C2E37] rounded-[10px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faShareNodes} />Share</button>
+                        <button className=" w-[110px] h-[42px] text-[#1C2E37] rounded-[10px] text-[12px] lg:text-[16px] bg-transparent border-[2px] border-[#1C2E37] [font-family:'Helvetica_Now_Display-Medium',Helvetica] "><FontAwesomeIcon icon={faShareNodes} />Share</button>
                     </div>
                     <div className="divider mt-5 text-[#0000001C]"></div>
                     {/* color */}
                     <p className=' text-black text-[19px] font-semibold mb-3'>Color</p>
 
 
-                    {/* <ColourChanges data={data} activeSize={activeSize} activeID={activeID}></ColourChanges> */}
                     <DetailedColour
                         data={data}
                         there={there}
                     ></DetailedColour>
-                    
+
                     {/*  */}
 
                     <p className=' text-black text-[19px] font-semibold mb-3'>Size</p>
@@ -489,17 +495,17 @@ const ProductDetails = () => {
                     </div>
 
                     <div className=' flex flex-col lg:flex-row gap-5 mb-5'>
-                        <button onClick={handleAddCart} className=' w-[415px] h-[54px] rounded-[10px] text-white bg-[#1C2E37] border-none  text-[18px] font-semibold mt-2'>
+                        <button onClick={handleAddCart} className=' w-[350px] lg:w-[415px] h-[54px] rounded-[10px] text-white bg-[#1C2E37] border-none  text-[18px] font-semibold mt-2'>
                             Add to card
                         </button>
-                        <button onClick={handleBuyNow} className=' w-[415px] h-[54px] text-black border-[2px] border-[#191E1B4F] rounded-[10px] bg-transparent text-[18px] font-semibold mt-2'>
+                        <button onClick={handleBuyNow} className=' w-[350px] lg:w-[415px] h-[54px] text-black border-[2px] border-[#191E1B4F] rounded-[10px] bg-transparent text-[18px] font-semibold mt-2'>
                             Buy Now
                         </button>
                     </div>
 
                     <div className=' divider mb-5'></div>
 
-                    <div className="collapse collapse-arrow bg-base-200 w-[624px]">
+                    <div className="collapse collapse-arrow bg-base-200 w-[350px] lg:w-[624px]">
                         <input type="checkbox" />
                         <div className="collapse-title text-xl font-medium [font-family:'Helvetica_Now_Display-Medium',Helvetica]">
                             Click me to show/hide content
@@ -509,14 +515,19 @@ const ProductDetails = () => {
                         </div>
                     </div>
                 </div>
+                <div className=' lg:hidden'>
+                    <PremiumServicesDetails></PremiumServicesDetails>
+                </div>
             </div>
-            <FrequentkyBought data={data} selectedCurrencyValue={selectedCurrencyValue} doller={doller}></FrequentkyBought>
+            <div className=' lg:flex hidden'>
+                <FrequentkyBought data={data} selectedCurrencyValue={selectedCurrencyValue} doller={doller}></FrequentkyBought>
 
+            </div>
 
-            <div className=' mt-10 mb-10 mx-[100px]'>
+            <div className=' mt-10 mb-10 mx-[100px] lg:flex hidden'>
                 <RatingReview data={data}></RatingReview>
             </div>
-            <div className=' mt-10 mb-10 mx-[100px]'>
+            <div className=' mt-10 mb-10 lg:mx-[100px]'>
                 <ShopByCategory></ShopByCategory>
             </div>
         </div>

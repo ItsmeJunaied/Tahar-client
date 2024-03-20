@@ -29,29 +29,29 @@ const AuthProvider = ({ children }) => {
     const [there, setTheme] = useState('light');
     const [selectedCurrencyValue, setSelectedCurrencyValue] = useState(() => {
         const storedCurrency = localStorage.getItem('selectedCurrency');
-        return storedCurrency || 'BDT'; // Set default value to BDT if nothing is stored in local storage
+        return storedCurrency || 'BDT';
     });
     const [selectedColor, setSelectedColor] = useState('');
     const [shippingData, setshippingData] = useState([]);
     // console.log(localCartData);
 
-    // const doller = 0.0091;
+    const doller = 0.0091;
 
-    const [doller , setdoller ] = useState(null);
+    // const [doller, setdoller] = useState(null);
 
-    useEffect(() => {
-        const apiKey = '3a4af9e02140b22b89ebead94195ccc3'; // Replace with your actual API key
-        const apiUrl = `http://data.fixer.io/api/latest?access_key=${apiKey}&symbols=USD&base=EUR`;
+    // useEffect(() => {
+    //     const apiKey = '3a4af9e02140b22b89ebead94195ccc3'; // Replace with your actual API key
+    //     const apiUrl = `http://data.fixer.io/api/latest?access_key=${apiKey}&symbols=USD&base=EUR`;
 
-        axios.get(apiUrl)
-            .then(response => {
-                const usdRate = response.data.rates.USD;
-                setdoller (usdRate);
-            })
-            .catch(error => {
-                console.error('Error fetching exchange rates:', error);
-            });
-    }, []);
+    //     axios.get(apiUrl)
+    //         .then(response => {
+    //             const usdRate = response.data.rates.USD;
+    //             setdoller(usdRate);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching exchange rates:', error);
+    //         });
+    // }, []);
 
 
     // console.log(doller );
@@ -94,38 +94,38 @@ const AuthProvider = ({ children }) => {
     };
     // users
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/users')
+        fetch('https://taharz.onrender.com/users')
             .then(res => res.json())
             .then(data => setLoggedUser(data))
     }, [])
 
     // product
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/product')
+        fetch('https://taharz.onrender.com/product')
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
     // category Names
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/categoryInfo')
+        fetch('https://taharz.onrender.com/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryName(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/fabrics')
+        fetch('https://taharz.onrender.com/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
     // orders Names
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/orders')
+        fetch('https://taharz.onrender.com/orders')
             .then(res => res.json())
             .then(data => setOrder(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/CODorder')
+        fetch('https://taharz.onrender.com/CODorder')
             .then(res => res.json())
             .then(data => setCODorder(data))
     }, [])

@@ -61,7 +61,7 @@ const CheckoutPayment = () => {
 
     const handlePayNowInfo = () => {
         console.log(dataToSend)
-        fetch('https://tahar-server-production.up.railway.app/orders', {
+        fetch('https://taharz.onrender.com/orders', {
             method: 'POST',
             headers: { "content-type": "application/json" },
             body: JSON.stringify(updatedDataToSend)
@@ -75,7 +75,7 @@ const CheckoutPayment = () => {
 
     const handleCODInfo = () => {
         const updatedDataToSend = { ...updatedDataToSend, payment: "not paid" };
-        fetch('https://tahar-server-production.up.railway.app/CODorder', {
+        fetch('https://taharz.onrender.com/CODorder', {
             method: 'POST',
             headers: { "content-type": "application/json" },
             body: JSON.stringify(updatedDataToSend)
@@ -235,7 +235,7 @@ const CheckoutPayment = () => {
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] object-cover "
-                                            src={`https://tahar-server-production.up.railway.app/uploads/${item.ProductImage}`}
+                                            src={`https://taharz.onrender.com/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>

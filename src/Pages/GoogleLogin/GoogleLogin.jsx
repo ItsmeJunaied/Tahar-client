@@ -16,7 +16,7 @@ const GoogleLogin = () => {
                 const loggeduser = res.user;
                 const saveUser = { name: loggeduser.displayName, email: loggeduser.email, role: 'User' }
 
-                fetch('https://tahar-server-production.up.railway.app/users', {
+                fetch('https://taharz.onrender.com/users', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'

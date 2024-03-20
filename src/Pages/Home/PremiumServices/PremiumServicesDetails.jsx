@@ -7,7 +7,7 @@ import PremiumServices5 from '../../../../public/photos/orderTrack.png'
 const PremiumServicesDetails = () => {
     return (
         <div>
-            <div className='grid md:grid-cols-3 lg:grid-cols-5 border-[3px] mt-20 w-[800px] h-[196px] rounded-[15px] mx-auto my-auto'>
+            <div className='grid grid-cols-2 lg:grid-cols-5 border-[3px] mt-20 w-screen lg:w-[800px] lg:h-[196px] rounded-[15px] mx-auto my-auto'>
             <div className=' flex flex-col justify-center items-center '>
                 <img src={PremiumServices1} alt="" />
                 <p>Fabrics</p>

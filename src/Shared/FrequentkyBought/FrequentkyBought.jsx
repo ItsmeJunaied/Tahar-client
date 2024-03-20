@@ -197,7 +197,7 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
             <div className="text-center text-3xl [font-family:'Helvetica_Now_Display-Medium',Helvetica] font-bold text-[#1c1c1c]">
                 Frequently Bought Together
             </div>
-            <div className="self-stretch flex flex-row ml-1 gap-3 items-start">
+            <div className="self-stretch flex lg:flex-row flex-col ml-1 gap-3 items-start">
 
                 <div className="flex flex-col mr-6 gap-4  w-2/5">
                     <div className="flex flex-row gap-3 items-center justify-between mb-3 ml-0">
@@ -206,7 +206,7 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
                                 <React.Fragment key={item._id}>
                                     {item.images && item.images[0] && (
                                         <img
-                                            src={`https://tahar-server-production.up.railway.app/uploads/${item.images[0]}`}
+                                            src={`https://taharz.onrender.com/uploads/${item.images[0]}`}
                                             className="mr-0 w-[194px] h-[188px] object-cover"
                                         />
                                     )}

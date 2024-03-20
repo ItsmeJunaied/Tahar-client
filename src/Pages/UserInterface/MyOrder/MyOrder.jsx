@@ -15,7 +15,7 @@ const MyOrder = () => {
     const [showInvoice, setShowInvoice] = useState(false);
     useEffect(() => {
         setLoading(true);
-        fetch('https://tahar-server-production.up.railway.app/orders')
+        fetch('https://taharz.onrender.com/orders')
             .then(res => res.json())
             .then(data => {
                 setOrderData(data);
@@ -64,7 +64,7 @@ const MyOrder = () => {
                                                     <tr key={detail._id}>
                                                         <td className='text-start'>
                                                             <div className="mask mask-squircle w-12 h-12">
-                                                                <img src={`https://tahar-server-production.up.railway.app/uploads/${detail.ProductImage}`} alt="Product Image" />
+                                                                <img src={`https://taharz.onrender.com/uploads/${detail.ProductImage}`} alt="Product Image" />
                                                             </div>
                                                         </td>
                                                         <td className='text-start '>

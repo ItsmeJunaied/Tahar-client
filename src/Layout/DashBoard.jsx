@@ -62,7 +62,7 @@ const DashBoard = () => {
                     </Link>
 
                     {
-                        user && matchedUser && matchedUser.role === "Admin" || matchedUser.role === "Manager" ? (
+                        user && matchedUser && matchedUser?.role === "Admin" ? (
 
                             <>
                                 <div className="w-80 h-10 px-7 py-3.5 mt-[35px] rounded-md justify-start items-center gap-2 inline-flex">

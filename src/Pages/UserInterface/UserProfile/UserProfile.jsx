@@ -7,7 +7,7 @@ const UserProfile = () => {
     const [orderData, setOrderData] = useState([]);
 
     useEffect(() => {
-        fetch('https://tahar-server-production.up.railway.app/orders')
+        fetch('https://taharz.onrender.com/orders')
             .then(res => res.json())
             .then(data => setOrderData(data))
     }, [])

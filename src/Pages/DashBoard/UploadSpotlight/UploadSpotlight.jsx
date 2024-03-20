@@ -25,7 +25,7 @@ const UploadSpotlight = () => {
                     const item = { username ,image: imgURL };
 
                     console.log(item);
-                    fetch('https://tahar-server-production.up.railway.app/customarSpotlight', {
+                    fetch('https://taharz.onrender.com/customarSpotlight', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'
