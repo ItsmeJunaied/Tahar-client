@@ -16,7 +16,7 @@ const GoogleLogin = () => {
                 const loggeduser = res.user;
                 const saveUser = { name: loggeduser.displayName, email: loggeduser.email, role: 'User' }
 
-                fetch('https://taharz.onrender.com/users', {
+                fetch('https://taharecom.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'

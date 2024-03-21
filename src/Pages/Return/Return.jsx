@@ -12,7 +12,7 @@ const Return = () => {
 
     const onSubmit = data => {
         const { email, orderID } = data;
-        fetch('https://taharz.onrender.com/return', {
+        fetch('https://taharecom.vercel.app/return', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

@@ -11,7 +11,7 @@ const PromoCode = () => {
     
     const [code, setCode] = useState([]);
     useEffect(() => {
-        fetch('https://taharz.onrender.com/promocode')
+        fetch('https://taharecom.vercel.app/promocode')
             .then(res => res.json())
             .then(data => setCode(data))
     }, [])
@@ -22,7 +22,7 @@ const PromoCode = () => {
         const { percentage, type, name } = data;
         const item = { percentage, type, name };
 
-        fetch('https://taharz.onrender.com/promocode', {
+        fetch('https://taharecom.vercel.app/promocode', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'
@@ -39,7 +39,7 @@ const PromoCode = () => {
                         title: "Customer Sopt Light added successfully",
                         timer: 1500,
                     });
-                    fetch('https://taharz.onrender.com/promocode')
+                    fetch('https://taharecom.vercel.app/promocode')
                         .then(res => res.json())
                         .then(data => setCode(data));
                     reset();

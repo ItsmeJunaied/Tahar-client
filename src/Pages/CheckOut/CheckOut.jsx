@@ -207,7 +207,7 @@ const CheckOut = () => {
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] "
-                                            src={`https://taharz.onrender.com/uploads/${item.ProductImage}`}
+                                            src={`https://taharecom.vercel.app/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>

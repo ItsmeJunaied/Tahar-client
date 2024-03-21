@@ -12,7 +12,7 @@ const CategoryShow = () => {
     const [category, setCategory] = useState([]);
 
     useEffect(() => {
-        fetch('https://taharz.onrender.com/categoryInfo')
+        fetch('https://taharecom.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -49,7 +49,7 @@ const CategoryShow = () => {
                                         <div className='flex flex-col justify-center items-center gap-[32px]'>
                                             <img
                                                 className=' w-[120px] h-[120px] lg:w-[267px] lg:h-[267px] border-[4px]  lg:border-[7px] border-[#CBB06B] rounded-full'
-                                                src={`https://taharz.onrender.com/uploads/${item.image}`} alt="" />
+                                                src={`https://taharecom.vercel.app/uploads/${item.image}`} alt="" />
                                             <h1 className="[font-family:'Helvetica_Now_Display-Medium',Helvetica] text-[15px] lg:text-[19px]">{item.title}</h1>
                                         </div>
                                     </Link>

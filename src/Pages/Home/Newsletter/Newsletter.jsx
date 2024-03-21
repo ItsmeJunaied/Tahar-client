@@ -13,7 +13,7 @@ const Newsletter = () => {
 
     const onSubmit = (data) => {
 
-        fetch('https://taharz.onrender.com/newsletter', {
+        fetch('https://taharecom.vercel.app/newsletter', {
             method: "POST",
             headers: {
                 'content-type': 'application/json'

@@ -206,7 +206,7 @@ const FrequentkyBought = ({ data, selectedCurrencyValue, doller }) => {
                                 <React.Fragment key={item._id}>
                                     {item.images && item.images[0] && (
                                         <img
-                                            src={`https://taharz.onrender.com/uploads/${item.images[0]}`}
+                                            src={`https://taharecom.vercel.app/uploads/${item.images[0]}`}
                                             className="mr-0 w-[194px] h-[188px] object-cover"
                                         />
                                     )}

@@ -7,7 +7,7 @@ const UserProfile = () => {
     const [orderData, setOrderData] = useState([]);
 
     useEffect(() => {
-        fetch('https://taharz.onrender.com/orders')
+        fetch('https://taharecom.vercel.app/orders')
             .then(res => res.json())
             .then(data => setOrderData(data))
     }, [])

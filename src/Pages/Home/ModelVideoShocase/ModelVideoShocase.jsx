@@ -23,7 +23,7 @@ const ModelVideoShocase = () => {
 
     // console.log(AllProducts)
     useEffect(() => {
-        fetch('https://taharz.onrender.com/video')
+        fetch('https://taharecom.vercel.app/video')
             .then(res => res.json())
             .then(data => setVideo(data))
     }, [])
@@ -123,13 +123,13 @@ const ModelVideoShocase = () => {
                             <button
                                 className="video-container w-[429px] h-[597px] relative"
                                 onClick={() => {
-                                    handleVideoDetails(item.fileInfo.title);
+                                    handleVideoDetails(item?.fileInfo?.title);
                                     document.getElementById('my_modal_1').showModal();
                                 }}
                             >
                                 <video ref={videoRef}
                                     className="object-cover lg:w-full lg:h-full  rounded-xl"
-                                    src={item.fileInfo.url}
+                                    src={item?.fileInfo?.url}
                                     autoPlay
                                     muted
                                     controls
@@ -139,12 +139,12 @@ const ModelVideoShocase = () => {
                                     <div className=' flex justify-start align-middle items-center gap-5'>
                                         {
                                             AllProducts.map(product => {
-                                                if (product.title === item.fileInfo.title) {
+                                                if (product.title === item?.fileInfo?.title) {
                                                     return (
                                                         <div key={item._id} className="your-class-name">
-                                                            <img className=' w-28 h-28 rounded object-cover' src={`https://taharz.onrender.com/uploads/${product.images[0]}`} alt="" />
+                                                            <img className=' w-28 h-28 rounded object-cover' src={`https://taharecom.vercel.app/uploads/${product.images[0]}`} alt="" />
                                                             <div className="flex flex-col justify-start align-start items-start">
-                                                                <h1 className="text-[19px]">{product.title}</h1>
+                                                                <h1 className="text-[19px]">{product?.title}</h1>
                                                                 <p className={`${there === 'light' ? 'text-black' : 'text-[#DBC896]'} text-[18px]`}>
                                                                     {selectedCurrencyValue === 'BDT' ? (product.Clearance === 'Sale' ? (
                                                                         <>

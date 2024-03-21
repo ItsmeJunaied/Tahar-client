@@ -37,7 +37,7 @@ const ManageOrders = () => {
         console.log(id)
         console.log(currentRole)
 
-        fetch(`https://taharz.onrender.com/orders/${id}`, {
+        fetch(`https://taharecom.vercel.app/orders/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ const ManageOrders = () => {
             .then(data => {
                 console.log(data);
                 if (data.success) {
-                    fetch('https://taharz.onrender.com/orders')
+                    fetch('https://taharecom.vercel.app/orders')
                         .then(res => res.json())
                         .then(updatedData => setLoggedUser(updatedData))
                 }

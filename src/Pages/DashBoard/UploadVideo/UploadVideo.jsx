@@ -17,7 +17,7 @@ const UploadVideo = () => {
 
 
     useEffect(() => {
-        fetch('https://taharz.onrender.com/video')
+        fetch('https://taharecom.vercel.app/video')
             .then(res => res.json())
             .then(data => setVideo(data))
     }, [])
@@ -61,13 +61,13 @@ const UploadVideo = () => {
 
 
 
-        const response = await fetch('https://taharz.onrender.com/video', {
+        const response = await fetch('https://taharecom.vercel.app/video', {
             method: 'POST',
             body: formData,
         });
         if (response.ok) {
             const responseData = await response.json();
-            fetch('https://taharz.onrender.com/video')
+            fetch('https://taharecom.vercel.app/video')
                 .then(res => res.json())
                 .then(updatedata => setVideo(updatedata))
             Swal.fire({
@@ -95,7 +95,7 @@ const UploadVideo = () => {
         const newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
 
         console.log(newStatus)
-        fetch(`https://taharz.onrender.com/video/${id}`, {
+        fetch(`https://taharecom.vercel.app/video/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -223,9 +223,9 @@ const UploadVideo = () => {
                                         video && video.map(video =>
                                             <div key={video._id} className="col-span-1 sm:col-span-1 md:col-span-1 lg:col-span-1 xl:col-span-1">
                                                 <div className="relative aspect-w-8 aspect-h-8">
-                                                    <video className=" w-60 h-64 " src={video.fileInfo.url} controls></video>
+                                                    <video className=" w-60 h-64 " src={video?.fileInfo?.url} controls></video>
                                                 </div>
-                                                <h1 className="section-name-category h-10 mt-2 ">{video.title}</h1>
+                                                <h1 className="section-name-category h-10 mt-2 ">{video?.fileInfo?.title}</h1>
                                                 <div className="flex justify-between items-center mt-6">
                                                     <button
                                                         onClick={() => handleStatus(video._id, video.status)}

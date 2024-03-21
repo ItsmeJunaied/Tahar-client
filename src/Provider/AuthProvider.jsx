@@ -94,38 +94,38 @@ const AuthProvider = ({ children }) => {
     };
     // users
     useEffect(() => {
-        fetch('https://taharz.onrender.com/users')
+        fetch('https://taharecom.vercel.app/users')
             .then(res => res.json())
             .then(data => setLoggedUser(data))
     }, [])
 
     // product
     useEffect(() => {
-        fetch('https://taharz.onrender.com/product')
+        fetch('https://taharecom.vercel.app/product')
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
     // category Names
     useEffect(() => {
-        fetch('https://taharz.onrender.com/categoryInfo')
+        fetch('https://taharecom.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryName(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://taharz.onrender.com/fabrics')
+        fetch('https://taharecom.vercel.app/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
     // orders Names
     useEffect(() => {
-        fetch('https://taharz.onrender.com/orders')
+        fetch('https://taharecom.vercel.app/orders')
             .then(res => res.json())
             .then(data => setOrder(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://taharz.onrender.com/CODorder')
+        fetch('https://taharecom.vercel.app/CODorder')
             .then(res => res.json())
             .then(data => setCODorder(data))
     }, [])

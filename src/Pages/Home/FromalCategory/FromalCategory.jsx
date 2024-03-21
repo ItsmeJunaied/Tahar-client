@@ -6,7 +6,7 @@ const FromalCategory = () => {
 
     // console.log(category)
     useEffect(() => {
-        fetch('https://taharz.onrender.com/categoryInfo')
+        fetch('https://taharecom.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -17,7 +17,7 @@ const FromalCategory = () => {
                 category.map(item => {
                     if (item && item.status === 'Container2' && item.title) {
                         const backgroundImageStyle = {
-                            backgroundImage: `url(https://taharz.onrender.com/uploads/${item.image})`,
+                            backgroundImage: `url(https://taharecom.vercel.app/uploads/${item.image})`,
                             backgroundSize: 'cover',
                             backgroundPosition: ' center'
                         };

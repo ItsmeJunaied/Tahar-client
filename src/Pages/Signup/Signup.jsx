@@ -30,7 +30,7 @@ const Signup = () => {
                 updateUser(data.firstName, data.lastName)
                     .then(() => {
                         const saveUser = { firstName: data.firstName, lastName: data.lastName, photoURL:data.photoURL, email: data.email ,role: 'User'}
-                        fetch('https://taharz.onrender.com/users', {
+                        fetch('https://taharecom.vercel.app/users', {
                             method: 'POST',
                             headers: {
                                 'content-type': 'application/json'

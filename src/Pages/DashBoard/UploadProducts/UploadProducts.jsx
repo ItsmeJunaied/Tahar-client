@@ -106,7 +106,7 @@ const UploadProducts = () => {
 
 
 
-            const response = await fetch('https://taharz.onrender.com/product', {
+            const response = await fetch('https://taharecom.vercel.app/product', {
                 method: 'POST',
                 body: formData,
             });

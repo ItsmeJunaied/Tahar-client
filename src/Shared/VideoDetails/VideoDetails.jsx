@@ -212,7 +212,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video, setSelectedColor, localC
                             <img
                                 key={index}
                                 className="w-40 h-40 rounded object-cover"
-                                src={`https://taharz.onrender.com/uploads/${image}`}
+                                src={`https://taharecom.vercel.app/uploads/${image}`}
                                 alt=""
                             />
                         ))}

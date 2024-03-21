@@ -25,7 +25,7 @@ const UploadSpotlight = () => {
                     const item = { username ,image: imgURL };
 
                     console.log(item);
-                    fetch('https://taharz.onrender.com/customarSpotlight', {
+                    fetch('https://taharecom.vercel.app/customarSpotlight', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'
