@@ -28,7 +28,7 @@ const CartCalculation = ({ item, onQuantityChange, selectedCurrencyValue, doller
             <div className=' flex flex-row gap-5'>
                 <div>
                     <img className=' w-[100px] h-[100px]'
-                        src={`https://taharecom.vercel.app/uploads/${item.ProductImage}`}
+                        src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${item.ProductImage}`}
                         alt="" />
                 </div>
                 <div>

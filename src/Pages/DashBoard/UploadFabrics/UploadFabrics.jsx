@@ -9,7 +9,7 @@ const UploadFabrics = () => {
     const [fabricsdata, setFabricsData] = useState([]);
 
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/fabrics')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
@@ -18,7 +18,7 @@ const UploadFabrics = () => {
         console.log(data);
         const { fabrics } = data;
         const item = { fabrics };
-        fetch('https://taharecom.vercel.app/fabrics', {
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/fabrics', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -30,7 +30,7 @@ const UploadFabrics = () => {
                 console.log(responseData);
 
                 if (responseData.success) {
-                    fetch('https://taharecom.vercel.app/fabrics')
+                    fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/fabrics')
                         .then(res => res.json())
                         .then(updatedData => setFabricsData(updatedData));
                     reset();

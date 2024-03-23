@@ -37,7 +37,7 @@ const ManageOrders = () => {
         console.log(id)
         console.log(currentRole)
 
-        fetch(`https://taharecom.vercel.app/orders/${id}`, {
+        fetch(`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/orders/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -54,7 +54,7 @@ const ManageOrders = () => {
             .then(data => {
                 console.log(data);
                 if (data.success) {
-                    fetch('https://taharecom.vercel.app/orders')
+                    fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/orders')
                         .then(res => res.json())
                         .then(updatedData => setLoggedUser(updatedData))
                 }

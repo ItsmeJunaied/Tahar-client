@@ -25,7 +25,7 @@ const UploadSpotlight = () => {
                     const item = { username ,image: imgURL };
 
                     console.log(item);
-                    fetch('https://taharecom.vercel.app/customarSpotlight', {
+                    fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/customarSpotlight', {
                         method: "POST",
                         headers: {
                             'content-type': 'application/json'

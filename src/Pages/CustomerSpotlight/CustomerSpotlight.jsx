@@ -5,7 +5,7 @@ import './CustomerSpotlight.css';
 const CustomerSpotlight = () => {
     const [customerImg, setCustomerImg] = useState([])
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/customarSpotlight')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/customarSpotlight')
             .then(res => res.json())
             .then(data => setCustomerImg(data))
     }, [])

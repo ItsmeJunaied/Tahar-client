@@ -106,7 +106,7 @@ const UploadProductsPro = () => {
 
 
 
-            const response = await fetch('https://taharecom.vercel.app/product', {
+            const response = await fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/product', {
                 method: 'POST',
                 body: formData,
             });

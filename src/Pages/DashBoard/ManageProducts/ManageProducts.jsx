@@ -135,7 +135,7 @@ const ManageProducts = () => {
                                                 <div className="flex items-center space-x-3">
                                                     <div className="avatar">
                                                         <div className="mask mask-squircle w-12 h-12">
-                                                            <img src={`https://taharecom.vercel.app/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
+                                                            <img src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -224,7 +224,7 @@ const ManageProducts = () => {
                                                 <div className="flex items-center space-x-3">
                                                     <div className="avatar">
                                                         <div className="mask mask-squircle w-12 h-12">
-                                                            <img src={`https://taharecom.vercel.app/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
+                                                            <img src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${product.images[0]}`} alt="Avatar Tailwind CSS Component" />
                                                         </div>
                                                     </div>
                                                 </div>

@@ -32,7 +32,7 @@ const ManageUsers = () => {
     const handleUserRole = (id, currentRole) => {
         console.log(id)
         console.log(currentRole)
-        fetch(`https://taharecom.vercel.app/users/${id}`, {
+        fetch(`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/users/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -49,7 +49,7 @@ const ManageUsers = () => {
             .then(data => {
                 console.log(data);
                 if (data.success) {
-                    fetch('https://taharecom.vercel.app/users')
+                    fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/users')
                         .then(res => res.json())
                         .then(updatedData => setLoggedUser(updatedData))
                 }

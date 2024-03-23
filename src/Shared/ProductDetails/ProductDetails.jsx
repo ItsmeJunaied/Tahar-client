@@ -26,7 +26,7 @@ const ProductDetails = () => {
     const navigate = useNavigate();
 
     useState(() => {
-        fetch('https://taharecom.vercel.app/rating')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, [])
@@ -269,7 +269,7 @@ const ProductDetails = () => {
                                 <img
                                     key={index}
                                     className={`w-[165px] h-[160px] rounded-[10px] ${index === selectedImageIndex ? 'border-2 border-[#DBC896]' : ''}`}
-                                    src={`https://taharecom.vercel.app/uploads/${image}`}
+                                    src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${image}`}
                                     alt=""
                                     onClick={() => handleImageClick(index)}
                                 />
@@ -281,7 +281,7 @@ const ProductDetails = () => {
                             <img
                                 className='w-[622px] h-[700px] rounded-[10px] object-cover image-box'
 
-                                src={`https://taharecom.vercel.app/uploads/${data.images[selectedImageIndex]}`}
+                                src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${data.images[selectedImageIndex]}`}
                                 alt=""
                             />
                         </div>
@@ -295,7 +295,7 @@ const ProductDetails = () => {
                                 {data?.images?.map((image, index) => (
                                     <img
                                         key={index}
-                                        src={`https://taharecom.vercel.app/uploads/${image}`}
+                                        src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${image}`}
                                         className=" w-screen" />
 
                                 ))}

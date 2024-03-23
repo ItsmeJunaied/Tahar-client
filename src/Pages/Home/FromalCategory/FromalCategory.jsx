@@ -6,7 +6,7 @@ const FromalCategory = () => {
 
     // console.log(category)
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/categoryInfo')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategory(data))
     }, [])
@@ -17,7 +17,7 @@ const FromalCategory = () => {
                 category.map(item => {
                     if (item && item.status === 'Container2' && item.title) {
                         const backgroundImageStyle = {
-                            backgroundImage: `url(https://taharecom.vercel.app/uploads/${item.image})`,
+                            backgroundImage: `url(https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${item.image})`,
                             backgroundSize: 'cover',
                             backgroundPosition: ' center'
                         };

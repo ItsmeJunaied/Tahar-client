@@ -11,7 +11,7 @@ const DashBoardHome = () => {
 
     console.log(ratingData)
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/orders')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/orders')
             .then(res => res.json())
             .then(data => {
                 setOrderData(data);
@@ -20,7 +20,7 @@ const DashBoardHome = () => {
 
 
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/rating')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, []);

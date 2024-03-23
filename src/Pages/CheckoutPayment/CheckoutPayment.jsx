@@ -61,7 +61,7 @@ const CheckoutPayment = () => {
 
     const handlePayNowInfo = () => {
         console.log(dataToSend)
-        fetch('https://taharecom.vercel.app/orders', {
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/orders', {
             method: 'POST',
             headers: { "content-type": "application/json" },
             body: JSON.stringify(updatedDataToSend)
@@ -75,7 +75,7 @@ const CheckoutPayment = () => {
 
     const handleCODInfo = () => {
         const updatedDataToSend = { ...updatedDataToSend, payment: "not paid" };
-        fetch('https://taharecom.vercel.app/CODorder', {
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/CODorder', {
             method: 'POST',
             headers: { "content-type": "application/json" },
             body: JSON.stringify(updatedDataToSend)
@@ -235,7 +235,7 @@ const CheckoutPayment = () => {
                                     <div>
 
                                         <img className="w-[135px] h-[135px] rounded-[10px] object-cover "
-                                            src={`https://taharecom.vercel.app/uploads/${item.ProductImage}`}
+                                            src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${item.ProductImage}`}
                                             alt="" />
                                     </div>
                                     <div>

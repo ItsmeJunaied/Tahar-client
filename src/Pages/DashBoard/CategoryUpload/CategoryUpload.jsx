@@ -19,7 +19,7 @@ const CategoryUpload = () => {
     const [categoryData, setCategoryData] = useState([]);
 
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/categoryInfo')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryData(data))
     }, [])
@@ -32,7 +32,7 @@ const CategoryUpload = () => {
         formData.append('categoryImage', data.categoryImage);
         formData.append('status', 'Not Show');
 
-        fetch('https://taharecom.vercel.app/categoryInfo', {
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/categoryInfo', {
             method: "POST",
             body: formData
         })
@@ -55,7 +55,7 @@ const CategoryUpload = () => {
             })
     }
     const handleStatus = (id, currentStatus) => {
-        fetch(`https://taharecom.vercel.app/categoryInfo/${id}`, {
+        fetch(`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/categoryInfo/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ const CategoryUpload = () => {
                             return category;
                         });
                     });
-                    fetch('https://taharecom.vercel.app/categoryInfo')
+                    fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/categoryInfo')
                         .then(res => res.json())
                         .then(data => setCategoryData(data))
                 }

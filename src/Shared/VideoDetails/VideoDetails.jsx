@@ -212,7 +212,7 @@ const VideoDetails = ({ AllProducts, videoTitle, video, setSelectedColor, localC
                             <img
                                 key={index}
                                 className="w-40 h-40 rounded object-cover"
-                                src={`https://taharecom.vercel.app/uploads/${image}`}
+                                src={`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/uploads/${image}`}
                                 alt=""
                             />
                         ))}

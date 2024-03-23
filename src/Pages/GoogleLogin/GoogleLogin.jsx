@@ -16,7 +16,7 @@ const GoogleLogin = () => {
                 const loggeduser = res.user;
                 const saveUser = { name: loggeduser.displayName, email: loggeduser.email, role: 'User' }
 
-                fetch('https://taharecom.vercel.app/users', {
+                fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/users', {
                     method: 'POST',
                     headers: {
                         'content-type': 'application/json'

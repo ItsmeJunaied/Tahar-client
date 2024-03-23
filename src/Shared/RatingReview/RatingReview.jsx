@@ -15,7 +15,7 @@ const RatingReview = ({ data }) => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('https://taharecom.vercel.app/orders')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/orders')
             .then(res => res.json())
             .then(data => {
                 setOrderData(data);
@@ -25,7 +25,7 @@ const RatingReview = ({ data }) => {
 
 
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/rating')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/rating')
             .then(res => res.json())
             .then(data => setRatingData(data))
     }, [])
@@ -59,7 +59,7 @@ const RatingReview = ({ data }) => {
         data.photo = user?.photoURL;
         data.productId = reviewedProductId;
         data.name = reviewedProductName;
-        fetch('https://taharecom.vercel.app/rating', {
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/rating', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -78,7 +78,7 @@ const RatingReview = ({ data }) => {
                         timer: 1500
                     })
                 }
-                fetch('https://taharecom.vercel.app/rating')
+                fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/rating')
                     .then(res => res.json())
                     .then(data => setRatingData(data))
                 reset();

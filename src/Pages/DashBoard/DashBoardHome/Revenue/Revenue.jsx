@@ -8,7 +8,7 @@ const Revenue = () => {
   const { user, } = useContext(AuthContext);
   const [orderData, setOrderData] = useState([]);
   useEffect(() => {
-    fetch('https://taharecom.vercel.app/orders')
+    fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/orders')
       .then(res => res.json())
       .then(data => {
         setOrderData(data);

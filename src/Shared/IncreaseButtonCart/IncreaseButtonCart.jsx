@@ -13,7 +13,7 @@ const IncreaseButtonCart = ({ item, onQuantityChange }) => {
             onQuantityChange(id, newQuantity);
             console.log(newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://taharecom.vercel.app/userCartData/${id}`, {
+            fetch(`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/userCartData/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ const IncreaseButtonCart = ({ item, onQuantityChange }) => {
             onQuantityChange(id, newQuantity);
             console.log(newQuantity)
             // Send PATCH request to update ProductQuantity
-            fetch(`https://taharecom.vercel.app/userCartData/${id}`, {
+            fetch(`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/userCartData/${id}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'

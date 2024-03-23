@@ -17,7 +17,7 @@ const UploadVideo = () => {
 
 
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/video')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/video')
             .then(res => res.json())
             .then(data => setVideo(data))
     }, [])
@@ -61,13 +61,13 @@ const UploadVideo = () => {
 
 
 
-        const response = await fetch('https://taharecom.vercel.app/video', {
+        const response = await fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/video', {
             method: 'POST',
             body: formData,
         });
         if (response.ok) {
             const responseData = await response.json();
-            fetch('https://taharecom.vercel.app/video')
+            fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/video')
                 .then(res => res.json())
                 .then(updatedata => setVideo(updatedata))
             Swal.fire({
@@ -95,7 +95,7 @@ const UploadVideo = () => {
         const newStatus = currentStatus === 'Active' ? 'Inactive' : 'Active';
 
         console.log(newStatus)
-        fetch(`https://taharecom.vercel.app/video/${id}`, {
+        fetch(`https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/video/${id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json'

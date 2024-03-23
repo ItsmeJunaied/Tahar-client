@@ -94,38 +94,38 @@ const AuthProvider = ({ children }) => {
     };
     // users
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/users')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/users')
             .then(res => res.json())
             .then(data => setLoggedUser(data))
     }, [])
 
     // product
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/product')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/product')
             .then(res => res.json())
             .then(data => setAllProducts(data))
     }, [])
     // category Names
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/categoryInfo')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/categoryInfo')
             .then(res => res.json())
             .then(data => setCategoryName(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/fabrics')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/fabrics')
             .then(res => res.json())
             .then(data => setFabricsData(data))
     }, [])
     // orders Names
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/orders')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/orders')
             .then(res => res.json())
             .then(data => setOrder(data))
     }, [])
     // fabrics Names
     useEffect(() => {
-        fetch('https://taharecom.vercel.app/CODorder')
+        fetch('https://taharecom-ayh8nwjc2-itsmejunaieds-projects.vercel.app/CODorder')
             .then(res => res.json())
             .then(data => setCODorder(data))
     }, [])
